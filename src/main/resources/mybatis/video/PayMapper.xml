@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PayMapper">
+	
+	
+	<!-- 新增-->
+	<insert id="savePay" parameterType="payData">
+		insert into pay(
+			PAY_ID,	
+			ORDER_NO,			
+			FEE_HINT,
+			ENABLED,
+			FEE,
+			CHANNEL_NO,
+			IMSI,
+			IMEI,
+			CELL_MODEL,
+			SDK_VERSION,			
+			PROGRAM_ID,			
+			PROGRAM_NAME,			
+			PLUGIN_NAME,
+			PLUGIN_TYPE,
+			POINT_NAME,
+			POINT_TYPE,
+			VERSION_NO,
+			ADD_TIME
+
+		) values (
+			#{pay_id},	
+			#{order_no},			
+			#{fee_hint},
+			#{enabled},
+			#{fee},
+			#{channel_no},
+			#{imsi},
+			#{imei},
+			#{cell_model},
+			#{sdk_version},			
+			#{program_id},	
+			#{program_name},	
+			#{plugin_name},
+			#{plugin_id},
+			#{point_name},
+			#{point_type},
+			#{version_no},
+			CURRENT_TIMESTAMP()
+		)
+	</insert>
+	
+	
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from channel
+		where 
+			CHANNEL_ID = #{CHANNEL_ID}
+	</delete>
+	
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="pd">
+		update  channel
+			set 
+				NAME = #{NAME},
+				CHANNEL_NO = #{CHANNEL_NO},
+				PRICE = #{PRICE},
+				ROLE_ID = #{ROLE_ID}
+			where 
+				CHANNEL_ID = #{CHANNEL_ID}
+	</update>
+	
+	
+	<!-- 根据订单号获取数据 -->
+	<select id="findByOrderNo" parameterType="pd" resultType="pd">
+		select
+				a.*			
+		from 
+				pay a
+		where 
+				a.ORDER_NO =#{ORDER_NO}
+
+	</select>
+	
+	
+</mapper>

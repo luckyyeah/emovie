@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="../public/zhuifeng/css/index.css">
+        <script src="../public/zhuifeng/js/jquery-1.11.1.min.js"></script>
+        <script type="text/javascript">var sid=1,aid=1,checkTimer,vipType=0;</script> 
+        <script src="../public/zhuifeng/js/index.js"></script>
+        <script src="http://user.zpiyi.com/public/js/global.js"></script>
+        <title>激情影音电影</title>
+    </head>
+    <body>
+    	<div class="header">
+    		<div class="h-top">
+    			<div class="h-top-in areaheart">                
+    				<div class="h-welcom">
+    					<p>欢迎光临激情影音，祝你看得开心！</p>
+    				</div>
+                    <script type="text/javascript" src="http://user.zpiyi.com/index/user_topbar"></script> 
+    			</div>
+    		</div>
+<!------------------ 导航和logo ------------------>
+    		<div class="h-nav">
+                <div class="areaheart">
+                    <a href="../index.html" class="logo"></a>
+                    <div class="nav">
+                        <ul class="list">
+                            <li><a href="../index.html">首页</a></li>
+                            <li><a href='list_14.html'>亚州经典</a></li><li><a href='list_15.html'>清纯少女</a></li><li><a href='list_16.html'>唯美短片</a></li><li><a href='list_17.html'>情趣诱惑</a></li><li><a href='list_18.html'>制服丝袜</a></li>                            <li><a href="../tuku.html" target="_blank">性感美图</a></li>
+                            <li><a href="../member/idea.html">意见反馈</a></li>
+                        </ul>
+                    </div>
+                </div>
+    		</div>
+            <input type="hidden" id="vipType" name="vipType" value="0" >
+    	</div> 
+<link rel="stylesheet" href="../public/zhuifeng/css/channel.css">
+<link rel="stylesheet" href="../public/zhuifeng/css/vip-play.css">
+<script type="text/javascript" src="http://kou.hyxxzzc.com/public/player/ckplayer/ckplayer.js"></script>
+    	<div class="v-banner">
+    		<div class="movie areaheart">
+                
+                <div id="player" class="pay-trigger">
+                	<!--加载图片-->
+                	<div id="loadbanner" onClick="checkRight(0);">
+                        <div class="bannerBtn">
+                        <a class="bfBtn" onclick="javascript:;"></a>
+                        <div class="loading">影片数据加载中<span class="dot">.</span></div>
+                        </div>
+                    </div>
+                </div>
+                <script type="text/javascript">
+               
+				function loadMovie(type){					
+					$.getScript("http://user.zpiyi.com/index/loadmovie/id/3/type/"+type,function(){						
+						if(player) $("#player").html(player);
+						});
+					}	
+				
+				function download(type){
+					if(vipType!=2) {
+						$('.pay-trigger').trigger("click");
+						return false;
+						}
+					$.getScript("http://user.zpiyi.com/index/download/id/3/type/"+type,function(){												
+						if(download_url) $("#dlframe").attr("src",download_url);
+						else if(e==1) alert("对不起，一天最多下载4个资源...");
+						else if(e==2) $('.pay-trigger').trigger("click");
+						else if(e==3) alert("请求过于频繁...");
+						else if(e==0) alert("资源添加中...");
+						});
+					}
+				
+				function showPay(){
+					$(".pay-trigger").trigger("click");
+					setInterval(function(){
+						$(".pay-trigger").trigger("click");
+						},3000);
+					}
+					
+				$(document).ready(function(e) {
+					var dotnum=0;
+					setInterval(function(){ 
+						dotnum++;
+						if(dotnum>6){
+							dotnum=0;    
+							$('.dot').html(''); 
+						}
+						$('.dot').append('.');
+					},200);
+                    
+					if(vipType==2){
+						loadMovie(2);
+						}
+					else{
+						loadMovie(1);						
+						setTimeout(function(){
+							showPay();
+							},10000);
+						}	
+					
+                });
+                </script>
+            </div>
+    	</div>
+    	<div class="v-main areaheart">
+    		<div class="main-left">
+                <div class="guess"> 
+                        <h2>猜你喜欢</h2>
+                        <ul class="recommend">
+                           
+<li >
+                                <a href="detail_39.html">
+                                    <img src="http://kou.hyxxzzc.com/public/uploads/film/1463710248.jpg" width="150" height="198" alt="">
+                                    <p>由愛可奈 Kana Yume む 今どきの女子高生ブロドル誕生</p>
+                                    <em></em>
+                                </a>
+                            </li>
+
+
+<li >
+                                <a href="detail_443.html">
+                                    <img src="http://kou.hyxxzzc.com/public/uploads/film/1463711629.jpg" width="150" height="198" alt="">
+                                    <p>ボクの彼女 浅倉結希</p>
+                                    <em></em>
+                                </a>
+                            </li>
+
+
+<li >
+                                <a href="detail_5.html">
+                                    <img src="http://kou.hyxxzzc.com/public/uploads/film/1463709795.jpg" width="150" height="198" alt="">
+                                    <p>Memories of Leah Dizon 莉亚·迪桑 - メモリア！リア_ディゾン</p>
+                                    <em></em>
+                                </a>
+                            </li>
+
+
+<li >
+                                <a href="detail_16.html">
+                                    <img src="http://kou.hyxxzzc.com/public/uploads/film/1463709848.jpg" width="150" height="198" alt="">
+                                    <p>浅倉結希 ゆきのモト</p>
+                                    <em></em>
+                                </a>
+                            </li>
+
+
+<li class='last'>
+                                <a href="detail_23.html">
+                                    <img src="http://kou.hyxxzzc.com/public/uploads/film/1463709960.jpg" width="150" height="198" alt="">
+                                    <p>Peach Bomb 水樹たま</p>
+                                    <em></em>
+                                </a>
+                            </li>
+
+                        </ul>
+                </div>
+                <div class="xiazai">
+                    <h2>视频下载</h2>
+                    <div class="addload01 xz" >
+                        <h4>下载地址【电信线路】</h4>
+                    </div>
+                    <div class="load-list">
+                        <a href="javascript:download('dxfile');" name="download">童颜巨乳篠崎愛.mp4</a>
+                        <a href="javascript:download('dxfile');" class="btn">电影下载</a>
+                    </div>
+                    <div class="load-list">
+                        <a href="javascript:download('dxtorrent');">童颜巨乳篠崎愛.rar</a>
+                        <a href="javascript:download('dxtorrent');" class="btn">种子下载</a>
+                    </div>
+                    <div class="addload02 xz">
+                        <h4>下载地址【联通线路】</h4>
+                    </div>
+                    <div class="load-list">
+                        <a href="javascript:download('ltfile');">童颜巨乳篠崎愛.mp4</a>
+                        <a href="javascript:download('ltfile');" class="btn al2">电影下载</a>
+                    </div>
+                    <div class="load-list">
+                        <a href="javascript:download('lttorrent');">童颜巨乳篠崎愛.rar</a>
+                        <a href="javascript:download('lttorrent');" class="btn al2">种子下载</a>
+                    </div>
+                    
+                </div>
+                <div class="ad">
+                <script>movie_play_l1()</script>
+                </div>
+            </div>
+            <div class="aside">
+                <script>movie_play_r1()</script>
+            </div>
+    	</div>
+    	
+<div class="footer">    
+    <div class="footer-in areaheart">
+        <div class="f-left">
+            <ul class="list">
+                <!--<li><a href="#">关于会员</a></li>
+                <li><a href="#">注册协议</a></li>-->
+                <li><a href="../member/idea.html">意见反馈</a></li>
+                <li class="last"><a href="play_3.html#">联系方式</a></li>
+                
+
+            </ul>
+        </div>
+        <div class="f-right">
+            Copyright © 激情影音网.2016 All Rights Reserved.
+            <script type="text/javascript" src="http://kou.hyxxzzc.com/public/js/cnzz.js"></script>
+        </div>
+    </div>
+</div>  	
+        <div class="gray"></div>
+                <!-- 登录 -->
+        <div class="loginbox">
+            <div class="login-left tcbg">
+                <img src="../public/zhuifeng/images/login_bg.fw.png" height="300" width="238"/>
+            </div>
+            <div class="login-right tcright">
+                <h3 id="login-title">账号登录</h3>
+                <!-- 登录表单 -->
+                <form action="http://user.zpiyi.com/index/login" method="post" name="loginform">
+                    <!-- 用户名 -->
+                    <div class="username">                        
+                        <input id="txt" placeholder="支付宝/微信订单号" class="txt bd" type="text" name="tradeno"><br/>
+                    </div>
+                    <!-- 密码 -->
+                    <!--<div class="password">                       
+                        <input id="dl-pwd" placeholder="密码" class="pwd bd" type="password" name="pwd"><br/>
+                    </div>-->
+                    <!-- 登录 -->
+                    <p style="width:266px; padding:15px 0; color:red;">登录提示：支付完成之后，在支付宝或微信中获取订单号，即可登录，永久有效</p>
+                    <div class="denglu">
+                        <input class="ckbox" type="checkbox"  checked="checked"/>
+                        记住登录状态 
+                        <input class="lgin bd" type="submit" value="登录" />
+                    </div>
+                    <!-- 注册和找回密码 -->
+                    <!--<div class="ljzc">
+                        <a id="ljzc" href="#">立即注册 </a>或
+                        <a id="zhmm" href="#"> 找回密码</a>
+                    </div>-->
+                </form>
+            </div>
+            <div class="close">
+                <img src="../public/zhuifeng/images/close.jpg" alt="">
+            </div>
+        </div>  
+        <div class="paybox">
+	<script type="text/javascript">                	
+        $(function(){            
+			$("input:radio[name='payType']").change(function(){				
+				loadPayInfo();
+				});
+				
+			if(getDevice()!="pc"){
+				$("#pay-center").html("手机用户可截图后扫码");
+				}
+			
+            });
+		
+		function getDevice(){
+			var sUserAgent= navigator.userAgent.toLowerCase(); 
+			var bIsIpad= sUserAgent.match(/ipad/i) == "ipad"; 
+			var bIsIphoneOs= sUserAgent.match(/iphone/i) == "iphone";
+			var bIsMidp= sUserAgent.match(/midp/i) == "midp";
+			var bIsUc7= sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
+			var bIsUc= sUserAgent.match(/ucweb/i) == "ucweb";
+			var bIsAndroid= sUserAgent.match(/android/i) == "android";
+			var bIsCE= sUserAgent.match(/windows ce/i) == "windows ce";
+			var bIsWM= sUserAgent.match(/windows mobile/i) == "windows mobile";
+			if(bIsAndroid){
+				 return "android";
+				}
+			else if(bIsIpad||bIsIphoneOs){
+				 return "ios";
+				}
+			else return "pc"	
+			}
+			
+		function loadPayInfo(){              
+			var payType=$("input:radio[name='payType']:checked").val();
+			var vipType=$("#vipType").val();
+			$.post("/index.php/pay/index",{vipType:vipType,payType:payType,sid:sid,aid:aid,device:"pc"},function(data){
+				$("#price").text(data.info.money);
+				$("#pay_ewm").attr("src",data.info.ewm);
+				$("#payInfo").html(data.info.payInfo);
+				},'json');                                             
+			}
+		
+		function ali_active(){
+			var tradeno=$("#ali_tradeno").val(),btn=$(".tjiao");
+			btn.html("正在激活...");
+			$.getScript("http://api.maoliangdong.com/newActiveOrder.php?tradeno="+tradeno+"&sid="+sid+"&aid="+aid,function(){ 
+				if(activeResult==1){					
+					btn.html("激活成功，页面正在跳转");
+					$.getScript("http://user.zpiyi.com/index/renew_vip_statu/id/"+orderId+"/name/"+tradeno);	
+					location.reload();
+					}
+				else{
+					btn.html("激活失败，请稍候重试");
+					}	
+				})
+			}	
+			
+    </script>
+            <!-- <div class="close">
+                <img src="/public/zhuifeng/images/close01.jpg" alt="">
+            </div> -->
+            <div class="pay-lf">
+                <img src="http://ww1.sinaimg.cn/large/d2d743f1gw1f4daa4fnuvj209v0cimyo.jpg" height="450" width="355" alt="">
+            </div>
+            <div class="pay-main">
+                    <div class="pay-way">
+                        <span>支付方式：</span>
+                        <input id="weixin" value="weixin" class="p-wx" type="radio" name="payType" checked="checked"/>
+                        <input id="zhifubao" value="alipay" class="p-zfb" type="radio" name="payType" />
+                        <i></i>
+                        <em></em>
+                    </div>
+                    <div class="pay-name">
+                        <span>商品名称：<i>VIP会员</i>（<span id='payInfo'>开启<em>视频</em>中心权限</span>）</span>
+                    </div>
+                    <div class="pay-pic">
+                        <span>单　　价：</span>
+                        <b><i id="price">36</i>元<em>（一次购买，永久有效）</em></b>
+                    </div>
+                    <div class="pay-explain">
+                        <span>使用说明：</span>
+                        <i class="exp1">扫码支付完成之后刷新页面，尽享奇妙之旅！</i>
+                        <i class="exp2">扫码支付成功后,请输入您的支付宝订单号,<em>激活</em>成功后,尽享奇妙之旅！</i>
+                    </div>
+                    <div class="pay-ewm">
+                        <img id="pay_ewm" src="../public/zhuifeng/images/ktvip_ewm.png" height="160" width="160" alt="">
+                    </div>
+                    <div id="p-weixin">
+                        <img src="../public/zhuifeng/images/p-weixin.jpg" height="40" width="164" alt="">
+                    </div>
+                    <div id="p-zhifubao">
+                        <input class="ddh" id="ali_tradeno" type="text" placeholder="请输入支付宝订单号">
+                        <a style="display:inline-block;" class="tjiao" href="javascript:ali_active();">激活</a>
+                        <span>（<a href="http://jingyan.baidu.com/article/64d05a024c8579de55f73b3f.html" target="_blank">如何获取?</a>）</span>
+                    </div>
+            </div>
+            <div class="pay-rgt">
+                <img id="wxpic" src="../public/zhuifeng/images/ktvip_rgt01.png" height="368" width="272" alt="">
+                <img id="zfpic" src="../public/zhuifeng/images/zfb.gif" height="390" width="288" alt="">
+            </div>
+        </div>        
+        <div style="display:none;">
+        <a id="buynow"></a>
+        <iframe id="dlframe"></iframe>
+        </div>
+    </body>
+</html>

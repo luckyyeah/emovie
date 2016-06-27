@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ThirdOrderMapper">
+	
+	
+	<!-- 新增-->
+	<insert id="saveThirdOrder" parameterType="java.util.Map">
+		insert into third_order(
+			TRANSACTION_ID,	
+			OUT_TRADE_NO,			
+			OUT_TRANSACTION_ID,
+			BANK_TYPE,
+			FEE,
+			RESULT_CODE,
+			PAY_RESULT,
+			PAY_INFO,
+			PAY_TIME,
+			VERSION,			
+			CHANNEL_NO,
+			IMSI,
+			IMEI,
+			CELL_MODEL,
+			SDK_VERSION,
+			VERSION_NO
+
+		) values (
+			#{transaction_id},	
+			#{out_trade_no},			
+			#{out_transaction_id},
+			#{bank_type},
+			#{total_fee},
+			#{result_code},
+			#{pay_result},	
+			#{pay_info},	
+			#{time_end},
+			#{version},
+			#{channel_no},
+			#{imsi},
+			#{imei},
+			#{cell_model},
+			#{sdk_version},	
+			#{version_no}
+		)
+	</insert>
+	
+
+	
+	<!-- 根据订单号获取数据 -->
+	<select id="findByOrderNo" parameterType="pd" resultType="pd">
+		select
+				a.*			
+		from 
+				third_order a
+		where 
+				a.OUT_TRADE_NO =#{ORDER_NO}
+
+	</select>
+	
+	
+</mapper>

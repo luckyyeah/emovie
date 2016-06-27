@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="TabMapper">
+	
+	
+	<!-- 新增-->
+	<insert id="save" parameterType="pd">
+		insert into tab(
+			TAB_ID,	
+			NAME,	
+			PLAN_ID,	
+			DATA_TYPE,
+			POWER,
+			ADD_TIME,	
+			UPDATE_TIME
+		) values (
+			#{TAB_ID},	
+			#{NAME},	
+			#{PLAN_ID},		
+		  #{DATA_TYPE},	
+			#{POWER},			
+			#{ADD_TIME},	
+			#{UPDATE_TIME}
+		)
+	</insert>
+	
+	
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from tab
+		where 
+			TAB_ID = #{TAB_ID}
+	</delete>
+	
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="pd">
+		update  tab
+			set 
+				NAME = #{NAME},
+				PLAN_ID = #{PLAN_ID},
+			TAB_ID = #{TAB_ID},
+			DATA_TYPE = #{DATA_TYPE},
+			POWER = #{POWER}
+			where 
+				TAB_ID = #{TAB_ID}
+	</update>
+	
+	
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select 
+			A.TAB_ID,
+			A.`NAME` AS `NAME`,
+			A.PLAN_ID,
+			A.DATA_TYPE,
+			A.POWER,
+			A.ADD_TIME,
+			A.UPDATE_TIME,
+			B.`NAME` AS PLAN_NAME
+		from 
+			tab A
+			left join plan B
+			on  A.PLAN_ID = B.PLAN_ID
+		where 
+			TAB_ID = #{TAB_ID}
+	</select>
+	
+	
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select 
+			A.TAB_ID,
+			A.`NAME` AS `NAME`,
+			A.PLAN_ID,
+			A.ADD_TIME,
+			A.UPDATE_TIME,
+			B.`NAME` AS PLAN_NAME
+		from 
+			tab A
+			left join plan B
+			on  A.PLAN_ID = B.PLAN_ID
+			WHERE 1=1
+			<if test="pd.PLAN_ID != null and pd.PLAN_ID != ''">
+				and A.PLAN_ID = #{pd.PLAN_ID} 
+			</if>
+	</select>
+	
+	<!-- 列表(全部) -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select 
+			A.TAB_ID,
+			A.`NAME` AS `NAME`,
+			A.PLAN_ID,
+			A.DATA_TYPE,
+			A.POWER,			
+			A.ADD_TIME,
+			A.UPDATE_TIME,
+			B.`NAME` AS PLAN_NAME
+		from 
+			tab A
+			left join plan B
+			on  A.PLAN_ID = B.PLAN_ID
+			ORDER BY A.POWER
+	</select>
+	<!-- 列表(全部) -->
+	<select id="listTabs" parameterType="pd" resultType="pd">
+		select 
+			A.TAB_ID,
+			A.`NAME` AS `NAME`,
+			A.PLAN_ID,
+			A.DATA_TYPE,
+			A.POWER,	
+			A.ADD_TIME,
+			A.UPDATE_TIME,
+			B.`NAME` AS PLAN_NAME,
+			C.CODE_NAME
+		from 
+			tab A
+			left join plan B
+			on  A.PLAN_ID = B.PLAN_ID
+			left join content_code C
+			on A.DATA_TYPE = C.CODE_ID
+			and C.CODE_TYE = #{CODE_TYE} 			
+		where 1=1
+		<if test="PLAN_ID != null and PLAN_ID != ''">
+			and A.PLAN_ID = #{PLAN_ID} 
+		</if>
+		<if test="TAB_ID != null and TAB_ID != ''">
+			and A.TAB_ID = #{TAB_ID} 
+		</if>
+		ORDER BY A.POWER
+	</select>	
+	<!-- 批量删除 -->
+	<delete id="deleteAll" parameterType="String">
+		delete from tab
+		where 
+			TAB_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+	
+</mapper>

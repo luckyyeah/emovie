@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ColumnMapper">
+	
+	
+	<!-- 新增-->
+	<insert id="save" parameterType="pd">
+		insert into tab_column(
+			COLUMN_ID,	
+			NAME_ONE,	
+			NAME_TWO,	
+			TYPE,	
+			IMG_ONE,	
+			IMG_TWO,	
+			TAB_ID,	
+			POWER,	
+			DATA_TYPE,	
+			ADD_TIME,	
+			UPDATE_TIME
+		) values (
+			#{COLUMN_ID},	
+			#{NAME_ONE},	
+			#{NAME_TWO},	
+			#{TYPE},	
+			#{IMG_ONE},	
+			#{IMG_TWO},	
+			#{TAB_ID},	
+			#{POWER},	
+			#{DATA_TYPE},	
+			#{ADD_TIME},	
+			#{UPDATE_TIME}
+		)
+	</insert>
+	
+	
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from tab_column
+		where 
+			COLUMN_ID = #{COLUMN_ID}
+	</delete>
+	
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="pd">
+		update  tab_column
+			set 
+				NAME_ONE = #{NAME_ONE},
+				NAME_TWO = #{NAME_TWO},
+				TYPE = #{TYPE},
+				IMG_ONE = #{IMG_ONE},
+				IMG_TWO = #{IMG_TWO},
+				POWER = #{POWER},
+				DATA_TYPE = #{DATA_TYPE},
+				TAB_ID = #{TAB_ID}
+			where 
+				COLUMN_ID = #{COLUMN_ID}
+	</update>
+	
+	
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select 
+		*
+		from 
+			tab_column
+		where 
+			COLUMN_ID = #{COLUMN_ID}
+	    order by POWER
+	</select>
+	
+	
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select
+				a.COLUMN_ID,	
+				a.NAME_ONE,	
+				a.NAME_TWO,	
+				a.TYPE,	
+				a.IMG_ONE,	
+				a.IMG_TWO,	
+				a.TAB_ID,	
+				a.ADD_TIME,	
+				a.UPDATE_TIME,
+				b.NAME AS TAB_NAME
+		from 
+				tab_column a
+				left join tab b
+				on a.TAB_ID= b.TAB_ID
+	</select>
+	
+	<!-- 列表(全部) -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select
+				a.COLUMN_ID,	
+				a.NAME_ONE,	
+				a.NAME_TWO,	
+				a.TYPE,	
+				a.IMG_ONE,	
+				a.IMG_TWO,	
+				a.TAB_ID,	
+				a.DATA_TYPE,	
+				a.POWER,	
+				a.ADD_TIME,	
+				a.UPDATE_TIME,
+				b.NAME AS TAB_NAME
+		from 
+				tab_column a
+				left join tab b
+				on a.TAB_ID= b.TAB_ID
+				 order by a.POWER
+	</select>
+	<!-- 列表(条件部分) -->
+	<select id="listColumns" parameterType="pd" resultType="pd">
+		select
+				a.*,
+				b.NAME AS TAB_NAME,
+				c.CODE_NAME
+		from 
+				tab_column a
+				left join tab b
+				on a.TAB_ID= b.TAB_ID
+				left join content_code c
+				on a.DATA_TYPE = c.CODE_ID
+				and c.CODE_TYE = #{CODE_TYE} 
+		where  1=1 
+		<if test="TAB_ID != null and TAB_ID != ''">
+			and a.TAB_ID = #{TAB_ID} 
+		</if>	
+		<if test="TAB_ID != null and TAB_ID != '' and COLUMN_ID != null and COLUMN_ID != ''">
+			and a.COLUMN_ID = #{COLUMN_ID} 
+		</if>			
+		 order by a.POWER	
+	</select>	
+	<!-- 批量删除 -->
+	<delete id="deleteAll" parameterType="String">
+		delete from tab_column
+		where 
+			COLUMN_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+	
+</mapper>

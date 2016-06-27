@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PlanMapper">
+	
+	
+	<!-- 新增-->
+	<insert id="save" parameterType="pd">
+		insert into plan(
+			NAME,	
+			SHOW_TYPE,	
+			OS_TYPE,
+			POWER,	
+			START_TIME,	
+			END_TIME,			
+			ADD_TIME,	
+			UPDATE_TIME,	
+			PLAN_ID
+		) values (
+			#{NAME},	
+			#{SHOW_TYPE},	
+			#{OS_TYPE},	
+			#{POWER},	
+			#{START_TIME},	
+			#{END_TIME},				
+			#{ADD_TIME},	
+			#{UPDATE_TIME},	
+			#{PLAN_ID}
+		)
+	</insert>
+	
+	
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from plan
+		where 
+			PLAN_ID = #{PLAN_ID}
+	</delete>
+	
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="pd">
+		update  plan
+			set 
+				NAME = #{NAME},
+				SHOW_TYPE = #{SHOW_TYPE},
+				OS_TYPE = #{OS_TYPE},
+				POWER = #{POWER},
+				START_TIME = #{START_TIME},
+				END_TIME = #{END_TIME}
+			where 
+				PLAN_ID = #{PLAN_ID}
+	</update>
+		<!-- 修改 -->
+	<update id="copyPlan" parameterType="pd">
+			CALL copy_plan(#{PLAN_ID});
+	</update>
+	
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select 
+			NAME,	
+			SHOW_TYPE,	
+			OS_TYPE,
+			ADD_TIME,	
+			UPDATE_TIME,	
+			PLAN_ID,
+			POWER,
+			START_TIME,
+			END_TIME
+		from 
+			plan
+		where 
+			PLAN_ID = #{PLAN_ID}
+		
+	</select>
+	
+	<select id="getAppInfo" parameterType="pd" resultType="pd">
+		select 
+			*
+		from 
+			app_info
+		where PLAN_ID = #{PLAN_ID}
+		AND (ISNULL(CELL_MODEL) OR CELL_MODEL='')
+        limit 0,1
+	</select>
+	<select id="listCellModelPrice" parameterType="pd" resultType="pd">
+		select 
+			*
+		from 
+			app_info
+		where PLAN_ID = #{PLAN_ID}
+			AND NOT ISNULL(CELL_MODEL) 
+
+	</select>
+	<select id="listAdvertisementContent" parameterType="pd" resultType="pd">
+		select 
+			*
+		from 
+			advertisement_push
+		where PLAN_ID = #{PLAN_ID}
+
+	</select>	
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select
+				a.NAME,	
+				a.SHOW_TYPE,	
+				a.OS_TYPE,
+				a.ADD_TIME,	
+				a.UPDATE_TIME,	
+				a.PLAN_ID,
+				a.POWER,
+			    a.START_TIME,
+			    a.END_TIME
+		from 
+				plan a
+	</select>
+	
+	<!-- 列表(全部) -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select
+				a.NAME,	
+				a.SHOW_TYPE,
+				a.OS_TYPE,	
+				a.ADD_TIME,	
+				a.UPDATE_TIME,	
+				a.PLAN_ID,
+				a.POWER,
+			    a.START_TIME,
+			    a.END_TIME				
+		from 
+				plan a
+	   where    1=1
+	   <if test="PLAN_ID != null and PLAN_ID != ''">
+		and	a.PLAN_ID = #{PLAN_ID}
+		</if>
+	   <if test="OS_TYPE != null and OS_TYPE != ''">
+		and	a.OS_TYPE = #{OS_TYPE}
+		</if>	   
+	</select>
+	<!-- 列表(全部) -->
+	<select id="listAllPlan" parameterType="pd" resultType="pd">
+		select
+				a.NAME,	
+				a.SHOW_TYPE,
+				a.OS_TYPE,	
+				a.ADD_TIME,	
+				a.UPDATE_TIME,	
+				a.PLAN_ID,
+				a.POWER,
+			    a.START_TIME,
+			    a.END_TIME				
+		from 
+				plan a
+		where 1=1
+	   <if test="PLAN_ID != null and PLAN_ID != ''">
+			and a.PLAN_ID = #{PLAN_ID}
+		</if>
+	</select>	
+	<!-- 列表(渠道方案列表) -->
+	<select id="listPlanByChannelId" parameterType="pd" resultType="pd">
+		SELECT
+		  A.*		
+		FROM 
+				plan A,
+				plan_link_channel B
+		WHERE 
+		A.PLAN_ID = B.PLAN_ID
+		AND B.CHANNEL_ID=#{CHANNEL_ID}
+	</select>		
+	<!-- 批量删除 -->
+	<delete id="deleteAll" parameterType="String">
+		delete from plan
+		where 
+			PLAN_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+		<!-- 列表(渠道关联方案) -->
+	<select id="listPlanLinkChannelByChannelId" parameterType="pd" resultType="pd">
+		SELECT
+		  A.*		
+		FROM 
+				plan A,
+				plan_link_channel B,
+				channel C
+		WHERE 
+		A.PLAN_ID = B.PLAN_ID
+		AND B.CHANNEL_ID = C.CHANNEL_ID
+		AND CHANNEL_NO=#{CHANNEL_NO}
+		AND OS_TYPE = #{OS_TYPE}
+		AND		
+		((
+		 TIME(A.END_TIME) &gt;= TIME(A.START_TIME)
+		AND TIME(A.END_TIME) &gt;= DATE_FORMAT(CURRENT_TIME(),'%H:%m')
+		AND TIME(A.START_TIME) &lt;= DATE_FORMAT(CURRENT_TIME(),'%H:%m') 
+		) OR(
+		 TIME(A.END_TIME) &lt; TIME(A.START_TIME)
+		 AND
+		(( TIME(A.START_TIME) &lt;= DATE_FORMAT(CURRENT_TIME(),'%H:%m') 	
+		 AND TIME("23:59:59")	&gt;= DATE_FORMAT(CURRENT_TIME(),'%H:%m'))
+		 OR (
+			 TIME(A.END_TIME) &gt;= DATE_FORMAT(CURRENT_TIME(),'%H:%m')
+	  	AND TIME("00:00:00") &lt;= DATE_FORMAT(CURRENT_TIME(),'%H:%m')	 
+		 ))		 
+		))
+
+		ORDER BY A.POWER
+	</select>		
+	<insert id="insertPlanLinkChannelBatch" parameterType="java.util.List">
+		INSERT INTO plan_link_channel(PLAN_ID,CHANNEL_ID)
+		VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.PLAN_ID}, #{item.CHANNEL_ID})
+		</foreach>
+	</insert>
+	<update id="deletePlanLinkChannelBatch" parameterType="String">
+		DELETE FROM
+		plan_link_channel
+		WHERE CHANNEL_ID = #{CHANNEL_ID}
+	</update>		
+</mapper>

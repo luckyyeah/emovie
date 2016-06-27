@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="VideoMapper">
+	
+	
+	<!-- 新增-->
+	<insert id="save" parameterType="pd">
+		insert into video(
+			NAME_ONE,	
+			NAME_TWO,	
+			IMG_ONE,	
+			IMG_TWO,	
+			SUMMARY_ONE,	
+			SUMMARY_TWO,	
+			VIDEO_URL,	
+			VIDEO_URL_TWO,
+			COLUMN_ID,
+			VIDEO_CATEGORY1,
+			VIDEO_CATEGORY2,		
+			DATA_TYPE,						
+			VIP_FLAG,
+			BANNER_FLAG,
+			HOME_FLAG,
+			COMPETITIVE_FLAG,	
+			RECOMMEND_FLAG,
+			POWER,		
+			ADD_TIME,	
+			UPDATE_TIME,	
+			VIDEO_ID
+		) values (
+			#{NAME_ONE},	
+			#{NAME_TWO},	
+			#{IMG_ONE},	
+			#{IMG_TWO},	
+			#{SUMMARY_ONE},	
+			#{SUMMARY_TWO},	
+			#{VIDEO_URL},
+			#{VIDEO_URL_TWO},	
+			#{COLUMN_ID},	
+			#{VIDEO_CATEGORY1},
+			#{VIDEO_CATEGORY2},	
+			#{DATA_TYPE},				
+			#{VIP_FLAG},	
+			#{BANNER_FLAG},	
+			#{HOME_FLAG},
+			#{COMPETITIVE_FLAG},	
+			#{RECOMMEND_FLAG},				
+			#{POWER},	
+			#{ADD_TIME},	
+			#{UPDATE_TIME},	
+			#{VIDEO_ID}
+		)
+	</insert>
+	
+	
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from video
+		where 
+			VIDEO_ID = #{VIDEO_ID}
+	</delete>
+	
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="pd">
+		update  video
+			set 
+				NAME_ONE = #{NAME_ONE},
+				NAME_TWO = #{NAME_TWO},
+				IMG_ONE = #{IMG_ONE},
+				IMG_TWO = #{IMG_TWO},
+				SUMMARY_ONE = #{SUMMARY_ONE},
+				SUMMARY_TWO = #{SUMMARY_TWO},
+				VIDEO_URL = #{VIDEO_URL},
+				VIDEO_URL_TWO = #{VIDEO_URL_TWO},
+				COLUMN_ID = #{COLUMN_ID},
+				VIDEO_CATEGORY1 = #{VIDEO_CATEGORY1},
+				VIDEO_CATEGORY2 = #{VIDEO_CATEGORY2},
+				DATA_TYPE = #{DATA_TYPE},
+				POWER = #{POWER},
+				VIP_FLAG = #{VIP_FLAG},
+				BANNER_FLAG = #{BANNER_FLAG},
+				HOME_FLAG = #{HOME_FLAG},
+				COMPETITIVE_FLAG = #{COMPETITIVE_FLAG},
+				RECOMMEND_FLAG = #{RECOMMEND_FLAG},				
+			VIDEO_ID = VIDEO_ID
+			where 
+				VIDEO_ID = #{VIDEO_ID}
+	</update>
+	
+		<!-- 修改 -->
+	<update id="updateVipFlag" parameterType="pd">
+		update  video
+			set 
+				VIP_FLAG = #{VIP_FLAG}
+			where 
+				VIDEO_ID = #{VIDEO_ID}
+	</update>
+		<!-- 修改 -->
+	<update id="updateBannerFlag" parameterType="pd">
+		update  video
+			set 
+				BANNER_FLAG = #{BANNER_FLAG}
+			where 
+				VIDEO_ID = #{VIDEO_ID}
+	</update>
+		<!-- 修改 -->
+	<update id="updateHomeFlag" parameterType="pd">
+		update  video
+			set 
+				HOME_FLAG = #{HOME_FLAG}	
+			where 
+				VIDEO_ID = #{VIDEO_ID}
+	</update>
+		<!-- 修改 -->
+	<update id="updateCompetitiveFlag" parameterType="pd">
+		update  video
+			set 
+				COMPETITIVE_FLAG = #{COMPETITIVE_FLAG}
+			where 
+				VIDEO_ID = #{VIDEO_ID}
+	</update>
+		<!-- 修改 -->
+	<update id="updateRecommendFlag" parameterType="pd">
+		update  video
+			set 				
+				RECOMMEND_FLAG = #{RECOMMEND_FLAG}
+			where 
+				VIDEO_ID = #{VIDEO_ID}
+	</update>
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select 
+			*
+		from 
+			video
+		where 
+			VIDEO_ID = #{VIDEO_ID}
+	</select>
+	
+	
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select
+				a.NAME_ONE,	
+				a.NAME_TWO,	
+				a.IMG_ONE,	
+				a.IMG_TWO,	
+				a.SUMMARY_ONE,	
+				a.SUMMARY_TWO,	
+				a.VIDEO_URL,	
+				a.VIDEO_URL_TWO,
+				a.COLUMN_ID,	
+			  a.VIDEO_CATEGORY1,
+			  a.VIDEO_CATEGORY2,		
+			  a.DATA_TYPE,				
+				a.POWER,
+				a.VIP_FLAG,
+		    a.BANNER_FLAG,
+		    a.HOME_FLAG,
+		    a.COMPETITIVE_FLAG,	
+		    a.RECOMMEND_FLAG,
+				a.ADD_TIME,	
+				a.UPDATE_TIME,	
+				a.VIDEO_ID,
+				b.NAME_ONE as COLUMN_NAME_ONE,
+				b.NAME_TWO as COLUMN_NAME_TWO
+		from 
+				video a
+				left join tab_column b
+				on a.COLUMN_ID =b.COLUMN_ID
+				
+        <if test="pd.column_id != null and pd.column_id != ''">
+            where a.COLUMN_ID = #{pd.column_id} 
+        </if> 
+        ORDER BY a.POWER,a.UPDATE_TIME	DESC
+	</select>
+	
+	<!-- 列表(全部) -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select
+				a.NAME_ONE,	
+				a.NAME_TWO,	
+				a.IMG_ONE,	
+				a.IMG_TWO,	
+				a.SUMMARY_ONE,	
+				a.SUMMARY_TWO,	
+				a.VIDEO_URL,	
+				a.VIDEO_URL_TWO,
+				a.COLUMN_ID,	
+			  a.VIDEO_CATEGORY1,
+			  a.VIDEO_CATEGORY2,		
+			  a.DATA_TYPE,				
+				a.VIP_FLAG,
+		    a.BANNER_FLAG,
+		    a.HOME_FLAG,
+		    a.COMPETITIVE_FLAG,	
+		    a.RECOMMEND_FLAG,				
+				a.POWER,
+				a.ADD_TIME,	
+				a.UPDATE_TIME,	
+				a.VIDEO_ID
+		from 
+				video a
+		ORDER BY a.POWER,a.UPDATE_TIME	DESC
+	</select>
+	<!-- 列表(全部) -->
+	<select id="listVideos" parameterType="pd" resultType="pd">
+		select
+				a.*
+		from 
+				video a
+		where 1=1
+		<if test="column_id != null and column_id != ''">
+			and a.COLUMN_ID = #{column_id} 
+		</if>
+		<if test="COLUMN_ID != null and COLUMN_ID != ''">
+			and a.COLUMN_ID = #{COLUMN_ID} 
+		</if>		
+		ORDER BY a.POWER,a.UPDATE_TIME DESC			
+	</select>	
+	<!-- 列表(全部) -->
+	<select id="listRecommendVideos" parameterType="pd" resultType="pd">
+		select
+				a.*,
+				 RAND() as RANDSORT
+		from 
+				video a
+		where 1=1
+
+		<if test="COLUMN_ID != null and COLUMN_ID != ''">
+			and a.COLUMN_ID = #{COLUMN_ID} 
+		</if>		
+		<if test="VIP_FLAG != null and VIP_FLAG != ''">
+			and a.VIP_FLAG = #{VIP_FLAG} 
+		</if>	
+		<if test="COMPETITIVE_FLAG != null and COMPETITIVE_FLAG != ''">
+			and a.COMPETITIVE_FLAG = #{COMPETITIVE_FLAG} 
+		</if>	
+		<if test="RECOMMEND_FLAG != null and RECOMMEND_FLAG != ''">
+			and a.RECOMMEND_FLAG = #{RECOMMEND_FLAG} 
+		</if>			
+		ORDER BY RANDSORT		
+	</select>		
+	<!-- 列表(全部) -->
+	<select id="listInvalidVideo" parameterType="pd" resultType="pd">
+		select
+				a.VIDEO_ID,	
+				a.NAME_ONE,	
+				a.NAME_TWO,	
+				a.IMG_ONE,	
+				a.IMG_TWO,	
+				a.SUMMARY_ONE,	
+				a.SUMMARY_TWO,	
+				a.VIDEO_URL,
+				a.VIDEO_URL_TWO,	
+				a.COLUMN_ID,
+			  a.VIDEO_CATEGORY1,
+			  a.VIDEO_CATEGORY2,		
+			  a.DATA_TYPE,				
+				a.VIP_FLAG,
+			    a.BANNER_FLAG,
+			    a.HOME_FLAG,
+			    a.COMPETITIVE_FLAG,	
+			    a.RECOMMEND_FLAG,									
+				a.POWER,
+				a.ADD_TIME,	
+				a.UPDATE_TIME,	
+				a.VIDEO_ID
+		from 
+				video a
+		where a.STATUS= -1
+		<if test="column_id != null and column_id != ''">
+			and a.COLUMN_ID = #{column_id} 
+		</if>
+		<if test="COLUMN_ID != null and COLUMN_ID != ''">
+			and a.COLUMN_ID = #{COLUMN_ID} 
+		</if>		
+		ORDER BY a.POWER,a.UPDATE_TIME DESC				
+	</select>		
+	<select id="listVideosByPage" parameterType="pd" resultType="pd">
+		SELECT A.*
+		FROM video A
+		WHERE 1 = 1		
+		<if test="COLUMN_ID != null and COLUMN_ID != ''">
+			and a.COLUMN_ID = #{COLUMN_ID} 
+		</if>
+		<if test="VIP_FLAG != null and VIP_FLAG != ''">
+			and a.VIP_FLAG = #{VIP_FLAG} 
+		</if>	
+		<if test="COMPETITIVE_FLAG != null and COMPETITIVE_FLAG != ''">
+			and a.COMPETITIVE_FLAG = #{COMPETITIVE_FLAG} 
+		</if>	
+		<if test="RECOMMEND_FLAG != null and RECOMMEND_FLAG != ''">
+			and a.RECOMMEND_FLAG = #{RECOMMEND_FLAG} 
+		</if>					
+		ORDER BY A.POWER,A.ADD_TIME DESC
+		LIMIT  #{PAGE_FROM} ,#{PAGE_SIZE}				
+	</select>	
+	<select id="getVideoCnt" parameterType="pd" resultType="pd">
+		SELECT COUNT(A.VIDEO_ID) AS VIDEO_CNT		       
+		FROM video A
+		WHERE 1 = 1
+		
+		<if test="COLUMN_ID != null and COLUMN_ID != ''">
+			and a.COLUMN_ID = #{COLUMN_ID} 
+		</if>
+		<if test="VIP_FLAG != null and VIP_FLAG != ''">
+			and a.VIP_FLAG = #{VIP_FLAG} 
+		</if>	
+		<if test="COMPETITIVE_FLAG != null and COMPETITIVE_FLAG != ''">
+			and a.COMPETITIVE_FLAG = #{COMPETITIVE_FLAG} 
+		</if>	
+		<if test="RECOMMEND_FLAG != null and RECOMMEND_FLAG != ''">
+			and a.RECOMMEND_FLAG = #{RECOMMEND_FLAG} 
+		</if>					
+		ORDER BY A.POWER,A.ADD_TIME DESC
+		
+	</select>				
+	<!-- 批量删除 -->
+	<delete id="deleteAll" parameterType="String">
+		delete from video
+		where 
+			VIDEO_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+	
+</mapper>

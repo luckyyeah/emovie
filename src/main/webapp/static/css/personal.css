@@ -1,0 +1,334 @@
+body{
+	background: #f4f4f4;
+}
+.ff{
+	font-family: "宋体";
+}
+.areaheart{
+	width: 1120px;
+}
+.v-header .logo{
+	margin-left: 26px;
+}
+.v-header .login{
+	width: 282px;
+}
+.login .loginname p{
+	position: relative;
+}
+.login .loginname p::before{
+	position: absolute;
+	left: 96px;
+	top: 18px;
+	content: "";
+	width: 40px;
+	height: 30px;
+	background: url(../images/vip-bgs.png) no-repeat left bottom;
+}
+
+.login .top-list{
+	width: 146px;
+}
+
+.main{
+	height: 1000px;
+}
+.main .main-left{
+	float: left;
+	width: 152px;
+	height: 864px;
+	margin-left: 40px;
+	padding: 18px 17px;
+	border: 1px solid #D9D9D9;
+	background: #fff;
+	text-align: center;
+}
+.main-left .m-left02{
+	height: 37px;
+	line-height: 37px;
+	font-size: 12px;
+	color: #333333;
+	border-bottom: 1px solid #D9D9D9;
+}
+.m-left02 i{
+	color: #FF0000;
+}
+.main-left .m-left03{
+	height: 196px;
+	line-height: 49px;
+	font-size: 16px;
+	color: #333333;
+	border-bottom: 1px solid #D9D9D9;
+}
+.m-left03 ul li{
+	height: 49px;
+	font-weight: bold;
+}
+.m-left03 ul li a{
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+.m-left03 ul .current,.m-left03 ul li:hover{
+	background: #f8f8f8;
+}
+
+.main .main-right{
+	float: right;
+	width: 851px;
+	height: 860px;
+	border: 1px solid #D9D9D9;
+	background: #F8F8F8;
+	padding: 20px 19px;
+}
+.main-right .m-name{
+	height: auto;
+	overflow:hidden;
+	background: #fff;
+	padding: 21px 0 15px 28px;
+	border: 1px solid #D9D9D9;
+	
+}
+.m-name .user{
+	font-size: 18px;
+	color: #333333;
+	position: relative;
+	height:32px;
+	overflow:hidden;
+}
+
+.m-name .user .username{
+	float:left; 
+	padding-right:10px;	
+}
+
+.m-name .user .vip-icon{
+	float:left; 
+	display:inline-block;
+	margin-right:10px;	
+	width: 49px;
+	height: 20px;
+	background: url(../images/VIP_2.png) no-repeat -354px -22px;
+}
+
+.m-name .user .vip-icon.on {
+	background-position:-354px 0px;	
+}
+
+.m-name .user .year-icon{	
+	float:left; 
+	display:inline-block;
+	width: 26px;
+	height: 32px;
+	background: url(../images/VIP_2.png) no-repeat -31px -46px;
+}
+
+.m-name .user .year-icon.on {
+	background-position:0px -46px;
+}
+
+.m-name p{
+	margin-top: 6px;
+	line-height: 26px;
+	padding:15px 0;
+	color: #333333;
+}
+
+.m-name .ktvip{
+	float:left; 
+	margin-right:15px;	
+}
+
+.m-name .ktvip a{
+	display: block;
+	width: 130px;
+	height: 32px;
+	font-size: 16px;
+	line-height: 32px;
+	text-align: center;
+	color: #fff;
+	background: #FF6600;
+}
+.m-name .ktvip a:hover{
+	background: #f80;
+}
+.main-right h2{
+	line-height: 40px;
+	padding-left: 21px;
+	font-size: 18px;
+	color: #333333;
+}
+/* ------------------我的订单普通会员--------------- */
+.main-right .m-order{
+	height: auto;
+	overflow:hidden;
+	background: #fff;
+}
+.m-order table{
+	width: 100%;
+	border:0;
+	font-family: "宋体";
+	text-align: center;
+	background: #d9d9d9;
+	color: #333;
+}
+.m-order table th{
+	height: 46px;
+	background: #fff;
+	font-size: 14px;
+	font-weight: normal;
+}
+.m-order table td{
+	background: #fff;
+	height: 36px;
+}
+
+/* ------------------我的订单积分会员--------------- */
+.m-name .vipjf a{
+	width: 170px;
+	display: inline-block;
+}
+.m-name .vipjf .tuijian{
+	font-size: 12px;
+	color: #333;
+}
+.m-order table td em{
+	color: #ff0000;
+	text-decoration: underline;
+	cursor: pointer;
+}
+.m-name .usernamejf::before{
+	background-position: right top;
+}
+/* ------------------我的订单年会员--------------- */
+
+.m-name .year{
+	line-height: 28px;
+	margin-top: 20px;
+}
+.m-name .usernameyear::before{
+	background-position: right top;
+}
+.m-name .usernameyear::after{
+	background-position: -1px -46px;
+}
+/* ------------------个人资料--------------- */
+.main-right .m-data,.main-right .m-idea{
+	height: 490px;
+	padding: 10px 0 0 25px;
+	background: #FBFBFB;
+	color: #555;
+	font-size: 12px;
+}
+.m-data span,.m-idea span{
+	display: inline-block;
+	width: 72px;
+	text-align: right;
+	line-height: 46px;
+}
+.m-data i{
+	color: #FF0000;
+}
+.m-data .kk{
+	width: 320px;
+	height: 29px;
+	border: 1px solid #CFCFCF;
+	padding-left:10px;
+}
+.m-data .sg{
+	height: 95px;
+}
+.m-data .bc{
+	display:block;	
+	width: 67px;
+	height: 29px;
+	background-color:#FF6600;
+	color:#fff;
+	text-align:center;
+	line-height:29px;
+	margin: 10px 0 0 72px;
+}
+/* ------------------意见反馈--------------- */
+.m-idea span{
+	font-size: 16px;
+	width: 90px;
+}
+.m-idea .idea-lx i{
+	margin-right: 20px;
+	font-size: 16px;
+}
+.m-idea .idea-lx input{
+	margin-right: 10px;
+}
+
+.m-idea .idea-ms .ms{
+	width: 710px;
+	height: 170px;
+}
+.m-idea .idea-lx .lx{
+	width: 205px;
+	height: 34px;
+}
+
+.m-idea .tj{
+	display:block;
+	text-align:center;
+	line-height:40px;
+	width: 150px;
+	height: 40px;
+	border:0 none;
+	background: #DAB564;
+	font-size: 18px;
+	color: #fff;
+	text-shadow: 0px -1px 1px #666;
+	margin: 20px 0 0 90px;
+	font-weight: bold;
+	font-family: "微软雅黑";
+	box-shadow: 0px -4px 0px 0px #caa54c inset;
+}
+/* ------------------已购视频--------------- */
+.main-right .buy{
+	height: 243px;
+	border: 1px solid #D9D9D9;
+	background: #fff;
+}
+.recommend li::before{
+	position: absolute;
+	content: "";
+	width: 48px;
+	height: 47px;
+	background: url(../images/VIP.png) no-repeat;
+}
+.buy .recommend{
+	margin: 10px 0 0 20px;
+}
+.buy .recommend li{
+	float: left;
+	width: 150px;
+	height: 220px;
+	margin-right: 15px;
+	background: #F2F2F2;
+	position: relative;
+	cursor: pointer;
+}
+.buy .recommend li p{
+	text-align: center;
+	font-size: 12px;
+	line-height: 22px;
+	color: #1E1E1E;
+	height:22px;
+	overflow:hidden;
+}
+.buy .recommend .last{
+	margin-right: 0;
+}
+
+
+
+.h-top .h-welcom p,
+.h-user .user-info,
+.h-user .user-info a,
+.h-user .user-info span { color:#555;}
+
+
+.form-result { padding-left:15px; font-size:12px; color:#f00;}

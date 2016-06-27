@@ -1,0 +1,216 @@
+.mb{
+	margin-bottom: 9px;
+}
+.pl{
+	padding-left: 8px;
+}
+.header{
+	border-bottom: 0;
+}
+
+.details{
+	padding-top: 8px;
+	background: #f4f4f4;
+}
+
+.details .d-left{
+	float: left;
+	width: 900px;
+	height: 960px;
+}
+.d-left .matter01{
+	height: 285px;
+	background: #fff;
+}
+.matter01 .pic-left{
+	float: left;
+	width: 235px;
+	height: 277px;
+	padding:8px 0 0 15px;
+	position: relative;
+}
+.pic-left::before,.recommend li::before{
+	position: absolute;
+	content: "";
+	width: 48px;
+	height: 47px;
+	background: url(../images/VIP.png) no-repeat;
+}
+.matter01 .introduce{
+	float: left;
+	width: 500px;
+	height: 285px;
+}
+
+.introduce .video-h{
+	height: 26px;
+	margin-top: 20px;
+}
+.video-h h3{
+	font-size: 26px;
+	line-height: 26px;
+	color: #6cf;
+	font-weight: normal;
+}
+.introduce .video-d{
+	height: 150px;
+	margin-top: 16px;
+}
+.video-d p span{
+	line-height: 35px;
+	margin-right: 30px;
+	font-size: 14px;
+	color: #0F0F0F;
+}
+.video-d p span i{
+	color: #FF2F2F;
+}
+
+.introduce .video-p{
+	height: 44px;
+	margin-top: 20px;
+}
+.video-p .pay li{
+	float: left;
+	width: 124px;
+	height: 44px;
+	background: #3366FF;
+	margin-right: 12px;
+	font-size: 20px;
+	line-height: 44px;
+	text-align: center;
+	cursor: pointer;
+}
+.video-p .pay li:hover{
+	background: #3344ff;
+}
+.video-p .pay li a{
+	color: #fff;
+}
+.video-p .pay .buy{
+	background: #FF6600;
+}
+.video-p .pay .download{
+	background: #339900;
+}
+.video-p .pay .buy:hover{
+	background: #FF4400;
+}
+.video-p .pay .download:hover{
+	background: #337700;
+}
+
+.d-left .matter02{
+	height: auto;
+	overflow:hidden;
+	background: #fff;
+	padding: 2px 12px 20px 22px;
+}
+.details h2{
+	font-size: 20px;
+	line-height: 42px;
+	color: #333;
+	font-weight: bold;
+}
+.matter02 p{
+	line-height: 21px;
+	text-indent: 2em;
+	color: #666;
+}
+
+.d-left .matter03{
+	height: 190px;
+	background: #fff;
+}
+.d-left .matter04{
+	height: 282px;
+	background: #fff;
+	padding: 2px 12px 0 22px;
+}
+.matter04 .recommend{
+	margin-top: 2px;
+}
+.matter04 .recommend li{
+	float: left;
+	width: 150px;
+	height: 220px;
+	margin-right: 28px;
+	background: #F2F2F2;
+	position: relative;
+	cursor: pointer;
+}
+.matter04 .recommend li em{
+	position: absolute;
+	left: 0;
+	top: 0;
+	display: none;
+	width: 100%;
+	height: 100%;
+	background: url(../images/play.png) no-repeat center ;
+}
+.matter04 .recommend li:hover em{
+	display: block;
+}
+
+.matter04 .recommend li p{
+	text-align: center;
+	font-size: 12px;
+	line-height: 22px;
+	height:22px;
+	overflow:hidden;
+	color: #1E1E1E;
+}
+.matter04 .recommend .last{
+	margin-right: 0;
+}
+.details .d-right{
+	float: right;
+	width: 293px;
+	height: auto;
+	overflow:hidden;
+}
+.d-right .aside01{
+	height: 388px;
+	background: #fff;
+	padding: 12px 0 0 12px;
+}
+.d-right .aside02{
+	height: 375px;
+	background: #fff;
+	padding-left: 14px;
+}
+.aside02 .hot li{
+	line-height: 32px;
+	height: 32px;
+	overflow:hidden;
+}
+.aside02 .hot li:hover a{
+	text-decoration: underline;
+}
+.aside02 .hot li a{
+	line-height: 14px;
+	font-size: 14px;
+	color: #333;
+}
+.aside02 .hot li i{
+	display:inline-block;
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	text-align: center;
+	color: #fff;
+	background: #CCCCCC;
+	margin-right: 12px;
+}
+.aside02 .hot li .hotter{
+	background: #FF6600;
+}
+.d-right .aside03{
+	height: auto;
+	overflow:hidden;
+	background: #fff;
+	text-align: center;
+}
+
+
+
