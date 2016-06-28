@@ -27,6 +27,7 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -91,7 +92,7 @@ public class SwiftpassController extends BaseController {
 			//订单号
 			map.put("out_trade_no", orderNo);
 			map.put("mch_create_ip", this.getClientIp());
-		  payUrl= createOrder(map);
+		  payUrl= createOrder(map,channelNo);
 		  OrderInfo orderInfo=new OrderInfo();
 		  orderInfo.setOrderNo(orderNo);
 		  orderInfo.setUserId(userId);
@@ -107,12 +108,12 @@ public class SwiftpassController extends BaseController {
 		orderNo =channelNo + DateUtil.getDays()+CommonUtil.getRandomString(0,9,6);
 		return orderNo;
 	}
-	private String createOrder(SortedMap<String,String> map ) throws Exception{
+	private String createOrder(SortedMap<String,String> map,String channelNo) throws Exception{
 		    String  payUrl = "";
         map.put("mch_id", SwiftpassConfig.mch_id);
-        map.put("notify_url", SwiftpassConfig.notify_url);
+        map.put("notify_url", SwiftpassConfig.notify_url+"/"+channelNo);
         map.put("nonce_str", String.valueOf(new Date().getTime()));
-        map.put("callback_url",SwiftpassConfig.callback_url);
+        map.put("callback_url",SwiftpassConfig.callback_url+"/"+channelNo);
         map.put("body", SwiftpassConfig.body);
         map.put("sign_type", "MD5");
         map.put("charset", "UTF-8");
@@ -165,8 +166,8 @@ public class SwiftpassController extends BaseController {
 	/**
 	 * 获取支付信息
 	 */
-	@RequestMapping(value="/returnPayInfo")
-	public void returnPayInfo(HttpServletRequest req, HttpServletResponse resp){
+	@RequestMapping(value="/returnPayInfo/{CHANNEL_NO}")
+	public void returnPayInfo(HttpServletRequest req, HttpServletResponse resp,@PathVariable String CHANNEL_NO){
 
 		  try {
 	            req.setCharacterEncoding("utf-8");
@@ -189,11 +190,7 @@ public class SwiftpassController extends BaseController {
 	                        if(status != null && "0".equals(status)){
 	                            String result_code = map.get("result_code");
 	                            String out_trade_no = map.get("out_trade_no");
-			                    		//shiro管理的session
-			                    		Subject currentUser = SecurityUtils.getSubject();  
-			                    		Session session = currentUser.getSession();
-			                    		String channelNo = (String)session.getAttribute("CHANNEL_NO");
-			                    		map.put("channel_no", channelNo);
+			                    		map.put("channel_no", CHANNEL_NO);
 	                            thirdOrderService.saveThirdOrder(map);
 	                            
 	                            if("0".equals(result_code)&& "0".equals(map.get("pay_result"))){
@@ -214,17 +211,13 @@ public class SwiftpassController extends BaseController {
 	/**
 	 * 获取支付信息
 	 */
-	@RequestMapping(value="/callbackPay")
-	public ModelAndView videoDetail(Page page){
+	@RequestMapping(value="/callbackPay/{CHANNEL_NO}")
+	public ModelAndView videoDetail(Page page,@PathVariable String CHANNEL_NO){
 		logBefore(logger, "callbackPay");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
-		
-		//shiro管理的session
-		Subject currentUser = SecurityUtils.getSubject();  
-		Session session = currentUser.getSession();
-		String channelNo = (String)session.getAttribute("CHANNEL_NO");
-		pd.put("CHANNEL_NO", channelNo);
+
+		pd.put("CHANNEL_NO", CHANNEL_NO);
 		mv.addObject("pd", pd);
 		mv.setViewName("wap/payresult");
 		return  mv;

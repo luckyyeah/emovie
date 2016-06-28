@@ -130,6 +130,9 @@
 		<if test="TAB_ID != null and TAB_ID != '' and COLUMN_ID != null and COLUMN_ID != ''">
 			and a.COLUMN_ID = #{COLUMN_ID} 
 		</if>			
+		<if test="DATA_TYPE != null and DATA_TYPE != ''">
+			and a.DATA_TYPE = #{DATA_TYPE} 
+		</if>			
 		 order by a.POWER	
 	</select>	
 	<!-- 批量删除 -->

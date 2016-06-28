@@ -358,6 +358,32 @@ public class WapMovieController extends BaseController {
         paylogger.info("pay end");
         return null;
     }
+	/**
+	 * 视频列表关于
+	 */
+	@RequestMapping(value="/about/{CHANNEL_NO}")
+	public ModelAndView about(Page page,@PathVariable String CHANNEL_NO){
+		logBefore(logger, "about");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+	
+		try {
+			pd.put("CHANNEL_NO", CHANNEL_NO);
+			pd.put("DATA_TYPE", ColumnDataTypeEnum.AbaoutType.getKey());
+			List<PageData> columnList = columnService.listColumns(pd);
+			if(columnList !=null){
+				pd.put("contractImg", columnList.get(0).get("IMG_ONE"));
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		mv.setViewName("wap/about");
+		mv.addObject("columnDataList", WapHomeController.mapHomeData.get("columnDataList"));
+		mv.addObject("pd", pd);
+		return mv;
+	}	    
 	/* ===============================权限================================== */
 	public Map<String, String> getHC(){
 		Subject currentUser = SecurityUtils.getSubject();  //shiro管理的session

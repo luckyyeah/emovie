@@ -11,6 +11,7 @@ public enum ColumnDataTypeEnum {
 	ShowTypeoDataType(5, "广告显示类型类型"),
 	PushType(6, "推送类型"),
 	DownloadStatusType(7, "下载状态类型"),
+	AbaoutType(8, "关于我们"),
 	Image(2, "图库");
     private int key;
     private String text;
