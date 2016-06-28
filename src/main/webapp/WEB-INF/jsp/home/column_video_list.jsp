@@ -29,7 +29,7 @@
     					<c:forEach items="${videoDataList}" var="columnvideo" varStatus="vs" >
     					    <c:if    test="${videoDataList.size()%6!=0}">   
                    <li  >
-                         <a href="movie/videoDetail/${columnData.COLUMN_ID}/${columnvideo.VIDEO_ID}">
+                         <a href="movie/videoDetail/${pd.CHANNEL_NO}/${columnData.COLUMN_ID}/${columnvideo.VIDEO_ID}">
 				                 <c:if    test="${columnvideo.FREE_FLAG==1}"> 
 				                    <i><img src="static/images/free.png" height="47" width="48" alt=""></i>
 				                 </c:if> 
@@ -44,7 +44,7 @@
                   </c:if>
                    <c:if    test="${videoDataList.size()%6==0}">   
                     <li class='last' >
-                         <a href="movie/videoDetail/${columnData.COLUMN_ID}/${columnvideo.VIDEO_ID}">
+                         <a href="movie/videoDetail/${pd.CHANNEL_NO}/${columnData.COLUMN_ID}/${columnvideo.VIDEO_ID}">
 				                 <c:if    test="${columnvideo.FREE_FLAG==1}"> 
 				                    <i><img src="static/images/free.png" height="47" width="48" alt=""></i>
 				                 </c:if> 
@@ -65,18 +65,18 @@
                         <div class="page">
                             <ul class="p-list">
                               <c:if    test="${PAGE_NO>1}">   
-                              <li><a href='movie/listColumnVideo/${COLUMN_ID}?PAGE_NO=${PAGE_NO-1}'>上一页</a></li>  
+                              <li><a href='movie/listColumnVideo/${pd.CHANNEL_NO}/${COLUMN_ID}?PAGE_NO=${PAGE_NO-1}'>上一页</a></li>  
                               </c:if> 
                             	<c:forEach items="${pageNoList}" var="pageNo" varStatus="vs" >
                             	 <c:if    test="${pageNo==PAGE_NO}"> 
                               <li><span class='current'>${pageNo}</span></li>
                               </c:if>
                                <c:if    test="${pageNo!=PAGE_NO}"> 
-                              <li><a href='movie/listColumnVideo/${COLUMN_ID}?PAGE_NO=${pageNo}'>${pageNo}</a></li> 
+                              <li><a href='movie/listColumnVideo/${pd.CHANNEL_NO}/${COLUMN_ID}?PAGE_NO=${pageNo}'>${pageNo}</a></li> 
                               </c:if>
                               </c:forEach>
                                <c:if    test="${pageNoList.size()>PAGE_NO}">   
-                              <li><a href='movie/listColumnVideo/${COLUMN_ID}?PAGE_NO=${PAGE_NO+1}'>下一页</a></li>  
+                              <li><a href='movie/listColumnVideo/${pd.CHANNEL_NO}/${COLUMN_ID}?PAGE_NO=${PAGE_NO+1}'>下一页</a></li>  
                                </c:if>                     
                               </ul>
                         </div>

@@ -66,11 +66,11 @@ public class MovieController extends BaseController {
 	
 	private static Log paylogger = LogFactory.getLog("paylogger");
 	/**
-	 * 视频列表
+	 * 频道视频列表
 	 */
-	@RequestMapping(value="/listColumnVideo/{COLUMN_ID}")
-	public ModelAndView listColumnVideo(Page page,@PathVariable("COLUMN_ID") String COLUMN_ID,@RequestParam(value="PAGE_NO",required=false) String PAGE_NO){
-		logBefore(logger, "startindex");
+	@RequestMapping(value="/listColumnVideo/{CHANNEL_NO}/{COLUMN_ID}")
+	public ModelAndView listColumnVideo(Page page,@PathVariable String CHANNEL_NO,@PathVariable("COLUMN_ID") String COLUMN_ID,@RequestParam(value="PAGE_NO",required=false) String PAGE_NO){
+		logBefore(logger, "listColumnVideo");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 
@@ -85,6 +85,7 @@ public class MovieController extends BaseController {
 				pd.put("PAGE_FROM", 0);
 				PAGE_NO = "1";
 			}
+			pd.put("CHANNEL_NO", CHANNEL_NO);
 			//取得视频信息
 			pd.put("COLUMN_ID", COLUMN_ID);
 			PageData columnData = columnService.findById(pd);        
@@ -117,9 +118,9 @@ public class MovieController extends BaseController {
 	/**
 	 * 视频列表
 	 */
-	@RequestMapping(value="/videoDetail/{COLUMN_ID}/{VIDEO_ID}")
-	public ModelAndView videoDetail(Page page,@PathVariable("COLUMN_ID") String COLUMN_ID,@PathVariable("VIDEO_ID") String VIDEO_ID){
-		logBefore(logger, "startindex");
+	@RequestMapping(value="/videoDetail/{CHANNEL_NO}/{COLUMN_ID}/{VIDEO_ID}")
+	public ModelAndView videoDetail(Page page,@PathVariable String CHANNEL_NO,@PathVariable("COLUMN_ID") String COLUMN_ID,@PathVariable("VIDEO_ID") String VIDEO_ID){
+		logBefore(logger, "videoDetail");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		List<PageData>  columnDataList =new ArrayList<PageData>();
@@ -129,7 +130,7 @@ public class MovieController extends BaseController {
 		try{
 			pd = this.getPageData();
 			String showType="";
-
+			pd.put("CHANNEL_NO", CHANNEL_NO);
 			//取得视频信息
 			pd.put("COLUMN_ID", COLUMN_ID);
 			List<PageData>  recommenVideoDataList = videoService.listRecommendVideos(pd);
@@ -161,8 +162,8 @@ public class MovieController extends BaseController {
 	/**
 	 * 视频列表
 	 */
-	@RequestMapping(value="/videoPlay/{COLUMN_ID}/{VIDEO_ID}")
-	public ModelAndView videoPlay(Page page,@PathVariable("COLUMN_ID") String COLUMN_ID,@PathVariable("VIDEO_ID") String VIDEO_ID){
+	@RequestMapping(value="/videoPlay/{CHANNEL_NO}/{COLUMN_ID}/{VIDEO_ID}")
+	public ModelAndView videoPlay(Page page,@PathVariable String CHANNEL_NO,@PathVariable("COLUMN_ID") String COLUMN_ID,@PathVariable("VIDEO_ID") String VIDEO_ID){
 		logBefore(logger, "startindex");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
@@ -170,7 +171,7 @@ public class MovieController extends BaseController {
 		try{
 			pd = this.getPageData();
 
-
+			pd.put("CHANNEL_NO", CHANNEL_NO);
 			//取得视频信息
 			pd.put("COLUMN_ID", COLUMN_ID);
 			List<PageData>  recommenVideoDataList = videoService.listRecommendVideos(pd);

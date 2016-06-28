@@ -19,7 +19,7 @@
                 <ul class="list" id="list">
 								<c:forEach items="${bannerDataList}" var="bannerData" varStatus="vs" end="4">
                 <li>
-                    <a href="movie/videoPlay/${bannerData.COLUMN_ID}/${bannerData.VIDEO_ID}" target="_blank">
+                    <a href="movie/videoPlay/${pd.CHANNEL_NO}/${bannerData.COLUMN_ID}/${bannerData.VIDEO_ID}" target="_blank">
                         <img src="${bannerData.IMG_ONE}" height="446" width="1180"/>
                     </a>
                 </li>
@@ -50,7 +50,7 @@
     			<div class="main-01 area">
     <div class="main-top">
         <div class="content-right">
-            <a href="movie/listColumnVideo/${column.COLUMN_ID}" class="more">更多+</a>
+            <a href="movie/listColumnVideo/${pd.CHANNEL_NO}/${column.COLUMN_ID}" class="more">更多+</a>
         </div>
         <div class="content-left">
             <h2>${column.NAME_ONE}</h2>
@@ -64,7 +64,7 @@
 					<c:forEach items="${columnvideoList}" var="columnvideo" varStatus="vs" end="4">
                  <c:if test="${vs.index<columnvideoList.size()-1}">
                  <li >
-                <a href="movie/videoPlay/${columnvideo.COLUMN_ID}/${columnvideo.VIDEO_ID}">
+                <a href="movie/videoPlay/${pd.CHANNEL_NO}/${columnvideo.COLUMN_ID}/${columnvideo.VIDEO_ID}">
                  <c:if    test="${columnvideo.FREE_FLAG==1}"> 
                     <i><img src="static/images/free.png" height="47" width="48" alt=""></i>
                  </c:if> 
@@ -79,7 +79,7 @@
            		 </c:if>    
                <c:if test="${vs.index==4}">
                   <li class='last'>
-              		  <a href="movie/videoPlay/${columnvideo.COLUMN_ID}/${columnvideo.VIDEO_ID}">
+              		  <a href="movie/videoPlay/${pd.CHANNEL_NO}/${columnvideo.COLUMN_ID}/${columnvideo.VIDEO_ID}">
 	                 <c:if    test="${columnvideo.FREE_FLAG==1}"> 
 	                    <i><img src="static/images/free.png" height="47" width="48" alt=""></i>
 	                 </c:if> 

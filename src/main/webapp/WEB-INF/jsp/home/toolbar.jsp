@@ -27,10 +27,10 @@
                     <a href="index.html" class="logo"></a>
                     <div class="nav">
                         <ul class="list">
-                            <li><a href="index">首页</a></li>
+                            <li><a href="index/${pd.CHANNEL_NO}">首页</a></li>
                             <c:forEach items="${columnDataList}" var="column" varStatus="vs" >
                             <c:if test="${column.DATA_TYPE==2}">
-                            <li><a href='movie/listColumnVideo/${column.COLUMN_ID}'>${column.NAME_ONE}</a></li>
+                            <li><a href='movie/listColumnVideo/${pd.CHANNEL_NO}/${column.COLUMN_ID}'>${column.NAME_ONE}</a></li>
                             </c:if>
               
                             </c:forEach>

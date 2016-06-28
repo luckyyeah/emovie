@@ -89,7 +89,7 @@
                               <c:forEach items="${recommenVideoDataList}" var="columnvideo" varStatus="vs" end="5">
 														 <c:if    test="${(vs.index+1)%5!=0}">                             
 															<li >
-                                <a href="movie/videoDetail/${columnvideo.COLUMN_ID}/${columnvideo.VIDEO_ID}">
+                                <a href="movie/videoDetail/${pd.CHANNEL_NO}/${columnvideo.COLUMN_ID}/${columnvideo.VIDEO_ID}">
                                     <img src="${columnvideo.IMG_ONE}" width="150" height="198" alt="">
                                     <p>${columnvideo.NAME_ONE}</p>
                                     <em></em>
@@ -98,7 +98,7 @@
 														</c:if>
 														 <c:if    test="${(vs.index+1)%5==0}">                             
 															<li class='last'>
-                                <a href="movie/videoDetail/${columnvideo.COLUMN_ID}/${columnvideo.VIDEO_ID}">
+                                <a href="movie/videoDetail/${pd.CHANNEL_NO}/${columnvideo.COLUMN_ID}/${columnvideo.VIDEO_ID}">
                                     <img src="${columnvideo.IMG_ONE}" width="150" height="198" alt="">
                                     <p>${columnvideo.NAME_ONE}</p>
                                     <em></em>

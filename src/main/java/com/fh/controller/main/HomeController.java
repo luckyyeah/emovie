@@ -57,8 +57,8 @@ public class HomeController extends BaseController {
 	/**
 	 * 列表
 	 */
-	@RequestMapping(value="/index")
-	public ModelAndView listIndex(Page page){
+	@RequestMapping(value="/index/{CHANNEL_NO}")
+	public ModelAndView listIndex(Page page,@PathVariable String CHANNEL_NO){
 		logBefore(logger, "startindex");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
@@ -96,7 +96,7 @@ public class HomeController extends BaseController {
 				}
 				break;
 			}
-			
+			pd.put("CHANNEL_NO", CHANNEL_NO);
 			page.setPd(pd);
 			mapHomeData.put("bannerDataList", bannerDataList);
 			mapHomeData.put("columnDataList", columnDataList);

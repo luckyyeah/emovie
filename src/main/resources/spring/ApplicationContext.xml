@@ -173,7 +173,7 @@
 				/upload/** 					= anon
 				/static/** 		    = anon
        	/code.do 					= anon
-       	/index	 			    = anon    
+       	/index/**	 			  = anon    
        	/movie/**        	= anon    
        	/wap/**        	  = anon  
        	/wapmovie/**      = anon  

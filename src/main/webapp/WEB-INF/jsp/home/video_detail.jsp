@@ -62,7 +62,7 @@ $(function(){
                             <div class="video-p">
                                 <ul class="pay">
                                 	
-                                    <li class="try"><a href="movie/videoPlay/${videoData.COLUMN_ID}/${videoData.VIDEO_ID}">正片播放</a></li>
+                                    <li class="try"><a href="movie/videoPlay/${pd.CHANNEL_NO}/${videoData.COLUMN_ID}/${videoData.VIDEO_ID}">正片播放</a></li>
                                     <li class="buy pay-trigger"><a href="javascript:;">立即购买</a></li>
                                     <li class="download"><a href="play_2.html#download">立即下载</a></li>
                                 </ul>
@@ -81,7 +81,7 @@ $(function(){
                              <c:forEach items="${recommenVideoDataList}" var="columnvideo" varStatus="vs" end="9">
 														 <c:if    test="${(vs.index+1)%5!=0}">   
 															<li >
-                                <a href="movie/videoDetail/${columnvideo.COLUMN_ID}/${columnvideo.VIDEO_ID}">
+                                <a href="movie/videoDetail/${pd.CHANNEL_NO}/${columnvideo.COLUMN_ID}/${columnvideo.VIDEO_ID}">
                                     <img src="${columnvideo.IMG_ONE}" width="150" height="198" alt="">
                                     <p>${columnvideo.NAME_ONE}</p>
                                     <em></em>
@@ -90,7 +90,7 @@ $(function(){
                             </c:if>
  														 <c:if    test="${(vs.index+1)%5==0}">   
 														<li class='last'>
-                                <a href="movie/videoDetail/${columnData.COLUMN_ID}/${columnvideo.VIDEO_ID}">
+                                <a href="movie/videoDetail/${pd.CHANNEL_NO}/${columnData.COLUMN_ID}/${columnvideo.VIDEO_ID}">
                                     <img src="${columnvideo.IMG_ONE}" width="150" height="198" alt="">
                                     <p>${columnvideo.NAME_ONE}</p>
                                     <em></em>
@@ -107,7 +107,7 @@ $(function(){
                 </div>
                 <div class="d-right">
                     <div class="aside01 mb pay-trigger" id="ktvip">
-                        <a href="">
+                        <a href="javascript:;">
                             <img src="static/images/kt_vip.fw.png" alt="">
                         </a>
                     </div>
@@ -118,13 +118,13 @@ $(function(){
 			         		<c:if    test="${(vs.index+1) <=3}">  
 			         		 <li>
 			            <i  class="hotter" >${(vs.index+1)}</i>
-			            <a href="movie/videoDetail/${topVideoData.COLUMN_ID}/${topVideoData.VIDEO_ID}">${topVideoData.NAME_ONE}</a>
+			            <a href="movie/videoDetail/${pd.CHANNEL_NO}/${topVideoData.COLUMN_ID}/${topVideoData.VIDEO_ID}">${topVideoData.NAME_ONE}</a>
 			       		  </li>	
 			       		  </c:if>
 			         		<c:if    test="${(vs.index+1) >3}">  
 			         		 <li>
 			            <i  >${(vs.index+1)}</i>
-			            <a href="movie/videoDetail/${topVideoData.COLUMN_ID}/${topVideoData.VIDEO_ID}">${topVideoData.NAME_ONE}</a>
+			            <a href="movie/videoDetail/${pd.CHANNEL_NO}/${topVideoData.COLUMN_ID}/${topVideoData.VIDEO_ID}">${topVideoData.NAME_ONE}</a>
 			       		  </li>	
 			       		  </c:if>			       		  
 			       		  </c:forEach>
