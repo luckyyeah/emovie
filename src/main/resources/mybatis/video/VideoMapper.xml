@@ -217,6 +217,9 @@
 		<if test="COLUMN_ID != null and COLUMN_ID != ''">
 			and a.COLUMN_ID = #{COLUMN_ID} 
 		</if>		
+		<if test="DATA_TYPE != null and DATA_TYPE != ''">
+			and a.DATA_TYPE = #{DATA_TYPE} 
+		</if>			
 		ORDER BY a.POWER,a.UPDATE_TIME DESC			
 	</select>	
 	<!-- 列表(全部) -->

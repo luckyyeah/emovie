@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="../public/zhuifeng/css/index.css">
+        <script src="../public/zhuifeng/js/jquery-1.11.1.min.js"></script>
+        <script type="text/javascript">var sid=1,aid=1,checkTimer,vipType=0;</script> 
+        <script src="../public/zhuifeng/js/index.js"></script>
+        <script src="http://user.zpiyi.com/public/js/global.js"></script>
+        <title>激情影音电影</title>
+    </head>
+    <body>
+    	<div class="header">
+    		<div class="h-top">
+    			<div class="h-top-in areaheart">                
+    				<div class="h-welcom">
+    					<p>欢迎光临激情影音，祝你看得开心！</p>
+    				</div>
+                    <script type="text/javascript" src="http://user.zpiyi.com/index/user_topbar"></script> 
+    			</div>
+    		</div>
+<!------------------ 导航和logo ------------------>
+    		<div class="h-nav">
+                <div class="areaheart">
+                    <a href="../index.html" class="logo"></a>
+                    <div class="nav">
+                        <ul class="list">
+                            <li><a href="../index.html">首页</a></li>
+                            <li><a href='../movie/list_14.html'>亚州经典</a></li><li><a href='../movie/list_15.html'>清纯少女</a></li><li><a href='../movie/list_16.html'>唯美短片</a></li><li><a href='../movie/list_17.html'>情趣诱惑</a></li><li><a href='../movie/list_18.html'>制服丝袜</a></li>                            <li><a href="../tuku.html" target="_blank">性感美图</a></li>
+                            <li><a href="idea.html">意见反馈</a></li>
+                        </ul>
+                    </div>
+                </div>
+    		</div>
+            <input type="hidden" id="vipType" name="vipType" value="0" >
+    	</div> 
+<link rel="stylesheet" href="../public/zhuifeng/css/vip-play.css">
+<link rel="stylesheet" href="../public/zhuifeng/css/personal.css">
+<script type="text/javascript" src="../public/zhuifeng/js/user.js"></script>
+<style>
+.input { width:350px; line-height:30px;}
+.idea-ms { overflow:hidden; height:auto; margin-bottom:15px; } 
+</style>
+<div class="main areaheart">
+    <div class=" main-right" style="width:1080px; margin:0 auto; float:none;">
+                <h2>意见反馈 <span class="form-result" id="idea_result"></span></h2>
+                <div class="m-idea">
+                   <form "http://dlla138s1191.com/member/action" method="post" id="ideaForm" class="idea">
+                       <div class="idea-lx">
+                           <span>*问题类型：</span>
+                           
+                               <i><input type="radio" value="播放" name="type" checked="checked">播放</i>
+                               <i><input type="radio" value="付费" name="type">付费</i>
+                               <i><input type="radio" value="其它" name="type">其他</i>
+                             
+                       </div>
+                       <div class="idea-ms">
+                       	   <span>*邮箱：</span>
+                           <input type="text"  class="input" name="mail"  />&nbsp;&nbsp;请留下邮箱，以便我们能联系到您，为您处理 
+                       </div>
+                       <div class="idea-ms">
+                       	   <span>*订单号：</span>
+                           <input type="text"   class="input" name="tradeno"  />
+                       </div>
+                       <div class="idea-ms">
+                           <span>*问题描述：</span>
+                           <textarea class="ms" name="content" id=""></textarea>
+                       </div>                       
+                       <a class="tj" href="javascript:submitIdea();" >提交</a>
+                   </form>
+                   
+                </div> 
+</div>
+
+<div class="footer">    
+    <div class="footer-in areaheart">
+        <div class="f-left">
+            <ul class="list">
+                <!--<li><a href="#">关于会员</a></li>
+                <li><a href="#">注册协议</a></li>-->
+                <li><a href="idea.html">意见反馈</a></li>
+                <li class="last"><a href="idea.html#">联系方式</a></li>
+                
+
+            </ul>
+        </div>
+        <div class="f-right">
+            Copyright © 激情影音网.2016 All Rights Reserved.
+            <script type="text/javascript" src="http://kou.hyxxzzc.com/public/js/cnzz.js"></script>
+        </div>
+    </div>
+</div>  	
+<div class="gray"></div>
+<!------------------- 开通VIP会员 ---------------->
+<div class="paybox">
+<div class="top">
+</div>
+<div class="close">
+    <img src="../public/zhuifeng/images/close01.jpg" alt="">
+</div>
+<div class="title" style="overflow:hidden; height:auto;">
+    <script type="text/javascript">                	
+        $(function(){            
+            $("input:radio[name='vipType']").change(function(){
+				var value=$(this).val();
+				if(isVip&&vipType==2&&value==0){ 
+					alert("包年会员不需要充值积分");
+					$("input:radio[name='vipType']")[1].checked=true;
+					}
+				loadPayInfo();
+				});   
+			
+			$("input:radio[name='payType']").change(function(){            
+				loadPayInfo();
+				});
+			
+			if(getDevice()!="pc"){
+				$("#pay-center").html("手机用户可截图后扫码");
+				}
+			
+            });
+		
+		function getDevice(){
+			var sUserAgent= navigator.userAgent.toLowerCase(); 
+			var bIsIpad= sUserAgent.match(/ipad/i) == "ipad"; 
+			var bIsIphoneOs= sUserAgent.match(/iphone/i) == "iphone";
+			var bIsMidp= sUserAgent.match(/midp/i) == "midp";
+			var bIsUc7= sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
+			var bIsUc= sUserAgent.match(/ucweb/i) == "ucweb";
+			var bIsAndroid= sUserAgent.match(/android/i) == "android";
+			var bIsCE= sUserAgent.match(/windows ce/i) == "windows ce";
+			var bIsWM= sUserAgent.match(/windows mobile/i) == "windows mobile";
+			if(bIsAndroid){
+				 return "android";
+				}
+			else if(bIsIpad||bIsIphoneOs){
+				 return "ios";
+				}
+			else return "pc"	
+			}
+			
+		function loadPayInfo(){               
+			if(!isLogin){
+				$("#dl").trigger("click");
+				return false;
+				}
+			var vipType=$("input:radio[name='vipType']:checked").val();
+			var payType=$("input:radio[name='payType']:checked").val();
+			$.post("/index.php/pay/index",{vipType:vipType,payType:payType,sid:sid,aid:aid,mid:mid,device:"pc"},function(data){
+				$("#payPrice").text(data.info.money);
+				$("#pay_ewm").attr("src",data.info.ewm);
+				},'json');                                             
+			}	
+    </script>
+    <h1 id="pay-center" class="testvip">开通<i>VIP</i>会员</h1>
+</div>
+<form action="idea.html#">
+    <div class="pay-main">
+        <div class="pay-way">
+            <span>支付方式：</span>
+            <input id="weixin" class="p-wx" type="radio" value="weixin" name="payType" checked="checked"/>
+            <!--<input id="zhifubao" class="p-zfb" type="radio" value="alipay" name="payType" />-->
+        </div>
+        <div class="pay-mold">
+            <span>会员类型：</span>
+            <input class="vip-type p-integral" type="radio" value="0" name="vipType" checked="checked"/>
+            <span class="vip-md">普通VIP会员</span>
+            <span>(<i>36</i>元，财富：36积分)</span><br/>
+            <input class="vip-type p-year" type="radio" value="1" name="vipType" />
+            <span class="vip-year">包年VIP会员</span>
+            <span>(<i>99</i>元，财富：积分不限)</span>
+        </div>
+        <div class="explain">
+            <p>说明：普通VIP会员为积分值，开通后可使用入账的积分购买本站资源，购买后可在线浏览或下载。包年VIP会员，可直接浏览或下载全站资源，无需积分。</p>
+            <input type="radio" checked="checked">
+            <span>同意《VIP会员服务协议》</span>
+        </div> 
+    </div>
+    <div class="pay-money">
+        <span>支付金额：<i id="payPrice">36</i>元</span>
+        <em><img id="pay_ewm" src="../public/zhuifeng/images/ewm.fw.png" height="136" width="137" alt=""></em>
+    </div>
+    <!-- 微信支付 -->
+    <div id="p-weixin" class="pay-weixin">
+        <h4>微信扫码支付（<a href="javascript:loadPayInfo();">刷新</a>）</h4>
+        <span>（支付完成后，<a href="../movie/play_439.html">立即体验</a>）</span>
+    </div>
+    <!-- 支付宝支付 -->
+    <div id="p-zhifubao" class="pay-zhifubao">
+        <h4>支付宝扫码支付</h4>
+        <input class="ddh" type="text" name="zfb" value="请在此输入您的订单号" onfocus="if (value =='请在此输入您的订单号'){value =''}"onblur="if (value ==''){value='请在此输入您的订单号'}">
+        <br/>
+        <input class="yz" type="submit" value="验证">
+        <span>（完成验证后，立即体验）</span>
+    </div>
+</form>
+</div>       
+</body>
+</html>

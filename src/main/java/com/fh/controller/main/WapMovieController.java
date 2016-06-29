@@ -34,6 +34,7 @@ import com.fh.entity.Page;
 import com.fh.entity.PayData;
 import com.fh.enums.ColumnDataTypeEnum;
 import com.fh.enums.PlanTypeEnum;
+import com.fh.enums.VideoDataTypeEnum;
 import com.fh.service.videocontent.column.ColumnService;
 import com.fh.service.videocontent.plan.PlanService;
 import com.fh.service.videocontent.tab.TabService;
@@ -68,6 +69,8 @@ public class WapMovieController extends BaseController {
 	private PayService payService;
 	
 	private static Log paylogger = LogFactory.getLog("paylogger");
+	
+	public static List<PageData> tryVideoDataList =null;
 	/**
 	 * 视频列表
 	 */
@@ -245,13 +248,31 @@ public class WapMovieController extends BaseController {
 		PageData pd = new PageData();
 		try{
 			pd = this.getPageData();
+			int tryTimes =  0;
+			try{
+				tryTimes = Integer.parseInt(pd.getString("trymp4times"));
+			}catch(Exception ex){
+				
+			}
+			//取得试播数据
+			pd.put("DATA_TYPE", VideoDataTypeEnum.TryDataType.getKey());
+			if(WapMovieController.tryVideoDataList ==null || WapMovieController.tryVideoDataList.size()==0){
+				WapMovieController.tryVideoDataList = videoService.listVideos(pd);
+			}
 			pd.put("VIDEO_ID", VIDEO_ID);
 			PageData videoData = videoService.findById(pd);
+			
 			String playData =  Tools.readTxtFile(Const.WAPPLAY);
 			if(videoData !=null){
 				if(SHOW_TYPE==1){
-					playData = 	playData.replaceAll("VIDEO_URL", videoData.getString("VIDEO_URL"));
 					playData = 	playData.replaceAll("VIDEO_IMG", videoData.getString("IMG_ONE"));
+					if(tryTimes <WapMovieController.tryVideoDataList.size()){
+						videoData = WapMovieController.tryVideoDataList.get(tryTimes);
+					} else	if(0 <WapMovieController.tryVideoDataList.size()){ 
+						videoData = WapMovieController.tryVideoDataList.get(0);
+					}
+					playData = 	playData.replaceAll("VIDEO_URL", videoData.getString("VIDEO_URL"));
+					
 				} else {
 					playData = 	playData.replaceAll("VIDEO_URL", videoData.getString("VIDEO_URL_TWO"));
 					playData = 	playData.replaceAll("IMG_TWO", videoData.getString("IMG_TWO"));
