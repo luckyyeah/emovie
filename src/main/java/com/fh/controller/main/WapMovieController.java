@@ -71,11 +71,13 @@ public class WapMovieController extends BaseController {
 	private static Log paylogger = LogFactory.getLog("paylogger");
 	
 	public static List<PageData> tryVideoDataList =null;
+	
+	public static Map mapColumnData =new HashMap();
 	/**
 	 * 视频列表
 	 */
 	@RequestMapping(value="/listColumnVideo/{CHANNEL_NO}/{COLUMN_ID}")
-	public ModelAndView listColumnVideo(Page page,@PathVariable("COLUMN_ID") String COLUMN_ID,@PathVariable String CHANNEL_NO,@RequestParam(value="PAGE_NO",required=false) String PAGE_NO){
+	public ModelAndView listColumnVideo(Page page,@PathVariable("COLUMN_ID") String COLUMN_ID,@PathVariable String CHANNEL_NO,@RequestParam(value="PAGE_NO",required=false) String PAGE_NO,@RequestParam(required=false) String COLUMN_NO){
 		logBefore(logger, "startindex");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
@@ -100,14 +102,25 @@ public class WapMovieController extends BaseController {
 			}
 			//取得视频信息
 			pd.put("COLUMN_ID", COLUMN_ID);
-			PageData columnData = columnService.findById(pd);        
-			PageData pageCntObj = videoService.getVideoCnt(pd);
+			       
+/*			PageData pageCntObj = videoService.getVideoCnt(pd);
 			int pageCnt = 0;
 			if(pageCntObj !=null && pageCntObj.get("VIDEO_CNT")!=null){
 				double videoCnt=(Long)pageCntObj.get("VIDEO_CNT");
 				pageCnt = (int) Math.ceil(videoCnt/Const.PAGE_SZIE);
+			}*/
+			PageData columnData = null; 
+			List<PageData>  videoList = null;
+			if(mapColumnData.get(COLUMN_ID)==null){
+				columnData = columnService.findById(pd);
+				 mapColumnData.put(COLUMN_ID+"column",videoList);
+			  videoList = videoService.listVideos(pd);
+			  mapColumnData.put(COLUMN_ID,videoList);
+			  
+			} else {
+				columnData = (PageData)mapColumnData.get(COLUMN_ID+"column");
+				videoList = (List<PageData> )mapColumnData.get(COLUMN_ID);
 			}
-			List<PageData>  videoList = videoService.listVideosByPage(pd);
 			for(PageData videoData:videoList){
 				
 				if(ColumnDataTypeEnum.BannerType.getKey()==(Integer)videoData.get("DATA_TYPE")){
@@ -118,16 +131,17 @@ public class WapMovieController extends BaseController {
 				}
 			}
 			page.setPd(pd);
-			List <String> pageNoList = new ArrayList<String>();
+/*			List <String> pageNoList = new ArrayList<String>();
 			for(int i=1;i<=pageCnt;i++){
 				pageNoList.add(String.valueOf(i));
-			}
+			}*/
+			pd.put("COLUMN_NO", COLUMN_NO);
 			mv.setViewName("wap/index");
 			mv.addObject("bannerDataList", bannerDataList);
 			mv.addObject("columnDataList", WapHomeController.mapHomeData.get("columnDataList"));
 			mv.addObject("columnData", columnData);
 			mv.addObject("videoDataList", videoDataList);
-			mv.addObject("pageNoList", pageNoList);
+		//	mv.addObject("pageNoList", pageNoList);
 			mv.addObject("PAGE_NO",Integer.parseInt(PAGE_NO));
 			mv.addObject("pd", pd);
 			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
@@ -405,6 +419,23 @@ public class WapMovieController extends BaseController {
 		mv.addObject("pd", pd);
 		return mv;
 	}	    
+    @RequestMapping(value="/clearChache")
+    public String clearChache(HttpServletRequest request,PrintWriter out) {
+    	paylogger.info("clearChache start");
+    	String acceptjson = "";  
+    	Map<String, Object> result = new HashMap<String, Object>();
+    	PageData pd = new PageData();
+    	pd = this.getPageData();
+    	result.put("result", "success");
+    	WapMovieController.mapColumnData =new HashMap();
+    	WapMovieController.tryVideoDataList =null;
+        String jsonData = JSONArray.toJSONString(result);
+			
+		out.write(jsonData);
+		out.close();
+        paylogger.info("clearChache end");
+        return null;
+    }
 	/* ===============================权限================================== */
 	public Map<String, String> getHC(){
 		Subject currentUser = SecurityUtils.getSubject();  //shiro管理的session

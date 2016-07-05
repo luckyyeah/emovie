@@ -12,7 +12,7 @@
             </ul>
         </div>
         <div class="f-right">
-            Copyright © 春色TV电影.2016 All Rights Reserved.
+            Copyright © 成人快播电影.2016 All Rights Reserved.
             <script type="text/javascript" src="http://kou.hyxxzzc.com/public/js/cnzz.js"></script>
         </div>
     </div>

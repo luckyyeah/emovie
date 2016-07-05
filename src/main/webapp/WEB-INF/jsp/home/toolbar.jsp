@@ -3,7 +3,7 @@
     		<div class="h-top">
     			<div class="h-top-in areaheart">                
     				<div class="h-welcom">
-    					<p>欢迎光临春色TV，祝你看得开心！</p>
+    					<p>欢迎光临成人快播，祝你看得开心！</p>
     				</div>
                  <c:if test="${sessionScope.orderInfo.orderNo ==null}">
                  <div class="h-user">

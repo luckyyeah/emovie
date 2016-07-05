@@ -6,4 +6,4 @@
         <script type="text/javascript">var sid=1,aid=1,checkTimer,vipType=0;</script> 
         <script src="static/js/index.js"></script>
         <script src="http://user.zpiyi.com/public/js/global.js"></script>
-        <title>春色TV电影</title>
+        <title>成人快播电影</title>
