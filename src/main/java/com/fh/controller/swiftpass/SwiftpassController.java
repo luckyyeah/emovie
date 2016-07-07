@@ -191,8 +191,11 @@ public class SwiftpassController extends BaseController {
 	                            String result_code = map.get("result_code");
 	                            String out_trade_no = map.get("out_trade_no");
 			                    		map.put("channel_no", CHANNEL_NO);
-	                            thirdOrderService.saveThirdOrder(map);
-	                            
+			                    		if(CHANNEL_NO.indexOf(Const.IOS_CHANNEL_HREAD)>=0){
+			                    			thirdOrderService.saveThirdOrder(map);
+			                    		} else {
+			                    			thirdOrderService.saveAndroidThirdOrder(map);
+			                    		}
 	                            if("0".equals(result_code)&& "0".equals(map.get("pay_result"))){
 	                            	orderResult.put(out_trade_no, 1);//支付成功
 	                            }

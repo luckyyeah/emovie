@@ -115,4 +115,7 @@ public class Const {
     //普通VIP
     public static final int COMMON_VIP =2; 
     
+    //IOS渠道
+    public static final String IOS_CHANNEL_HREAD ="m_ios"; 
+    
 }

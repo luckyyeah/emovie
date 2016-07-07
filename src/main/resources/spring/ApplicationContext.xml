@@ -150,6 +150,57 @@
 	</bean>
     
     <!-- 数据库2 结束 -->
+
+	 <!-- 数据库3 开始 -->
+ 	<bean name="transactionManagerEx2" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">   
+    	<property name="dataSource" ref="dataSourceEx2"></property>
+ 	</bean>
+	
+	<!-- 阿里 druid数据库连接池 -->
+	<bean id="dataSourceEx2" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">  
+         <!-- 数据库基本信息配置 -->
+         <property name="url" value="${urlEx2}" />  
+         <property name="username" value="${usernameEx2}" />  
+         <property name="password" value="${passwordEx2}" />  
+         <property name="driverClassName" value="${driverClassName}" />  
+         <property name="filters" value="${filters}" />  
+   		 <!-- 最大并发连接数 -->
+         <property name="maxActive" value="${maxActive}" />
+         <!-- 初始化连接数量 -->
+         <property name="initialSize" value="${initialSize}" />
+         <!-- 配置获取连接等待超时的时间 -->
+         <property name="maxWait" value="${maxWait}" />
+         <!-- 最小空闲连接数 -->
+         <property name="minIdle" value="${minIdle}" />  
+   		 <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+         <property name="timeBetweenEvictionRunsMillis" value="${timeBetweenEvictionRunsMillis}" />
+         <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+         <property name="minEvictableIdleTimeMillis" value="${minEvictableIdleTimeMillis}" />  
+         <property name="validationQuery" value="${validationQuery}" />  
+         <property name="testWhileIdle" value="${testWhileIdle}" />  
+         <property name="testOnBorrow" value="${testOnBorrow}" />  
+         <property name="testOnReturn" value="${testOnReturn}" />  
+         <property name="maxOpenPreparedStatements" value="${maxOpenPreparedStatements}" />
+         <!-- 打开removeAbandoned功能 -->
+         <property name="removeAbandoned" value="${removeAbandoned}" />
+         <!-- 1800秒，也就是30分钟 -->
+         <property name="removeAbandonedTimeout" value="${removeAbandonedTimeout}" />
+         <!-- 关闭abanded连接时输出错误日志 -->   
+         <property name="logAbandoned" value="${logAbandoned}" />
+	</bean>  
+		<!-- 配置mybatis -->
+	<bean id="sqlSessionFactoryEx2" class="org.mybatis.spring.SqlSessionFactoryBean">
+    	<property name="dataSource" ref="dataSourceEx2" />
+        <property name="configLocation" value="classpath:mybatis/mybatis-config.xml"></property>
+        <!-- mapper扫描 -->
+        <property name="mapperLocations" value="classpath:mybatis/*/*.xml"></property>
+    </bean>
+    
+    <bean id="sqlSessionTemplateEx2" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactoryEx2" />
+	</bean>
+    
+    <!-- 数据库3 结束 -->    
 	<!-- ================ Shiro start ================ -->
 		<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 			<property name="realm" ref="ShiroRealm" />
