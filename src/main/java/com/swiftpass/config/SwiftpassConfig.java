@@ -60,7 +60,7 @@ public class SwiftpassConfig {
             notify_url = prop.getProperty("notify_url").trim(); 
             callback_url = prop.getProperty("callback_url").trim();  
             body= prop.getProperty("body").trim();  
-            total_fee= prop.getProperty("body").trim();  
+            total_fee= prop.getProperty("total_fee").trim();  
         } catch (IOException e) {   
             e.printStackTrace();   
         } 

@@ -229,6 +229,7 @@
        	/wap/**        	  = anon  
        	/wapmovie/**      = anon  
        	/thirdpay/**      = anon  
+       	/thirdpay2/**     = anon  
         /login 				    = anon	
         /logout 				  = anon                 	
        	/**							= authc
