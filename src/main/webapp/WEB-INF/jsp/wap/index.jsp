@@ -9,6 +9,7 @@
 <html>
 <head>
 		<%@ include file="./common.jsp"%> 
+
 </head>
 <body>
 		<%@ include file="./column.jsp"%> 

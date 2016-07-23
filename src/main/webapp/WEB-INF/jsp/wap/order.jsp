@@ -28,12 +28,12 @@
 			<p></p>
 		</div>
 		<div class="ui-btn-wrap">
-			<button class="ui-btn-lg ui-btn-weixin" data-role="button" data-href="thirdpay2/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}">
+			<button class="ui-btn-lg ui-btn-weixin" data-role="button" data-href="viapay/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}">
 				<img src="static/images/icon_wechat.png" alt=""> 微信支付
 			</button>
 		</div>
 		<div style="display: none">
-			<a href="thirdpay/goPay?total_fee=${payInfo.price}" id="payUrl"></a>
+			<a href="viapay/goPay?total_fee=${payInfo.price}" id="payUrl"></a>
 		</div>
 	</div>
 	<style>

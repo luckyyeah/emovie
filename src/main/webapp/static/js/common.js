@@ -285,11 +285,11 @@ if (/play/i.test(location.pathname)) if ($("#playerwrap").css({
     insertPlayer(vipmp4)
 }
 if (/check/i.test(location.pathname)) {
-    var img = ["b1.gif", "b2.gif"],
+    var img = ["0714b1.gif", "0714b2.gif"],
     idx = Math.floor(2 * Math.random()),
     videoimgHeight = $(".videoimg").width() / 1.97;
     debug && console.log(videoimgHeight),
-    $(".videoimg").css("height", videoimgHeight).html('<img src="' + resourceDomain + "m/" + img[idx] + '" width="100%">'),
+    $(".videoimg").css("height", videoimgHeight).html('<img src="http://7xrmo6.com1.z0.glb.clouddn.com/"' + img[idx] + '" width="100%">'),
     debug && console.log("get paylink:" + getCookie("paylink"));
     var paylink = getCookie("paylink") ? unescape(getCookie("paylink")) : "";
     "" !== paylink ? $(".ui-btn-weixin").attr("href", paylink) : (console.log("paylink=null"), requestPay(apiurl, paytype, uid, proid, site, source, tt, ts)),
