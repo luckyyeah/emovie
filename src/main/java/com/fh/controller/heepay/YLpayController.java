@@ -1,7 +1,5 @@
 package com.fh.controller.heepay;
 
-import java.io.ByteArrayInputStream;
-import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,14 +12,13 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.httpclient.methods.multipart.Part;
+import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.DocumentHelper;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -30,11 +27,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.fastjson.JSON;
 import com.fh.controller.base.BaseController;
 import com.fh.controller.swiftpass.SwiftpassController;
 import com.fh.entity.OrderInfo;
 import com.fh.entity.Page;
-import com.fh.entity.PaymentInfo;
+import com.fh.entity.YlPayReturnData;
 import com.fh.service.videocontent.video.ThirdOrderService;
 import com.fh.util.CommonUtil;
 import com.fh.util.Const;
@@ -42,9 +40,9 @@ import com.fh.util.DateUtil;
 import com.fh.util.MD5;
 import com.fh.util.PageData;
 import com.heepay.HeepayConfig;
-import com.heepay.WeiXinHelper;
+import com.heepay.Md5Tools;
 import com.heepay.WeiXinPayModel;
-import com.swiftpass.util.XmlUtils;
+import com.ylpay.YlpayConfig;
 
 /** 
  * 类名称：HomeController
@@ -52,8 +50,8 @@ import com.swiftpass.util.XmlUtils;
  * 创建时间：2016-06-23
  */
 @Controller
-@RequestMapping(value="/thirdpay2")
-public class HeepayController extends BaseController {
+@RequestMapping(value="/ylpay")
+public class YLpayController extends BaseController {
 	
 
 	@Resource(name="thirdOrderService")
@@ -64,6 +62,7 @@ public class HeepayController extends BaseController {
 	
 	public static Map<String,Integer> orderResult =new HashMap<String,Integer>(); //用来存储订单的交易状态(key:订单号，value:状态(0:未支付，1：已支付))  ---- 这里可以根据需要存储在数据库中
 	public static Map<String,OrderInfo> mapUserInfo =new HashMap<String,OrderInfo>(); //用来存储订单用户信息
+	public static  String pay_amt = "48";
 	/**
 	 * 列表
 	 */
@@ -88,6 +87,7 @@ public class HeepayController extends BaseController {
 			} else {
 				total_fee =HeepayConfig.total_fee;
 			}
+			YLpayController.pay_amt= total_fee;
 			String orderNo = createOrderNo(channelNo);
 		  payUrl= createOrder(orderNo,total_fee,channelNo);
 		  OrderInfo orderInfo=new OrderInfo();
@@ -119,28 +119,46 @@ public class HeepayController extends BaseController {
 		 try{
 		    
 				//将数据初始化WeiXinPayModel
-				WeiXinPayModel model=new WeiXinPayModel();
-				model.set_agent_bill_id(agent_bill_id);
-				model.set_agent_bill_time(agent_bill_time);
-				model.set_agent_id(HeepayConfig.agent_id);
-				model.set_goods_name(HeepayConfig.goods_name);
-				model.set_goods_note(HeepayConfig.goods_note);
-				model.set_goods_num(HeepayConfig.goods_num);
-				model.set_is_frame(HeepayConfig.is_frame);
-				model.set_notify_url(HeepayConfig.notify_url+"/"+channelNo);
-				model.set_pay_amt(pay_amt);
-				model.set_pay_type(HeepayConfig.pay_type);
-				model.set_remark(HeepayConfig.remark);
-				model.set_return_url(HeepayConfig.callback_url+"/"+channelNo);
-				model.set_user_ip(user_ip);
-				model.set_is_phone(HeepayConfig.is_phone);
-				model.set_version(version);
-				String sign=WeiXinHelper.signMd5(HeepayConfig.key, model);
+				StringBuilder _sbString=new StringBuilder();
+				_sbString.append("Buy")
+				.append(YlpayConfig.agent_id)
+				.append(agent_bill_id)
+				.append(pay_amt)
+				.append("CNY")
+				.append("0")
+				.append("0")
+				.append(YlpayConfig.goods_name)
+				.append(YlpayConfig.notify_url+"/"+channelNo+"/"+agent_bill_id)
+				.append("0")
+				.append("0")
+				.append("zsyh")
+				.append("1")
+				.append(YlpayConfig.key);
+        String sign=Md5Tools.MD5(_sbString.toString()).toLowerCase();
+        Part[] parts = {  
+        		 new StringPart("p0_Cmd", "Buy"),
+        		 new StringPart("p1_MerId", YlpayConfig.agent_id),
+        		 new StringPart("p2_Order", agent_bill_id),
+        		 new StringPart("p3_Amt",pay_amt),
+        		 new StringPart("p4_Cur", "CNY"),
+        		 new StringPart("p5_Pid", "0"),
+        		 new StringPart("p6_Pcat", "0"),
+        		 new StringPart("p7_Pdesc", YlpayConfig.goods_name),
+        		 new StringPart("p8_Url", YlpayConfig.notify_url+"/"+channelNo+"/"+agent_bill_id),
+        		 new StringPart("p9_SAF", "0"),
+        		 new StringPart("pa_MP", "0"),
+        		 new StringPart("pd_FrpId", "zsyh"),
+        		 new StringPart("pr_NeedResponse", "1"),
+        		 new StringPart("Sjt_UserName", "1"),
+        		 new StringPart("Sjt_Paytype", YlpayConfig.pay_type),
+        		 new StringPart("hmac", sign)
+           }; 
+				
 
 				//获取提交地址
-				payUrl=WeiXinHelper.GatewaySubmitUrl(sign, model);
-
-
+       String  acceptjson=CommonUtil.doPost(YlpayConfig.req_url, parts);
+				YlPayReturnData ylPayReturnData=  JSON.parseObject(acceptjson, YlPayReturnData.class);
+				payUrl = ylPayReturnData.getMessage();
 			   
 			    
 		 } catch (Exception e) {
@@ -151,39 +169,44 @@ public class HeepayController extends BaseController {
 	/**
 	 * 获取支付信息
 	 */
-	@RequestMapping(value="/returnPayInfo/{CHANNEL_NO}")
-	public void returnPayInfo(HttpServletRequest req, HttpServletResponse resp,@PathVariable String CHANNEL_NO){
+	@RequestMapping(value="/returnPayInfo/{CHANNEL_NO}/{ORDER_NO}")
+	public ModelAndView returnPayInfo(HttpServletRequest req, HttpServletResponse resp,@PathVariable String CHANNEL_NO,@PathVariable String ORDER_NO){
 
 		  try {
 	            req.setCharacterEncoding("utf-8");
 	            resp.setCharacterEncoding("utf-8");
 	            resp.setHeader("Content-type", "text/html;charset=UTF-8");
 	            String respString = "fail";
-                String status = req.getParameter("result");
-                paylogger.info("通知内容status=：" + status);
-                if(status != null && "1".equals(status)){
-                	Map<String,String> map = new HashMap<String,String>();
-                    String result_code = req.getParameter("result");
-                    String out_trade_no = req.getParameter("agent_bill_id");
-                    String pay_amt = req.getParameter("pay_amt");
-                    map.put("out_trade_no", out_trade_no);
+	            String pay_result =	req.getParameter("Sjt_Return");
+                paylogger.info("通知内容status=：" + pay_result);
+                if("1".equals(pay_result)){
+                		Map<String,String> map = new HashMap<String,String>();
+                		String pay_amt = req.getParameter("Sjt_factMoney");
+                    map.put("out_trade_no", ORDER_NO);
                     map.put("total_fee", pay_amt);
-                    map.put("pay_result", result_code);
+                    map.put("pay_result", "1");
                 		map.put("channel_no", CHANNEL_NO);
                 		if(CHANNEL_NO.indexOf(Const.IOS_CHANNEL_HREAD)>=0){
                 			thirdOrderService.saveThirdOrder(map);
                 		} else {
                 			thirdOrderService.saveAndroidThirdOrder(map);
                 		}
-                		SwiftpassController.orderResult.put(out_trade_no, 1);//支付成功
+                		SwiftpassController.orderResult.put(ORDER_NO, 1);//支付成功
                    
-                    paylogger.info(out_trade_no+ "result_code="+result_code);
+                    paylogger.info(ORDER_NO+ "result_code=1");
                 } 
-                respString = "success";
+                respString = "OK";
 	            resp.getWriter().write(respString);
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }
+					ModelAndView mv = this.getModelAndView();
+					PageData pd = new PageData();
+		
+					pd.put("CHANNEL_NO", CHANNEL_NO);
+					mv.addObject("pd", pd);
+					mv.setViewName("wap/payresult");
+					return  mv;
 		
 	}
 	public  void saveThirdOrder(OrderInfo orderInfo){
@@ -223,14 +246,15 @@ public class HeepayController extends BaseController {
 		return  mv;
 	}
 	public static int checkOrderPayed(String orderNo){
-		String signString = "version=1&agent_id="+HeepayConfig.agent_id+"&agent_bill_id="+orderNo+"&key="+HeepayConfig.key;
-		String param = signString+"&sign="+MD5.md5(signString);
+
+		String param = "Sjt_TransID="+orderNo;
 	
 		Map<String,String> resultMap = null;
 		  try {
 			  //result	必填	支付结果 1=成功
-				String returnXml= CommonUtil.doGet(Const.HEE_PAY_ORDER_QUERY_URL+"?"+param);
-			  if(returnXml!=null && returnXml.indexOf("result=1")>0){
+				String acceptjson= CommonUtil.requestURL(Const.YL_PAY_ORDER_QUERY_URL+"?"+param);
+				YlPayReturnData ylPayReturnData=  JSON.parseObject(acceptjson, YlPayReturnData.class);
+			  if(ylPayReturnData.getStatus()!=null && "1".equals(ylPayReturnData.getStatus())){
 				  return 1;
 			  }
 		} catch (Exception e) {
@@ -254,9 +278,11 @@ public class HeepayController extends BaseController {
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(format,true));
 	}
-	public static void main(String[] args) throws UnsupportedEncodingException, DocumentException {
+	public static void main(String[] args) throws Exception {
 /*		getStringOfStr("m_ios290");
 		System.out.println(getRandomString(0,9,10));*/
-		checkOrderPayed("m_ios500120160811006417");
+		YLpayController ylpayController =new YLpayController();
+		ylpayController.createOrder("test001","2","m_ios200");
+	//	checkOrderPayed("m_ios500120160811006417");
 	}
 }

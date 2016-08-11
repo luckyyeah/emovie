@@ -27,6 +27,7 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 
 import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.xml.sax.InputSource;
@@ -137,7 +138,19 @@ public class XmlUtils {
         Map<String, String> params = XmlUtils.toMap(doc.getRootElement());
         return params;
     }
-    
+    /**
+     * 转XMLmap
+     * @author  
+     * @param xmlBytes
+     * @param charset
+     * @return
+     * @throws Exception
+     */
+    public static Map<String, String> toMap(String data,String charset) throws Exception{
+    		Document doc = DocumentHelper.parseText(data);
+        Map<String, String> params = XmlUtils.toMap(doc.getRootElement());
+        return params;
+    }
     /**
      * 转MAP
      * @author  

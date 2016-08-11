@@ -325,7 +325,9 @@ public class WapMovieController extends BaseController {
 			Subject currentUser = SecurityUtils.getSubject();  
 			Session session = currentUser.getSession();
 			String channelNo = (String)session.getAttribute("CHANNEL_NO");
-			pd.put("CHANNEL_NO", channelNo);
+			if(pd.getString("CHANNEL_NO") ==null){
+				pd.put("CHANNEL_NO", channelNo);
+			}
 			mv.setViewName("wap/order");
 			mv.addObject("pd", pd);
 			mv.addObject("payInfo", payInfo);

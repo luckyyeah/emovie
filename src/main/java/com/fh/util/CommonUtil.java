@@ -21,12 +21,11 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
-import org.apache.commons.io.FileUtils;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
+import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
+import org.apache.commons.httpclient.methods.multipart.Part;
+import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.dom4j.DocumentException;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
 import com.fh.entity.system.User;
 
 
@@ -272,9 +271,53 @@ public static  String postURL(String strURL,String jsonData){
 		basePath =basePath +request.getContextPath();
 		return basePath;
 	}
+	   /** 
+     * 执行一个HTTP POST请求，返回请求响应的HTML 
+     * 
+     * @param url         请求的URL地址 
+     * @param params    请求的查询参数,可以为null 
+     * @param charset 字符集 
+     * @param pretty    是否美化 
+     * @return 返回请求响应的HTML 
+     */ 
+    public static String doPost(String strURL,  Part[] parts) { 
+	    PrintWriter out = null;
+        BufferedReader in = null;
+	    HttpClient httpClient = new HttpClient();
+	    PostMethod method = new PostMethod(strURL);
+	    try {
+	      if(parts != null ) {
+	          method.setRequestEntity(new MultipartRequestEntity(parts, method.getParams()));
+
+	      }
+	      method.releaseConnection();
+	      httpClient.executeMethod(method);
+	      String responses= method.getResponseBodyAsString(1024);
+	      return responses;
+
+	    } catch (IOException e) {
+	      e.printStackTrace();
+	    }
+        //使用finally块来关闭输出流、输入流
+        finally{
+            try{
+                if(out!=null){
+                    out.close();
+                }
+                if(in!=null){
+                    in.close();
+                }
+            }
+            catch(IOException ex){
+                ex.printStackTrace();
+            }
+        }
+        return "" ;
+    } 
 	public static void main(String[] args) throws UnsupportedEncodingException, DocumentException {
 /*		getStringOfStr("m_ios290");
 		System.out.println(getRandomString(0,9,10));*/
+		String test =requestURL("http://check.ylsdk.com/?Sjt_TransID=m_ios300320160811603107");
 		for(int i=0;i<50000;i++){
 		
 			System.out.println("i="+i);

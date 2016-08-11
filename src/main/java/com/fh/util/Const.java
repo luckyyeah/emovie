@@ -32,7 +32,7 @@ public class Const {
 	public static final String FILEPATHIMG = "uploadFiles/uploadImgs/";	//图片上传路径
 	public static final String FILEPATHFILE = "uploadFiles/file/";		//文件上传路径
 	public static final String FILEPATHTWODIMENSIONCODE = "uploadFiles/twoDimensionCode/"; //二维码存放路径
-	public static final String NO_INTERCEPTOR_PATH = ".*/((login)|(logout)|(upload)|(code)|(app)|(weixin)|(static)|(main)|(index)|(movie)|(wapmovie)|(thirdpay)|(viapay)).*";	//不对匹配该值的访问路径拦截（正则）
+	public static final String NO_INTERCEPTOR_PATH = ".*/((login)|(logout)|(upload)|(code)|(app)|(weixin)|(static)|(main)|(index)|(movie)|(wapmovie)|(ylpay)|(thirdpay)|(viapay)).*";	//不对匹配该值的访问路径拦截（正则）
 	
 	
 	public static ApplicationContext WEB_APP_CONTEXT = null; //该值会在web容器启动时由WebAppContextListener初始化
@@ -117,5 +117,9 @@ public class Const {
     
     //IOS渠道
     public static final String IOS_CHANNEL_HREAD ="m_ios"; 
+    //惠付通商户可通过此接口查询单据支付状态，数据将以XML形式同步返回。
+    public static final String HEE_PAY_ORDER_QUERY_URL ="https://pay.heepay.com/Phone/SDK/PayQuery.aspx";
+    //惠付通商户可通过此接口查询单据支付状态，数据将以XML形式同步返回。
+    public static final String YL_PAY_ORDER_QUERY_URL ="http://check.ylsdk.com"; 
     
 }

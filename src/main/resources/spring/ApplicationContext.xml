@@ -231,6 +231,7 @@
        	/thirdpay/**      = anon  
        	/thirdpay2/**     = anon  
        	/viapay/**        = anon  
+       	/ylpay/**         = anon  
         /login 				    = anon	
         /logout 				  = anon                 	
        	/**							= authc
