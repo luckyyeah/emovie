@@ -26,6 +26,7 @@ import com.fh.entity.Page;
 import com.fh.enums.ColumnDataTypeEnum;
 import com.fh.enums.PlanTypeEnum;
 import com.fh.service.videocontent.column.ColumnService;
+import com.fh.service.videocontent.pay.PayPluginService;
 import com.fh.service.videocontent.plan.PlanService;
 import com.fh.service.videocontent.tab.TabService;
 import com.fh.service.videocontent.video.VideoService;
@@ -54,7 +55,11 @@ public class WapHomeController extends BaseController {
 	@Resource(name="videoService")
 	private VideoService videoService;
 	
+	@Resource(name="payPluginService")
+	private PayPluginService payPluginService;
+	
 	public static Map mapHomeData =new HashMap();
+	public static String payType = "-1";
 	/**
 	 * 列表
 	 */
@@ -70,7 +75,12 @@ public class WapHomeController extends BaseController {
 			pd = this.getPageData();
 			pd.put("OS_TYPE", PlanTypeEnum.Wap.getKey());
 			List<PageData>  planList = planService.listAll(pd);
-
+			if("-1".equals(WapHomeController.payType)){
+				List<PageData>   payPluginPDList=payPluginService.listPayPluginPD(pd);
+				if(payPluginPDList!=null&& payPluginPDList.size()>0){
+					WapHomeController.payType =payPluginPDList.get(0).getString("PLUGIN_TYPE");
+				}
+			}
 			String showType="";
 			//取得方案数据
 			for(PageData plan:planList){

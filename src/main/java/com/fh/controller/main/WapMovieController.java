@@ -28,7 +28,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.fh.controller.base.BaseController;
+import com.fh.controller.heepay.HeepayController;
 import com.fh.controller.swiftpass.SwiftpassController;
+import com.fh.controller.ylpay.YLpayController;
 import com.fh.entity.OrderInfo;
 import com.fh.entity.Page;
 import com.fh.entity.PayData;
@@ -36,6 +38,7 @@ import com.fh.enums.ColumnDataTypeEnum;
 import com.fh.enums.PlanTypeEnum;
 import com.fh.enums.VideoDataTypeEnum;
 import com.fh.service.videocontent.column.ColumnService;
+import com.fh.service.videocontent.pay.PayPluginService;
 import com.fh.service.videocontent.plan.PlanService;
 import com.fh.service.videocontent.tab.TabService;
 import com.fh.service.videocontent.video.PayService;
@@ -67,6 +70,9 @@ public class WapMovieController extends BaseController {
 	
 	@Resource(name="payService")
 	private PayService payService;
+	
+	 
+
 	
 	private static Log paylogger = LogFactory.getLog("paylogger");
 	
@@ -331,6 +337,7 @@ public class WapMovieController extends BaseController {
 			mv.setViewName("wap/order");
 			mv.addObject("pd", pd);
 			mv.addObject("payInfo", payInfo);
+			mv.addObject("payType",Integer.parseInt(WapHomeController.payType));
 			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
 		} catch(Exception e){
 			logger.error(e.toString(), e);
@@ -358,6 +365,8 @@ public class WapMovieController extends BaseController {
 				Integer orderStatus = (Integer)SwiftpassController.orderResult.get(orderNo);
 				if((orderStatus !=null) && (orderStatus==1)){
 					checkRet="0";
+				} else {
+					
 				}
 			}
 			logger.info("userId="+userId +"|checkRet="+checkRet);
@@ -420,7 +429,61 @@ public class WapMovieController extends BaseController {
 		mv.addObject("columnDataList", WapHomeController.mapHomeData.get("columnDataList"));
 		mv.addObject("pd", pd);
 		return mv;
-	}	    
+	}	
+	/**
+	 * 视频列表关于
+	 */
+	@RequestMapping(value="/login/{CHANNEL_NO}")
+	public ModelAndView login(Page page,@PathVariable String CHANNEL_NO){
+		logBefore(logger, "login");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+	
+		try {
+			pd.put("CHANNEL_NO", CHANNEL_NO);
+
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		mv.setViewName("wap/login");
+		mv.addObject("pd", pd);
+		return mv;
+	}	  
+	/**
+	 * 获取支付信息
+	 */
+	@RequestMapping(value="/checkOrderPayed")
+	public void checkOrderPayed(HttpServletRequest request,PrintWriter out){
+		paylogger.info("checkOrderPayed");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = this.getPageData();
+		String orderNo = pd.getString("orderNo");
+		String userId = pd.getString("uid");
+		int ret= 0;
+		//海豚支付
+		if("4".equals(WapHomeController.payType)){
+			ret=YLpayController.checkOrderPayed(orderNo);
+		} else {
+			ret = HeepayController.checkOrderPayed(orderNo);
+		}
+		if(1==ret){
+			OrderInfo orderInfo = (OrderInfo)SwiftpassController.mapUserInfo.get(userId);
+			if(orderInfo ==null){
+			  orderInfo=new OrderInfo();
+			  orderInfo.setOrderNo(orderNo);
+			  orderInfo.setUserId(userId);
+			  SwiftpassController.mapUserInfo.put(userId, orderInfo);
+			} else {
+				orderInfo.setOrderNo(orderNo);
+				SwiftpassController.mapUserInfo.put(userId, orderInfo);
+			}
+		}
+		out.write(String.valueOf(ret));
+		out.close();
+	
+	}
     @RequestMapping(value="/clearChache")
     public String clearChache(HttpServletRequest request,PrintWriter out) {
     	paylogger.info("clearChache start");
@@ -432,12 +495,26 @@ public class WapMovieController extends BaseController {
     	WapMovieController.mapColumnData =new HashMap();
     	WapMovieController.tryVideoDataList =null;
         String jsonData = JSONArray.toJSONString(result);
-			
+        WapHomeController.payType = "-1";
 		out.write(jsonData);
 		out.close();
         paylogger.info("clearChache end");
         return null;
     }
+	/**
+	 * 获取支付信息
+	 */
+	@RequestMapping(value="/loadResult/{CHANNEL_NO}")
+	public ModelAndView loadResult(Page page,@PathVariable String CHANNEL_NO){
+		paylogger.info("loadResult");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+
+		pd.put("CHANNEL_NO", CHANNEL_NO);
+		mv.addObject("pd", pd);
+		mv.setViewName("wap/payresult");
+		return  mv;
+	}
 	/* ===============================权限================================== */
 	public Map<String, String> getHC(){
 		Subject currentUser = SecurityUtils.getSubject();  //shiro管理的session

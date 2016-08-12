@@ -28,7 +28,12 @@
 			<p></p>
 		</div>
 		<div class="ui-btn-wrap">
+		 <c:if test="${payType==4 }">
 			<button class="ui-btn-lg ui-btn-weixin" data-role="button" data-href="ylpay/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}">
+		</c:if>	
+		 <c:if test="${payType!=4 }">
+			<button class="ui-btn-lg ui-btn-weixin" data-role="button" data-href="thirdpay2/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}">
+		</c:if>					
 				<img src="static/images/icon_wechat.png" alt=""> 微信支付
 			</button>
 			<a class="ui-btn-lg ui-btn-weixin" href="wap/index/${pd.CHANNEL_NO}" >支付完成</a>

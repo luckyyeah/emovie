@@ -231,6 +231,7 @@ public class HeepayController extends BaseController {
 			  //result	必填	支付结果 1=成功
 				String returnXml= CommonUtil.doGet(Const.HEE_PAY_ORDER_QUERY_URL+"?"+param);
 			  if(returnXml!=null && returnXml.indexOf("result=1")>0){
+				  SwiftpassController.orderResult.put(orderNo, 1);//支付成功
 				  return 1;
 			  }
 		} catch (Exception e) {

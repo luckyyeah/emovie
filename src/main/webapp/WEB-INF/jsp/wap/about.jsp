@@ -12,6 +12,7 @@
 </head>
 <body>
 		<%@ include file="./column.jsp"%> 
+		<a class="ui-btn-lg ui-btn-weixin" href="wapmovie/login/${pd.CHANNEL_NO}" >自助激活</a>
 	<section class="ui-panel" id="movite_content">
 		<div class="about">
 			<h3>免责声明</h3>

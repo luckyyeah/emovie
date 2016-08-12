@@ -1,4 +1,4 @@
-package com.fh.controller.heepay;
+package com.fh.controller.ylpay;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -245,16 +245,22 @@ public class YLpayController extends BaseController {
 		mv.setViewName("wap/payresult");
 		return  mv;
 	}
+
 	public static int checkOrderPayed(String orderNo){
 
 		String param = "Sjt_TransID="+orderNo;
 	
 		Map<String,String> resultMap = null;
 		  try {
+		        Part[] parts = {  
+		        		 new StringPart("Sjt_TransID", orderNo)
+		           }; 
+			  String  acceptjson=CommonUtil.doPost(Const.YL_PAY_ORDER_QUERY_URL, parts);
 			  //result	必填	支付结果 1=成功
-				String acceptjson= CommonUtil.requestURL(Const.YL_PAY_ORDER_QUERY_URL+"?"+param);
+				//String acceptjson= CommonUtil.doGet(Const.YL_PAY_ORDER_QUERY_URL+"?"+param);
 				YlPayReturnData ylPayReturnData=  JSON.parseObject(acceptjson, YlPayReturnData.class);
 			  if(ylPayReturnData.getStatus()!=null && "1".equals(ylPayReturnData.getStatus())){
+				  SwiftpassController.orderResult.put(orderNo, 1);//支付成功
 				  return 1;
 			  }
 		} catch (Exception e) {

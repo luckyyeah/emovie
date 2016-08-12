@@ -317,7 +317,11 @@ public static  String postURL(String strURL,String jsonData){
 	public static void main(String[] args) throws UnsupportedEncodingException, DocumentException {
 /*		getStringOfStr("m_ios290");
 		System.out.println(getRandomString(0,9,10));*/
-		String test =requestURL("http://check.ylsdk.com/?Sjt_TransID=m_ios300320160811603107");
+        Part[] parts = {  
+       		 new StringPart("Sjt_TransID", "m_ios300320160812787117")
+          }; 
+	  String  acceptjson2=CommonUtil.doPost(Const.YL_PAY_ORDER_QUERY_URL, parts);
+		String test =doGet("http://check.ylsdk.com?Sjt_TransID=m_ios300320160812787117");
 		for(int i=0;i<50000;i++){
 		
 			System.out.println("i="+i);

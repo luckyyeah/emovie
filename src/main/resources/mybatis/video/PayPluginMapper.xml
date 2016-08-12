@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PayPluginMapper">
+	
+	
+	<select id="listPayPluginPD" parameterType="pd" resultType="pd">
+		SELECT 
+			A.*
+		FROM 
+			pay_plugin A
+		WHERE
+			A.STATUS  =1
+   <if test="PAY_PLUGIN_ID != null and PAY_PLUGIN_ID != ''">
+		AND A.PAY_PLUGIN_ID  = #{PAY_PLUGIN_ID}
+		</if>
+
+		ORDER BY  A.PLUGIN_TYPE
+	</select>		
+
+</mapper>
