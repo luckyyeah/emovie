@@ -72,6 +72,7 @@ public class HomeController extends BaseController {
 			List<PageData>  planList = planService.listAll(pd);
 
 			String showType="";
+			Map payInfo =new HashMap();
 			//取得方案数据
 			for(PageData plan:planList){
 				//取得版块信息
@@ -94,13 +95,22 @@ public class HomeController extends BaseController {
 						}
 					}
 				}
+				//取得版块信息
+				pd.put("PLAN_ID", plan.getString("PLAN_ID"));
+				List<PageData>  appPriceList =planService.listAppPrice(pd);
+				for(PageData appPrice :appPriceList){
+					payInfo.put(appPrice.getString("VIP_TYPE"), appPrice.get("PRICE"));
+				}
 				break;
 			}
+			pd.put("COLUMN_ID",null);
 			pd.put("CHANNEL_NO", CHANNEL_NO);
 			page.setPd(pd);
+			mapHomeData.put("payInfo", payInfo);
 			mapHomeData.put("bannerDataList", bannerDataList);
 			mapHomeData.put("columnDataList", columnDataList);
-			mv.setViewName("home/index");
+			//mv.setViewName("home/index");
+			mv.setViewName("wapv2/index");
 			mv.addObject("bannerDataList", bannerDataList);
 			mv.addObject("columnDataList", columnDataList);
 			mv.addObject("mapColumnvideoList", mapColumnvideoList);

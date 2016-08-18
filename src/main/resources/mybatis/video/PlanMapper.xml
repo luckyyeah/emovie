@@ -130,13 +130,27 @@
 			    a.END_TIME				
 		from 
 				plan a
-	   where    1=1
+	   where    a.STATUS = 1
 	   <if test="PLAN_ID != null and PLAN_ID != ''">
 		and	a.PLAN_ID = #{PLAN_ID}
 		</if>
 	   <if test="OS_TYPE != null and OS_TYPE != ''">
 		and	a.OS_TYPE = #{OS_TYPE}
-		</if>	   
+		</if>	 
+ 		  
+	</select>
+	<!-- 列表(全部) -->
+	<select id="listAppPrice" parameterType="pd" resultType="pd">
+		select
+				*			
+		from 
+				app_info a
+	   where    1 = 1
+	   <if test="PLAN_ID != null and PLAN_ID != ''">
+		and	a.PLAN_ID = #{PLAN_ID}
+		</if>
+ 
+ 		  
 	</select>
 	<!-- 列表(全部) -->
 	<select id="listAllPlan" parameterType="pd" resultType="pd">

@@ -247,6 +247,7 @@
 			and a.DATA_TYPE = #{DATA_TYPE} 
 		</if>					
 		ORDER BY RANDSORT		
+		LIMIT 0,3
 	</select>		
 	<!-- 列表(全部) -->
 	<select id="listInvalidVideo" parameterType="pd" resultType="pd">

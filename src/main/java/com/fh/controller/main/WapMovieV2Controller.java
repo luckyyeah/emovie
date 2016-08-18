@@ -36,7 +36,9 @@ import com.fh.service.videocontent.plan.PlanService;
 import com.fh.service.videocontent.tab.TabService;
 import com.fh.service.videocontent.video.PayService;
 import com.fh.service.videocontent.video.VideoService;
+import com.fh.util.CommonUtil;
 import com.fh.util.Const;
+import com.fh.util.DateUtil;
 import com.fh.util.PageData;
 import com.fh.util.Tools;
 /** 
@@ -45,8 +47,8 @@ import com.fh.util.Tools;
  * 创建时间：2015-03-21
  */
 @Controller
-@RequestMapping(value="/movie")
-public class MovieController extends BaseController {
+@RequestMapping(value="/wapv2")
+public class WapMovieV2Controller extends BaseController {
 	
 
 	@Resource(name="planService")
@@ -104,7 +106,7 @@ public class MovieController extends BaseController {
 			for(int i=1;i<=pageCnt;i++){
 				pageNoList.add(String.valueOf(i));
 			}
-			mv.setViewName("home/column_video_list");
+			mv.setViewName("wapv2/column_video_list");
 			mv.addObject("bannerDataList", HomeController.mapHomeData.get("bannerDataList"));
 			mv.addObject("columnDataList", HomeController.mapHomeData.get("columnDataList"));
 			mv.addObject("columnData", columnData);
@@ -118,51 +120,7 @@ public class MovieController extends BaseController {
 		}
 		return mv;
 	}	
-	
-	/**
-	 * 视频列表
-	 */
-	@RequestMapping(value="/videoDetail/{CHANNEL_NO}/{COLUMN_ID}/{VIDEO_ID}")
-	public ModelAndView videoDetail(Page page,@PathVariable String CHANNEL_NO,@PathVariable("COLUMN_ID") String COLUMN_ID,@PathVariable("VIDEO_ID") String VIDEO_ID){
-		logBefore(logger, "videoDetail");
-		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		List<PageData>  columnDataList =new ArrayList<PageData>();
-		//List columnvideoList =new ArrayList();
-		Map mapColumnvideoList =new HashMap();
-		List<PageData>  bannerDataList =new ArrayList<PageData>();
-		try{
-			pd = this.getPageData();
-			String showType="";
-			pd.put("CHANNEL_NO", CHANNEL_NO);
-			//取得视频信息
-			pd.put("COLUMN_ID", COLUMN_ID);
-			List<PageData>  recommenVideoDataList = videoService.listRecommendVideos(pd);
-			page.setPd(pd);
-			pd.put("VIDEO_ID", VIDEO_ID);
-			PageData videoData = videoService.findById(pd);
-			PageData columnData = columnService.findById(pd); 
-			PageData pdTop =new PageData();
-			pdTop.put("PAGE_FROM", 0);
-			//
-			pdTop.put("PAGE_SIZE", Const.TOP_MAX_NUM);
-			pdTop.put("RECOMMEND_FLAG", Const.RECOMMEND_FLAG);
-			List<PageData>  topVideoDataList = videoService.listVideosByPage(pdTop);
-			
-			mv.setViewName("home/video_detail");
-			mv.addObject("bannerDataList", HomeController.mapHomeData.get("bannerDataList"));
-			mv.addObject("columnDataList", HomeController.mapHomeData.get("columnDataList"));
-			mv.addObject("columnData", columnData);
-			mv.addObject("videoData", videoData);
-			mv.addObject("recommenVideoDataList", recommenVideoDataList);
-			mv.addObject("topVideoDataList", topVideoDataList);
-			mv.addObject("pd", pd);
-			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
-		} catch(Exception e){
-			logger.error(e.toString(), e);
-		}
-		return mv;
-	}	
+
 	/**
 	 * 视频列表
 	 */
@@ -188,15 +146,62 @@ public class MovieController extends BaseController {
 			//
 			pdTop.put("PAGE_SIZE", Const.TOP_MAX_NUM);
 			pdTop.put("RECOMMEND_FLAG", Const.RECOMMEND_FLAG);
-			List<PageData>  topVideoDataList = videoService.listVideosByPage(pdTop);
+			//List<PageData>  topVideoDataList = videoService.listVideosByPage(pdTop);
 			
-			mv.setViewName("home/video_play");
+			mv.setViewName("wapv2/play");
 			mv.addObject("bannerDataList", HomeController.mapHomeData.get("bannerDataList"));
 			mv.addObject("columnDataList", HomeController.mapHomeData.get("columnDataList"));
 			mv.addObject("columnData", columnData);
 			mv.addObject("videoData", videoData);
 			mv.addObject("recommenVideoDataList", recommenVideoDataList);
-			mv.addObject("topVideoDataList", topVideoDataList);
+		//	mv.addObject("topVideoDataList", topVideoDataList);
+			mv.addObject("pd", pd);
+			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		return mv;
+	}	
+	/**
+	 * 视频列表
+	 */
+	@RequestMapping(value="/channel/{CHANNEL_NO}")
+	public ModelAndView listChannelDetail(Page page,@PathVariable String CHANNEL_NO){
+		logBefore(logger, "startindex");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		Map filmMap =new HashMap();
+		Map newFilmMap =new HashMap();
+		try{
+			pd = this.getPageData();
+			pd.put("CHANNEL_NO", CHANNEL_NO);
+			if(!DateUtil.getDays().equals((String)HomeController.mapHomeData.get("filmUpdateDate"))){
+				List<PageData> columnDataList = (List<PageData>)HomeController.mapHomeData.get("columnDataList");
+				for(PageData columnData:columnDataList){
+					String columnId= columnData.getString("COLUMN_ID");
+					if(HomeController.mapHomeData.get("filmMap")!=null){
+					   filmMap = (HashMap)HomeController.mapHomeData.get("filmMap");
+					}
+					if(filmMap.get(columnId)==null){
+						filmMap.put(columnId, CommonUtil.getRandomInt(1200, 1500));
+						newFilmMap.put(columnId, CommonUtil.getRandomInt(20, 39));
+					} else {
+						int newFilmCnt =CommonUtil.getRandomInt(20, 39);
+						int filmCnt = (Integer)filmMap.get(columnId)+newFilmCnt;
+						filmMap.put(columnId, filmCnt);
+						newFilmMap.put(columnId, newFilmCnt);
+					}
+				}
+				HomeController.mapHomeData.put("filmMap",filmMap);
+				HomeController.mapHomeData.put("newFilmMap",newFilmMap);
+				HomeController.mapHomeData.put("filmUpdateDate",DateUtil.getDays());
+			}
+			mv.setViewName("wapv2/channel");
+			mv.addObject("bannerDataList", HomeController.mapHomeData.get("bannerDataList"));
+			mv.addObject("columnDataList", HomeController.mapHomeData.get("columnDataList"));
+			mv.addObject("columnDataList", HomeController.mapHomeData.get("filmMap"));
+			mv.addObject("columnDataList", HomeController.mapHomeData.get("newFilmMap"));
+		//	mv.addObject("topVideoDataList", topVideoDataList);
 			mv.addObject("pd", pd);
 			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
 		} catch(Exception e){

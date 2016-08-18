@@ -73,7 +73,7 @@ $(function(){
 	}
 	getId();
 	var device=getDevice();
-	if(device!="pc"&&vipType==0) location.href="/wap";
+	if(device!="pc"&&vipType==0) location.href="/v2";
 	$('#dl').click(function(){
 		$('.gray,.loginbox').addClass("gray-show").show();       
 	 });

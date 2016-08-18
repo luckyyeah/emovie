@@ -230,6 +230,7 @@
        	/wapmovie/**      = anon  
        	/thirdpay/**      = anon  
        	/thirdpay2/**     = anon  
+		  	/wapv2/**         = anon         	
        	/viapay/**        = anon  
        	/ylpay/**         = anon  
         /login 				    = anon	

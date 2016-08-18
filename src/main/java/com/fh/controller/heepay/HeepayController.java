@@ -1,6 +1,7 @@
 package com.fh.controller.heepay;
 
 import java.io.ByteArrayInputStream;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -76,7 +77,6 @@ public class HeepayController extends BaseController {
 		try{
 			pd = this.getPageData();
 			SortedMap<String,String> map =new TreeMap<String,String>();
-			page.setPd(pd);
 			String total_fee =pd.getString("total_fee");
 			String channelNo = pd.getString("channelNo");
 			String userId = pd.getString("uid");
@@ -100,8 +100,52 @@ public class HeepayController extends BaseController {
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
+
 		return  new ModelAndView("redirect:" +payUrl);
 	}
+	/**
+	 * 获取播放信息
+	 */
+	@RequestMapping(value="/getWeiXinPayUrl")
+	public void getWeiXinPayUrl(PrintWriter out){
+		logBefore(logger, "checkPayed");
+
+
+		try{
+			PageData pd = new PageData();
+			String payUrl=  "";
+
+			pd = this.getPageData();
+			SortedMap<String,String> map =new TreeMap<String,String>();
+			String total_fee =pd.getString("total_fee");
+			String channelNo = pd.getString("channelNo");
+			String userId = pd.getString("uid");
+			if(channelNo==null){
+				channelNo="";
+			}
+			if(total_fee !=null){
+				total_fee =String.valueOf((int)(Double.parseDouble(total_fee)));
+			} else {
+				total_fee =HeepayConfig.total_fee;
+			}
+			String orderNo = createOrderNo(channelNo);
+		  payUrl= createOrder(orderNo,total_fee,channelNo);
+		  OrderInfo orderInfo=new OrderInfo();
+		  orderInfo.setOrderNo(orderNo);
+		  orderInfo.setUserId(userId);
+		  orderInfo.setChannelNo(channelNo);
+		  orderInfo.setPayAmt(total_fee);
+		  SwiftpassController.mapUserInfo.put(userId, orderInfo);
+		  SwiftpassController.orderResult.put(orderNo, 0);//初始状态
+
+			out.write(payUrl);
+			out.close();
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		
+	}
+
 	private String createOrderNo(String channelNo){
 		String orderNo ="";
 		orderNo =channelNo + DateUtil.getDays()+CommonUtil.getRandomString(0,9,6);

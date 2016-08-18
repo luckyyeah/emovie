@@ -94,6 +94,8 @@ public class PlanService {
 		}
 		return pdResult;
 	}
-
+	public List<PageData> listAppPrice(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("PlanMapper.listAppPrice", pd);
+	}
 }
 

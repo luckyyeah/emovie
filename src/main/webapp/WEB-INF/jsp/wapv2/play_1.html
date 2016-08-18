@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta content="yes" name="apple-mobile-web-app-capable">
+        <meta content="yes" name="apple-touch-fullscreen"> 
+        <title>立川理惠-撸撸影院</title>
+        <meta name="keywords" content="立川理惠" /><meta name="description" content="立川理惠" />        <link rel="stylesheet" href="http://h5.hyxxzzc.com/public/css/swiper-3.3.1.min.css">
+        <link rel="stylesheet" href="http://h5.hyxxzzc.com/public/css/style.css">
+        <link rel="stylesheet" href="http://h5.hyxxzzc.com/public/css/grid.css">  
+        <script src="http://h5.hyxxzzc.com/public/js/flexible_0.3.4.js" type="text/javascript" charset="utf-8"></script>
+        <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src="http://h5.hyxxzzc.com/public/js/swiper-3.3.1.min.js"></script>
+        <script type="text/javascript">var sid = 1, aid = 1, checkTimer = 0, vipType = 0, regTime = 0, resourceType = 0;</script>
+        <script type="text/javascript" src="http://h5.hyxxzzc.com/public/js/pay.js"></script>        
+        <script type="text/javascript" src="http://user.zpiyi.com/index/wap_status"></script>
+        <script>
+            var $ = jQuery;
+            $(function(){
+                if(vipType==0){
+                    $(".openVIP").html("开通VIP");
+                }else if(vipType==1){
+                    $(".openVIP").html("白银VIP");
+                }else if(vipType==2){
+                    $(".openVIP").html("黄金VIP");
+                }else if(vipType==3){
+                    $(".openVIP").html("钻石VIP");
+                }                
+            });
+        </script>
+        <style>
+            .swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction{
+                height: auto;bottom: 0.78125rem;
+            }
+            .swiper-pagination-bullet{background: #fff}
+        </style>
+    </head>
+
+<script type="text/javascript">resourceType=2;</script>
+<script type="text/javascript" src="http://kou.hyxxzzc.com/public/player/ckplayer/ckplayer.js"></script>
+<script>
+    function loadMovie(type) {
+        var w = document.body.clientWidth;        
+        $.getScript("http://user.zpiyi.com/index/loadmovie_wap/id/1/type/" + type , function () {
+            if (player)
+                $("#player").html(player);
+        });
+    }
+    $(function () {        
+        var w = document.body.clientWidth;
+        var pich = Math.floor(470 / 980 * w);
+        $(".movie-pic").height(pich);
+        $(".comment .content").css("width", (w - 110) + "px");
+        if (vipType >= 2) {
+            loadMovie(2);
+        } else {
+            loadMovie(1);
+            setInterval('pay()', 5000);
+        }
+
+    });
+
+</script>
+
+<body class="play">
+    <header class="black-header">
+        <a href="javascript:history.back()" class="back"></a>详情播放
+    </header>
+    <section class="player pay-trigger" id="player" onClick="pay()">
+        <div class="bg">
+            <img src="http://kou.hyxxzzc.com/public/images/playbg.jpg" style="height:auto; width:100%;">
+        </div>
+        <!--加载图片-->
+        <div class="movie-pic">
+            <img src="http://ww3.sinaimg.cn/large/006r311dgw1f4lkatan3sj30b406842y.jpg" style="height:auto; width:100%;">
+        </div>
+            </section>
+    <section class="detailbox clearfix">
+    <h3>亚洲经典<a href="list_14.html" class="fr more">+MORE</a></h3>
+    <div class="videoList-play">
+                <a href="play_23.html">
+            <div class="listBox">
+                <div class="relative"><img src="http://ww4.sinaimg.cn/large/006r311dgw1f4lk2xkit9j305k07caa3.jpg" alt=""><span class="flag02"></span></div>
+                <div class="title">Peach Bomb 水樹たま</div>
+            </div>
+        </a>
+                <a href="play_9.html">
+            <div class="listBox">
+                <div class="relative"><img src="http://ww3.sinaimg.cn/large/006uLcJIgw1f6j17abkcwj305k07c0sq.jpg" alt=""><span class="flag01"></span></div>
+                <div class="title">苍井空</div>
+            </div>
+        </a>
+                <a href="play_30.html">
+            <div class="listBox">
+                <div class="relative"><img src="http://ww2.sinaimg.cn/large/006r311dgw1f4lk3017qbj305k07cjrd.jpg" alt=""><span class="flag02"></span></div>
+                <div class="title">完全監視辰巳奈都子</div>
+            </div>
+        </a>
+            </div>
+</section>    <section class="detailbox clearfix comment">
+        <h3>狼友热评</h3>
+            <div class="borderBottom clearfix">
+            <div class="userface"><img src="http://kou.hyxxzzc.com/public/uploads/icons/1464853668.jpg" alt=""></div>
+            <div class="usermsg font12">
+                <p class="orange">Karatcka</p>
+                <p>更新很快呀！真是为我们这些狼友提供了一个好的平台。大家一起顶起来~~~</p>
+                <p>27秒前<span class="fr">热评</span></p>
+            </div>
+        </div>    
+        <div class="borderBottom clearfix">
+            <div class="userface"><img src="http://kou.hyxxzzc.com/public/uploads/icons/1464853930.jpg" alt=""></div>
+            <div class="usermsg font12">
+                <p class="orange">小小巫</p>
+                <p>哇！不错不错，而且缓冲很快，点赞！</p>
+                <p>47秒前<span class="fr">热评</span></p>
+            </div>
+        </div>    
+        <div class="borderBottom clearfix">
+            <div class="userface"><img src="http://kou.hyxxzzc.com/public/uploads/icons/1464854010.jpg" alt=""></div>
+            <div class="usermsg font12">
+                <p class="orange">喵喵</p>
+                <p>尼玛呀~害得我又忍不住撸了几次，压根就停不下来啊</p>
+                <p>52秒前<span class="fr">热评</span></p>
+            </div>
+        </div>    
+        <div class="borderBottom clearfix">
+            <div class="userface"><img src="http://kou.hyxxzzc.com/public/uploads/icons/1464854126.jpg" alt=""></div>
+            <div class="usermsg font12">
+                <p class="orange">中央空调</p>
+                <p>太精彩了哇，看来充值是没白冲，物超所值，在别的地方都看不了。就你们这里有资源，而且质量高，真爱你们！</p>
+                <p>75秒前<span class="fr">热评</span></p>
+            </div>
+        </div>    
+        <div class="borderBottom clearfix">
+            <div class="userface"><img src="http://kou.hyxxzzc.com/public/uploads/icons/1464854225.jpg" alt=""></div>
+            <div class="usermsg font12">
+                <p class="orange">唐唐</p>
+                <p>果然是高清全集的，红红火火恍恍惚惚哈哈哈哈，找了这么久终于找到了，每天都会上来看几部。好怕被老婆知道</p>
+                <p>108秒前<span class="fr">热评</span></p>
+            </div>
+        </div>    
+        <div class="borderBottom clearfix">
+            <div class="userface"><img src="http://kou.hyxxzzc.com/public/uploads/icons/1464854305.jpg" alt=""></div>
+            <div class="usermsg font12">
+                <p class="orange">电竞陈冠希</p>
+                <p>雅蠛蝶~雅蠛蝶~够爽！！！</p>
+                <p>123秒前<span class="fr">热评</span></p>
+            </div>
+        </div>    
+        <div class="borderBottom clearfix">
+            <div class="userface"><img src="http://kou.hyxxzzc.com/public/uploads/icons/1464854350.jpg" alt=""></div>
+            <div class="usermsg font12">
+                <p class="orange">再回首恍然如梦</p>
+                <p>希望支持下载到手机，家里没有wifi啊，怎么办？想睡觉的时候看</p>
+                <p>132秒前<span class="fr">热评</span></p>
+            </div>
+        </div>    
+        <div class="borderBottom clearfix">
+            <div class="userface"><img src="http://kou.hyxxzzc.com/public/uploads/icons/1464854428.jpg" alt=""></div>
+            <div class="usermsg font12">
+                <p class="orange">想你夜不能寐</p>
+                <p>你们这个播放器的资源不会失效吧？</p>
+                <p>167秒前<span class="fr">热评</span></p>
+            </div>
+        </div>    
+        <div class="borderBottom clearfix">
+            <div class="userface"><img src="http://kou.hyxxzzc.com/public/uploads/icons/1464854478.jpg" alt=""></div>
+            <div class="usermsg font12">
+                <p class="orange">蜡笔没有小新</p>
+                <p>今晚好孤单，还好有你陪伴！</p>
+                <p>182秒前<span class="fr">热评</span></p>
+            </div>
+        </div>    
+       
+    </section><iframe style='display:none;' id="tiao_iframe_xxxx"></iframe>
+<div style="display:none;"><script type="text/javascript" src="http://h5.hyxxzzc.com/public/js/cnzz.js"></script></div>
+<footer>
+    <a href="../index.html" class="icon1  active"></a>
+    <a href="../channel.html" class="icon2 "></a>
+    <a href="../diamond.html" class="icon3 "></a>
+    <a href="../tuku.html" class="icon4 "></a>
+    <a href="../member.html" class="icon5 "></a>
+</footer>
+<script src="http://h5.hyxxzzc.com/public/js/layer/layer.js"></script>
+<script type="text/javascript">        
+        function popPayDiv(){
+            var popHTML = $('.pop').html(); 
+            layer.open({
+                content: popHTML,
+                success: function() {
+                    var device=getDevice();
+                    if(device=='android') $('#player video').hide();   
+                },
+                end: function(index) {
+                    $('#player video').show(); 
+                }
+            });
+        }
+        
+    </script> 
+<style>
+    .layermbox0 .layermchild {height: auto;border-radius: 30px;overflow: hidden}
+    .layermcont{padding:0;}
+</style>    
+<div class="pop">       
+    <div class="popup">
+        <div class="popupPic-l"><img src="http://ww2.sinaimg.cn/large/d2d743f1gw1f5x0bu4k7hj20ca0ifab9.jpg"></div>
+        <div class="popupPic"><img src="http://ww2.sinaimg.cn/large/d2d743f1gw1f5x0clb8j6j20hs07a466.jpg" alt=""></div>
+        <div class="popmainbox">
+            <div class="vipText">开通VIP年会员，尽情释放体内的洪荒之力！</div>
+            <form action="http://mobile.plc1688.com/movie/alipay" method="get">
+            <div class="chooseType">
+                <div class="relative typeList silver-right">
+                    <label>
+                        <div class="type">
+                            <div class="typePos">
+                                <input type="radio" name="vipType" class="grayRadio" value="0" ><i class="black">白银VIP</i>
+                                <br /><span class="typeGray">仅美图权限</span></div>
+                        </div>
+                        <div class="price">￥18.00</div>
+                    </label>
+                </div>
+                <div class="relative typeList gold-right">
+                    <label>
+                        <div class="type">
+                            <div class="typePos">
+                                <input type="radio" name="vipType" class="grayRadio"  value="1"><i class="yellow">黄金VIP</i>
+                                <br /><span class="typeGray">美图及普通视频权限</span></div>
+                        </div>
+                        <div class="price">￥36.00</div>
+                    </label>
+                </div>
+                <div class="relative typeList diamond-right ">
+                    <label>
+                        <div class="type">
+                            <div class="typePos">
+                                <input type="radio" name="vipType" class="grayRadio"  value="2"><i class="pink">钻石VIP</i>
+                                <br /><span class="typeGray">全部权限</span></div>
+                        </div>
+                        <div class="price">￥72.00</div>
+                    </label>
+                </div>
+            </div>
+            <div class="payType">
+                <a class="and-wx weixin" href="javascript:show_wx();"><img src="http://ww3.sinaimg.cn/large/d2d743f1gw1f5x0cdqh1aj20cs020mx3.jpg" alt=""></a>
+                <p>
+                    <a href="javascript:alipay_submit();" class="alipay"><img src="http://ww4.sinaimg.cn/large/d2d743f1gw1f5x0cex20wj20cs020a9z.jpg" alt=""></a>                   
+                </p>
+            </div>
+            </form>    
+        </div>
+    </div>
+    <div class="and">
+        <div class="ewm"><img src="http://ww1.sinaimg.cn/large/d2d743f1gw1f4mszuuec0j205k05kdfp.jpg" alt=""></div>
+        <p>打开微信扫描<br/>或截图后在微信中打开扫描</p>        
+        <p><a href="javascript:close_wx();" class="backpaytype">返回</a></p>
+    </div>
+</div>
+
+</body>
+
+</html>

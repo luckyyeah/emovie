@@ -74,7 +74,7 @@ public class WapHomeController extends BaseController {
 		try{
 			pd = this.getPageData();
 			pd.put("OS_TYPE", PlanTypeEnum.Wap.getKey());
-			List<PageData>  planList = planService.listAll(pd);
+			
 			if("-1".equals(WapHomeController.payType)){
 				List<PageData>   payPluginPDList=payPluginService.listPayPluginPD(pd);
 				if(payPluginPDList!=null&& payPluginPDList.size()>0){
@@ -82,32 +82,41 @@ public class WapHomeController extends BaseController {
 				}
 			}
 			String showType="";
-			//取得方案数据
-			for(PageData plan:planList){
-				//取得版块信息
-				pd.put("PLAN_ID", plan.getString("PLAN_ID"));
-				List<PageData> tabList = tabService.listTabs(pd);
-				for(PageData tab:tabList){
-					//取得栏目信息
-					pd.put("TAB_ID", tab.getString("TAB_ID"));
-					columnDataList=columnService.listColumns(pd);
-					for(PageData column:columnDataList){
-						//取得视频信息
-						pd.put("COLUMN_ID", column.getString("COLUMN_ID"));
-						columnId =column.getString("COLUMN_ID");
+			if(mapHomeData.get("columnDataList")==null||mapHomeData.get("columnId")==null){
+				List<PageData>  planList = planService.listAll(pd);
+				//取得方案数据
+				for(PageData plan:planList){
+					//取得版块信息
+					pd.put("PLAN_ID", plan.getString("PLAN_ID"));
+					List<PageData> tabList = tabService.listTabs(pd);
+					for(PageData tab:tabList){
+						//取得栏目信息
+						pd.put("TAB_ID", tab.getString("TAB_ID"));
+						columnDataList=columnService.listColumns(pd);
+						for(PageData column:columnDataList){
+							//取得视频信息
+							pd.put("COLUMN_ID", column.getString("COLUMN_ID"));
+							columnId =column.getString("COLUMN_ID");
+							break;
+							
+						}
 						break;
-						
 					}
 					break;
 				}
-				break;
+			} else {
+				columnId = (String)mapHomeData.get("columnId");
+				columnDataList =(List<PageData>) mapHomeData.get("columnDataList");
 			}
 
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
+		
 		mapHomeData.put("columnDataList", columnDataList);
+		mapHomeData.put("columnId", columnId);
 		return  new ModelAndView("redirect:/wapmovie/listColumnVideo/" +CHANNEL_NO +"/"+columnId );
+		//return  new ModelAndView("redirect:/wapv2/listColumnVideo/" +CHANNEL_NO +"/"+columnId );
 	}
 	
 	
