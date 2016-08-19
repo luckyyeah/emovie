@@ -35,7 +35,7 @@
                                 <input type="radio" name="vipType" class="grayRadio" value="0" ><i class="black">白银VIP</i>
                                 <br /><span class="typeGray">仅美图权限</span></div>
                         </div>
-                        <div class="price">￥18.00</div>
+                        <div class="price">￥${payInfo['1']}</div>
                     </label>
                 </div>
                 <div class="relative typeList gold-right">
@@ -45,7 +45,7 @@
                                 <input type="radio" name="vipType" class="grayRadio"  value="1"><i class="yellow">黄金VIP</i>
                                 <br /><span class="typeGray">美图及普通视频权限</span></div>
                         </div>
-                        <div class="price">￥36.00</div>
+                        <div class="price">￥${payInfo['2']}</div>
                     </label>
                 </div>
                 <div class="relative typeList diamond-right ">
@@ -55,7 +55,7 @@
                                 <input type="radio" name="vipType" class="grayRadio"  value="2"><i class="pink">钻石VIP</i>
                                 <br /><span class="typeGray">全部权限</span></div>
                         </div>
-                        <div class="price">￥72.00</div>
+                        <div class="price">￥${payInfo['3']}</div>
                     </label>
                 </div>
             </div>

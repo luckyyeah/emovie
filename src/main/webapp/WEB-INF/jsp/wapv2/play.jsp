@@ -32,7 +32,7 @@
     <c:forEach items="${recommenVideoDataList}" var="recommenVideoData" varStatus="vs" >
                 <a href="wapv2/videoPlay/${pd.CHANNEL_NO}/${recommenVideoData.COLUMN_ID}/${recommenVideoData.VIDEO_ID}">
             <div class="listBox">
-                <div class="relative"><img src="${recommenVideoData.IMG_ONE}" alt="">
+                <div class="relative"><img src="${recommenVideoData.IMG_TWO}" alt="">
 								<c:if    test="${columnvideo.FREE_FLAG==1}"> 
 								<span class="flag01"></span>
 								</c:if> 
@@ -124,27 +124,13 @@
 
 <%@ include file="./footer.jsp"%> 
 <%@ include file="./paybox.jsp"%> 
-   <script>
-         var $ = jQuery;
-         $(function(){
-             if(vipType==0){
-                 $(".openVIP").html("开通VIP");
-             }else if(vipType==1){
-                 $(".openVIP").html("白银VIP");
-             }else if(vipType==2){
-                 $(".openVIP").html("黄金VIP");
-             }else if(vipType==3){
-                 $(".openVIP").html("钻石VIP");
-             }                
-         });
-     </script>
-<script type="text/javascript">resourceType=2;</script>
+<script type="text/javascript">resourceType=${resourceType};</script>
 <script type="text/javascript" src="http://kou.hyxxzzc.com/public/player/ckplayer/ckplayer.js"></script>     
 <script>
     function loadMovie(type) {
         var w = document.body.clientWidth;        
 		  $.get("<%=basePath%>wapv2/getPlayInfo/${videoData.VIDEO_ID}/" +type,function(data,status){
-			   if(player) $("#player").html(data);
+			  if(data) $("#player").html(data);
 			  });
     }
     $(function () {        

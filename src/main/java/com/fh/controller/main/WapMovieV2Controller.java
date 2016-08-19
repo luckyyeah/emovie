@@ -28,6 +28,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.fh.controller.base.BaseController;
+import com.fh.controller.heepay.HeepayController;
+import com.fh.controller.swiftpass.SwiftpassController;
+import com.fh.controller.ylpay.YLpayController;
 import com.fh.entity.OrderInfo;
 import com.fh.entity.Page;
 import com.fh.entity.PayData;
@@ -77,6 +80,7 @@ public class WapMovieV2Controller extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		listColumnVideo( mv,CHANNEL_NO, COLUMN_ID, PAGE_NO);
 		mv.setViewName("wapv2/column_video_list");
+		mv.addObject("COLUMN_NO", 1);
 		return mv;
 	}	
 	/**
@@ -88,6 +92,7 @@ public class WapMovieV2Controller extends BaseController {
 		logBefore(logger, "listColumnVideo");
 		ModelAndView mv = this.getModelAndView();
 		listColumnVideo( mv,CHANNEL_NO, COLUMN_ID, PAGE_NO);
+		mv.addObject("COLUMN_NO", 3);
 		mv.setViewName("wapv2/diamond");
 		return mv;
 	}
@@ -130,6 +135,7 @@ public class WapMovieV2Controller extends BaseController {
 			mv.addObject("pageNoList", pageNoList);
 			mv.addObject("PAGE_NO",Integer.parseInt(PAGE_NO));
 			mv.addObject("pd", pd);
+			mv.addObject("payInfo", 	HomeController.mapHomeData.get("payInfo"));
 			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
 		} catch(Exception e){
 			logger.error(e.toString(), e);
@@ -161,15 +167,30 @@ public class WapMovieV2Controller extends BaseController {
 			pdTop.put("PAGE_SIZE", Const.TOP_MAX_NUM);
 			pdTop.put("RECOMMEND_FLAG", Const.RECOMMEND_FLAG);
 			//List<PageData>  topVideoDataList = videoService.listVideosByPage(pdTop);
-			
+			int resourceType =0;
+			if(videoData.get("FREE_FLAG")!=null){
+				if((Integer)videoData.get("FREE_FLAG")==1){
+					resourceType =2;
+				}
+			}
+			if(videoData.get("VIP_FLAG")!=null){
+				if((Integer)videoData.get("VIP_FLAG")==1){
+					resourceType =2;
+				}
+				if((Integer)videoData.get("VIP_FLAG")==2){
+					resourceType =3;
+				}
+			}
 			mv.setViewName("wapv2/play");
 			mv.addObject("bannerDataList", HomeController.mapHomeData.get("bannerDataList"));
 			mv.addObject("columnDataList", HomeController.mapHomeData.get("columnDataList"));
 			mv.addObject("columnData", columnData);
 			mv.addObject("videoData", videoData);
 			mv.addObject("recommenVideoDataList", recommenVideoDataList);
+			mv.addObject("payInfo", 	HomeController.mapHomeData.get("payInfo"));
 		//	mv.addObject("topVideoDataList", topVideoDataList);
 			mv.addObject("pd", pd);
+			mv.addObject("resourceType", resourceType);
 			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
 		} catch(Exception e){
 			logger.error(e.toString(), e);
@@ -219,9 +240,12 @@ public class WapMovieV2Controller extends BaseController {
 			mv.addObject("filmMap", HomeController.mapHomeData.get("filmMap"));
 			mv.addObject("newFilmMap", HomeController.mapHomeData.get("newFilmMap"));
 			mv.addObject("columnNameMap", HomeController.mapHomeData.get("columnNameMap"));
+			mv.addObject("payInfo", 	HomeController.mapHomeData.get("payInfo"));
 		//	mv.addObject("topVideoDataList", topVideoDataList);
 			mv.addObject("pd", pd);
+			mv.addObject("COLUMN_NO", 2);
 			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
+			
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
@@ -325,11 +349,108 @@ public class WapMovieV2Controller extends BaseController {
         }
         String jsonData = JSONArray.toJSONString(result);
 			
-		out.write(jsonData);
-		out.close();
+        out.write(jsonData);
+				out.close();
         paylogger.info("pay end");
         return null;
     }
+	/**
+	 * 自助激活
+	 */
+	@RequestMapping(value="/checkOrderPayed")
+	public void checkOrderPayed(HttpServletRequest request,PrintWriter out){
+		paylogger.info("checkOrderPayed");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = this.getPageData();
+		String orderNo = pd.getString("orderNo");
+		String userId = pd.getString("uid");
+		int ret= 0;
+		//海豚支付
+		if("4".equals(WapHomeController.payType)){
+			ret=YLpayController.checkOrderPayed(orderNo);
+		} else {
+			ret = HeepayController.checkOrderPayed(orderNo);
+		}
+		if(1==ret){
+			OrderInfo orderInfo = (OrderInfo)SwiftpassController.mapUserInfo.get(userId);
+			if(orderInfo ==null){
+			  orderInfo=new OrderInfo();
+			  orderInfo.setOrderNo(orderNo);
+			  orderInfo.setUserId(userId);
+			  SwiftpassController.mapUserInfo.put(userId, orderInfo);
+			} else {
+				orderInfo.setOrderNo(orderNo);
+				SwiftpassController.mapUserInfo.put(userId, orderInfo);
+			}
+		}
+		out.write(String.valueOf(ret));
+		out.close();
+	
+	}
+	/**
+	 * 登录
+	 */
+	@RequestMapping(value="/login/{CHANNEL_NO}")
+	public ModelAndView login(Page page,@PathVariable String CHANNEL_NO){
+		logBefore(logger, "login");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+	
+		try {
+			pd.put("CHANNEL_NO", CHANNEL_NO);
+
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		mv.setViewName("wapv2/login");
+		mv.addObject("pd", pd);
+		return mv;
+	}	  
+	/**
+	 * 登录
+	 */
+	@RequestMapping(value="/member/{CHANNEL_NO}")
+	public ModelAndView member(Page page,@PathVariable String CHANNEL_NO){
+		logBefore(logger, "login");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+	
+		try {
+			pd.put("CHANNEL_NO", CHANNEL_NO);
+
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		mv.setViewName("wapv2/member");
+		mv.addObject("pd", pd);
+		mv.addObject("COLUMN_NO", 5);
+		return mv;
+	}	  
+	/**
+	 * 视频列表关于
+	 */
+	@RequestMapping(value="/contract/{CHANNEL_NO}")
+	public ModelAndView contract(Page page,@PathVariable String CHANNEL_NO){
+		logBefore(logger, "login");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+	
+		try {
+			pd.put("CHANNEL_NO", CHANNEL_NO);
+
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		mv.setViewName("wapv2/contract");
+		mv.addObject("pd", pd);
+		return mv;
+	}	
 	/* ===============================权限================================== */
 	public Map<String, String> getHC(){
 		Subject currentUser = SecurityUtils.getSubject();  //shiro管理的session

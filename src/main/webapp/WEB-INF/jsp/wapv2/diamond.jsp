@@ -36,6 +36,7 @@
     </section>
 <%@ include file="./footer.jsp"%> 
 <%@ include file="./paybox.jsp"%> 
+<script type="text/javascript">resourceType=3;</script>
 <script>
     $(function(){
         var picWidth = $(".relative img").width(), picHeight = parseInt(264 / 200 * picWidth);

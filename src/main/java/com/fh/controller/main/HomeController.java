@@ -114,7 +114,9 @@ public class HomeController extends BaseController {
 			mv.addObject("bannerDataList", bannerDataList);
 			mv.addObject("columnDataList", columnDataList);
 			mv.addObject("mapColumnvideoList", mapColumnvideoList);
+			mv.addObject("payInfo", 	HomeController.mapHomeData.get("payInfo"));
 			mv.addObject("pd", pd);
+			mv.addObject("COLUMN_NO", 1);
 			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
 		} catch(Exception e){
 			logger.error(e.toString(), e);
