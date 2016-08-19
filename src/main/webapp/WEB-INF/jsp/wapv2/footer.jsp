@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>    
 <iframe style='display:none;' id="tiao_iframe_xxxx"></iframe>
 <footer>
-    <a href="wapv2//channel/{pd.CHANNEL_NO}/{pd.COLUMN_ID}" class="icon1  active"></a>
-    <a href="wapv2//channel/{pd.CHANNEL_NO}" class="icon2 "></a>
-    <a href="../diamond.html" class="icon3 "></a>
+    <a href="index/${pd.CHANNEL_NO}" class="icon1  active"></a>
+    <a href="wapv2/channel/${pd.CHANNEL_NO}" class="icon2 "></a>
+    <a href="wapv2/listDiamondVideo/${pd.CHANNEL_NO}/099" class="icon3 "></a>
     <a href="../tuku.html" class="icon4 "></a>
     <a href="../member.html" class="icon5 "></a>
 </footer>

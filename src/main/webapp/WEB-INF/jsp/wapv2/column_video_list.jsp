@@ -10,12 +10,6 @@
 
     <head>
 			<%@ include file="./head.jsp"%> 
-        <style>
-            .swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction{
-                height: auto;bottom: 0.78125rem;
-            }
-            .swiper-pagination-bullet{background: #fff}
-        </style>
     </head>
 
 

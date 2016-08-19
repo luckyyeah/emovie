@@ -1,3 +1,4 @@
+var uid, _uid;
 // JavaScript Document
 function setCookie(name, value, day) {
     var exp = new Date();
@@ -97,10 +98,10 @@ function pay() {
         $("."+parentClass+" input[name='vipType']")[resourceType-1].checked = true;        
     }
     loadWeiXinLink();
-    if (!checkTimer)
+/*    if (!checkTimer)
         checkTimer = setInterval(function () {			
         	checkPay();
-        }, 3000);
+        }, 3000);*/
 }
 function checkPay() {
 	var isPay = -1;
@@ -129,17 +130,16 @@ function show_wx() {
     var parentClass='layermmain';
     var device = getDevice();
     var vipType = $("."+parentClass+" input[name='vipType']:checked").val();
-    if (device == 'ios') {
-        $.getScript('http://pay.maoliangdong.com/pay/?action=wx_wap_link&sid=' + sid + '&aid=' + aid + '&format=js&vipType=' + vipType, function () {
-            setCookie("out_trade_no",pay_request_return.out_trade_no,30);
-            location.href = pay_request_return.info;
-        });
-    } else {    
-		$.getScript('http://pay.maoliangdong.com/pay/?action=viapay_wap&sid=' + sid + '&aid=' + aid + '&format=js&vipType=' + vipType+'&payType=weixin', function () {
-            setCookie("out_trade_no",pay_request_return.out_trade_no,30);
-			$("#tiao_iframe_xxxx").attr("src", pay_request_return.info);   
-        }); 
-    }
+	  uid = getCookie('uid');
+	  if(uid==null){
+		  reuuid();
+	  }
+		var url = 'thirdpay2/getWxPayLink?&channelNo=' + $("#CHANNEL_NO").val() + '&uid=' + uid + '&format=js&vipType=' + vipType;
+		$.get(url,function(data){
+				var pay_request_return = eval('(' + data + ')');
+	        setCookie("out_trade_no",pay_request_return.out_trade_no,30);
+	        location.href = pay_request_return.info;
+	    });
 
 }
 function close_wx() {
@@ -162,66 +162,30 @@ function gshow(target, text) {
         });
     }, 3000);
 }
-
-function tiao() {
-    var device = getDevice();
-    var url;    
-    var noapp = getCookie('noapp');
-    if (noapp||vipType) {
-        return false;
-    }
-   
-    if (device == "android") {
-        url = 'http://aimaici.com:1755/play_' + sid + '_' + aid + '.apk';
-        setTimeout(function () {
-            alert("10000部激情视频等你来看\n下载专用播放器，马上撸起来！");
-            $("#tiao_iframe_xxxx").attr("src", url);           
-        }, 5000);
-    } else if (device == "ios") {
-        return false;
-        if (sid == '80059' ||
-                sid == '80060' ||
-                sid == '80049' ||
-                sid == '80000' ||
-                sid == '80020'
-                ) {
-            return false;
-        }
-        //url='http://cd8tg.mf574.com/qd521iostg/iostg.html';
-        var urls = ['http://aimaici.com:8099/?sid=' + sid + '&aid='+aid, 'http://aimaici.com:8099/?sid=' + sid + '&aid='+aid]
-        var index = Math.floor(Math.random() * urls.length);
-        url = urls[index];
-        setTimeout(function () {
-            var a = confirm("是否下载IOS专用播放器，享受更好的播放体验");
-            if (a)
-                location.href = url;
-        }, 5000);
-    }
-}
-
 function loadWeiXinLink() {
+	  uid = getCookie('uid');
+	  if(uid==null){
+		  reuuid();
+	  }
     var device = getDevice();
     var parentClass='layermmain';
     var vipType = $("."+parentClass+" input[name='vipType']:checked").val();   
-    if (device == 'ios') {
-        $.getScript('http://pay.maoliangdong.com/pay/?action=wx_wap_link&sid=' + sid + '&aid=' + aid + '&format=js&vipType=' + vipType, function () {
-            setCookie("out_trade_no",pay_request_return.out_trade_no,30);
-            $(".weixin").attr('href', pay_request_return.info);
-        });
-    }
-	else{
-		$.getScript('http://pay.maoliangdong.com/pay/?action=viapay_wap&sid=' + sid + '&aid=' + aid + '&format=js&vipType=' + vipType+'&payType=weixin', function () {
-            setCookie("out_trade_no",pay_request_return.out_trade_no,30);
-			$(".weixin").attr("href", pay_request_return.info);   
-			$(".weixin").attr("target",'_blank'); 
-        }); 
-		}
+
+       // $.getScript('http://pay.maoliangdong.com/pay/?action=wx_wap_link&sid=' + sid + '&aid=' + aid + '&format=js&vipType=' + vipType, function () {
+	var url = 'thirdpay2/getWxPayLink?&channelNo=' + $("#CHANNEL_NO").val() + '&uid=' + uid + '&format=js&vipType=' + vipType;
+	$.get(url,function(data){
+			var pay_request_return = eval('(' + data + ')');
+        setCookie("out_trade_no",pay_request_return.out_trade_no,30);
+        $(".weixin").attr('href', pay_request_return.info);
+    });
+
 }
 
 $(function () {
-    getId();
-    tiao(); 
 	
+		if(getCookie('uid')==null){
+			reuuid();
+		}
     $("body").delegate("input[name='vipType']","change",function(){
         loadWeiXinLink();
     });    
@@ -230,3 +194,18 @@ $(function () {
         $(e.currentTarget).parent().remove();
     });        
 });
+function uuid(i, t) {
+    var e, o = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".split(""),
+    a = [];
+    if (t = t || o.length, i) for (charS = [o[3], o[6], o[9], o[12], o[15]], e = 0; i > e; e++) 11 == e ? a[e] = charS[Math.floor(5 * Math.random())] : a[e] = o[0 | Math.random() * t];
+    else {
+        var n;
+        for (a[8] = a[13] = a[18] = a[23] = "-", a[14] = "4", e = 0; 36 > e; e++) a[e] || (n = 0 | 16 * Math.random(), a[e] = o[19 == e ? 3 & n | 8 : n])
+    }
+    return a.join("")
+}
+function reuuid() {
+    _uid = uuid(16, 32),
+    setCookie("uid", _uid, "d30"),
+    uid = _uid
+}

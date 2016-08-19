@@ -1,6 +1,5 @@
 package com.fh.controller.heepay;
 
-import java.io.ByteArrayInputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
@@ -20,9 +19,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
-import org.dom4j.Document;
 import org.dom4j.DocumentException;
-import org.dom4j.DocumentHelper;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -31,11 +28,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.fastjson.JSONArray;
 import com.fh.controller.base.BaseController;
+import com.fh.controller.main.HomeController;
 import com.fh.controller.swiftpass.SwiftpassController;
 import com.fh.entity.OrderInfo;
 import com.fh.entity.Page;
-import com.fh.entity.PaymentInfo;
 import com.fh.service.videocontent.video.ThirdOrderService;
 import com.fh.util.CommonUtil;
 import com.fh.util.Const;
@@ -45,7 +43,6 @@ import com.fh.util.PageData;
 import com.heepay.HeepayConfig;
 import com.heepay.WeiXinHelper;
 import com.heepay.WeiXinPayModel;
-import com.swiftpass.util.XmlUtils;
 
 /** 
  * 类名称：HomeController
@@ -106,25 +103,27 @@ public class HeepayController extends BaseController {
 	/**
 	 * 获取播放信息
 	 */
-	@RequestMapping(value="/getWeiXinPayUrl")
-	public void getWeiXinPayUrl(PrintWriter out){
+	@RequestMapping(value="/getWxPayLink")
+	public void getWxPayLink(PrintWriter out){
 		logBefore(logger, "checkPayed");
 
-
+		Map payMap =new HashMap();
 		try{
 			PageData pd = new PageData();
 			String payUrl=  "";
 
 			pd = this.getPageData();
 			SortedMap<String,String> map =new TreeMap<String,String>();
-			String total_fee =pd.getString("total_fee");
+			String vipType =pd.getString("vipType");
 			String channelNo = pd.getString("channelNo");
 			String userId = pd.getString("uid");
 			if(channelNo==null){
 				channelNo="";
 			}
-			if(total_fee !=null){
-				total_fee =String.valueOf((int)(Double.parseDouble(total_fee)));
+			String total_fee = null;
+			Map payInfo = (HashMap)HomeController.mapHomeData.get("payInfo");
+			if(payInfo.get(vipType) !=null && !"".equals(payInfo.get(vipType))){
+				total_fee =String.valueOf((int)(Double.parseDouble(payInfo.get(vipType).toString())));
 			} else {
 				total_fee =HeepayConfig.total_fee;
 			}
@@ -137,8 +136,10 @@ public class HeepayController extends BaseController {
 		  orderInfo.setPayAmt(total_fee);
 		  SwiftpassController.mapUserInfo.put(userId, orderInfo);
 		  SwiftpassController.orderResult.put(orderNo, 0);//初始状态
-
-			out.write(payUrl);
+		  payMap.put("out_trade_no", orderNo);
+		  payMap.put("info", payUrl);
+		  String jsonData = JSONArray.toJSONString(payMap);
+			out.write(jsonData);
 			out.close();
 		} catch(Exception e){
 			logger.error(e.toString(), e);

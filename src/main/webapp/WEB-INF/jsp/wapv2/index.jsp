@@ -10,22 +10,10 @@
 
     <head>
 			<%@ include file="./head.jsp"%> 
-
-        <style>
-            .swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction{
-                height: auto;bottom: 0.78125rem;
-            }
-            .swiper-pagination-bullet{background: #fff}
-        </style>
     </head>
 
 
-<style>
-    .swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction{
-        height: auto;bottom: 0.78125rem;
-    }
-    .swiper-pagination-bullet{background: #fff}
-</style>
+
 </head>
 <body class="index play">
 	<%@ include file="./toolbar.jsp"%> 
@@ -34,7 +22,7 @@
                 <div class="swiper-wrapper">
  								<c:forEach items="${bannerDataList}" var="bannerData" varStatus="vs" end="4">
                  <div class="swiper-slide">
-                    <a href="movie/videoPlay/${pd.CHANNEL_NO}/${bannerData.COLUMN_ID}/${bannerData.VIDEO_ID}">
+                    <a href="wapv2/videoPlay/${pd.CHANNEL_NO}/${bannerData.COLUMN_ID}/${bannerData.VIDEO_ID}">
                         <img src="${bannerData.IMG_ONE}" />
                 				<div class="shaddow"></div>
                         <div class="shaddowTitle">${bannerData.NAME_ONE}</div>
@@ -46,9 +34,9 @@
             </div>
         </section> 
  <c:forEach items="${columnDataList}" var="column" varStatus="vs" >
-     <c:if test="${column.DATA_TYPE==2}">
+     <c:if test="${column.DATA_TYPE==2||column.DATA_TYPE==4}">
     <section class="picList clearfix">
-    <h3>${column.NAME_TWO}<a href="movie/listColumnVideo/${pd.CHANNEL_NO}/${column.COLUMN_ID}" class="fr more">+MORE</a></h3>        
+    <h3>${column.NAME_TWO}<a href="wapv2/listColumnVideo/${pd.CHANNEL_NO}/${column.COLUMN_ID}" class="fr more">+MORE</a></h3>        
 <c:forEach    items="${mapColumnvideoList}"    var="mymap"> 
       <c:if    test="${mymap.key==column.COLUMN_ID}"> 
       	<c:set var="columnvideoList"  value="${mymap.value}"/>

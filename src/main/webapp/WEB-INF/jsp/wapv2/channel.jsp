@@ -19,7 +19,7 @@
     </head>
 
 
-<body class="play">
+<body class="channel play">
     <header class="black-header fixed">
         <span class="logo"><img src="http://ww4.sinaimg.cn/large/d2d743f1gw1f5x32xdn4dj203k03kt9e.jpg" alt=""></span>频道<a href="javascript:pay();" class="openVIP">开通VIP</a>
     </header>
@@ -32,10 +32,10 @@
                 </div>
                 <div class="col-md-6">
                     <div class="c1top">
-                        <div class="pd20"  data-id="14">
-                            <p class="title">亚洲经典</p>
-                            <p><span class="red total">1528</span>部精品等您品鉴</p>
-                            <p>今日更新<span class="red renew">21</span>部</p>
+                        <div class="pd20"  data-id="001">
+                            <p class="title"><c:out value="${columnNameMap['001']}" /></p>
+                            <p><span class="red total"><c:out value="${filmMap['001']}" /></span>部精品等您品鉴</p>
+                            <p>今日更新<span class="red renew"><c:out value="${newFilmMap['001']}" /></span>部</p>
                         </div>
                     </div>
                 </div>
@@ -58,10 +58,10 @@
             <div class="col-md-4">
                 <div class="pl10">
                     <div class="c2top">
-                        <div class="pd20"  data-id="16">
-                            <p class="title">唯美短片</p>
-                            <p><span class="red total">1528</span>部精品等您品鉴</p>
-                            <p>今日更新<span class="red renew">21</span>部</p>
+                        <div class="pd20"  data-id="003">
+                            <p class="title"><c:out value="${columnNameMap['003']}" /></p>
+                            <p><span class="red total"><c:out value="${filmMap['003']}" /></span>部精品等您品鉴</p>
+                            <p>今日更新<span class="red renew"><c:out value="${newFilmMap['003']}" /></span>部</p>
                         </div>
                     </div>
                 </div>
@@ -74,10 +74,10 @@
             <div class="col-md-4">
                 <div class="pl10">
                     <div class="c3top">
-                        <div class="pd20"  data-id="15" >
-                            <p class="title">唯美短片</p>
-                            <p><span class="red total">1528</span>部精品等您品鉴</p>
-                            <p>今日更新<span class="red renew">21</span>部</p>
+                        <div class="pd20"  data-id="002" >
+                            <p class="title"><c:out value="${columnNameMap['002']}" /></p>
+                            <p><span class="red total"><c:out value="${filmMap['002']}" /></span>部精品等您品鉴</p>
+                            <p>今日更新<span class="red renew"><c:out value="${newFilmMap['002']}" /></span>部</p>
                         </div>
                     </div>
                 </div>
@@ -104,10 +104,10 @@
             <div class="col-md-4">
                 <div class="pl10">
                     <div class="c4top">
-                        <div class="pd20"  data-id="17">
-                            <p class="title">情趣诱惑</p>
-                            <p><span class="red total">1528</span>部精品等您品鉴</p>
-                            <p>今日更新<span class="red renew">21</span>部</p>
+                        <div class="pd20"  data-id="004">
+                            <p class="title"><c:out value="${columnNameMap['004']}" /></p>
+                            <p><span class="red total"><c:out value="${filmMap['004']}" /></span>部精品等您品鉴</p>
+                            <p>今日更新<span class="red renew"><c:out value="${newFilmMap['004']}" /></span>部</p>
                         </div>
                     </div>
                 </div>
@@ -125,10 +125,10 @@
                 <div class="col-md-6">
                     <div class="pl10">
                         <div class="c5top">
-                            <div class="pd20"  data-id="18">
-                                <p class="title">寂寞少妇</p>
-                                <p><span class="red total">1528</span>部精品等你品鉴</p>
-                                <p>今日更新<span class="red renew">21</span>部</p>
+                            <div class="pd20"  data-id="005">
+                                <p class="title"><c:out value="${columnNameMap['005']}" /></p>
+                                <p><span class="red total"><c:out value="${filmMap['005']}" /></span>部精品等你品鉴</p>
+                                <p>今日更新<span class="red renew"><c:out value="${newFilmMap['005']}" /></span>部</p>
                             </div>
                         </div>
                     </div>
@@ -140,10 +140,10 @@
             <div class="col-md-4">
                 <div class="pl10">
                     <div class="c6top">
-                        <div class="pd20"  data-id="20">
-                            <p class="title" >制服丝袜</p>
-                            <p><span class="red total">1528</span>部精品等您品鉴</p>
-                            <p>今日更新<span class="red renew">21</span>部</p>
+                        <div class="pd20"  data-id="007">
+                            <p class="title" ><c:out value="${columnNameMap['007']}" /></p>
+                            <p><span class="red total"><c:out value="${filmMap['007']}" /></span>部精品等您品鉴</p>
+                            <p>今日更新<span class="red renew"><c:out value="${newFilmMap['007']}" /></span>部</p>
                         </div>
                     </div>
                 </div>
@@ -166,10 +166,10 @@
                 </div>
                 <div class="col-md-6">
                     <div class="c7top">
-                        <div class="pd20" data-id="21">
-                            <p class="title" >热门自拍</p>
-                            <p><span class="red total">1528</span>部精品等您品鉴</p>
-                            <p>今日更新<span class="red renew">21</span>部</p>
+                        <div class="pd20" data-id="006">
+                            <p class="title" ><c:out value="${columnNameMap['006']}" /></p>
+                            <p><span class="red total"><c:out value="${filmMap['006']}" /></span>部精品等您品鉴</p>
+                            <p>今日更新<span class="red renew"><c:out value="${newFilmMap['006']}" /></span>部</p>
                         </div>
                     </div>
                 </div>
@@ -184,8 +184,8 @@
             <img src="http://ww1.sinaimg.cn/large/d2d743f1gw1f5x0b9e6xlj20h805x0so.jpg" alt="">
             <div class="channelBoxBottomFont">
                 <p class="title">激情美图</p>
-                <p><span class="red">12896</span>套高清套图等您品鉴</p>
-                <p>今日更新<span class="red">121</span>套</p>
+                <p><span class="red"><c:out value="${filmMap['002']+10000}" /></span>套高清套图等您品鉴</p>
+                <p>今日更新<span class="red"><c:out value="${newFilmMap['002']+100}" /></span>套</p>
             </div>
         </div>
     </section>
@@ -226,7 +226,7 @@
         $(".pd20").each(function (i, e) {
             var id = $(e).data("id");
             $(e).parent().parent().parent().parent().bind("click", function () {
-                location.href="/movie/list_"+id+".html";
+                location.href="wapv2/listColumnVideo/${pd.CHANNEL_NO}/"+id;
             });
             $.post("/index.php/index/channel_info", {id: id}, function (data) {
                 $(e).find(".title").html(data.info.name);

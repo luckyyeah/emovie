@@ -75,8 +75,25 @@ public class WapMovieV2Controller extends BaseController {
 		
 		logBefore(logger, "listColumnVideo");
 		ModelAndView mv = this.getModelAndView();
+		listColumnVideo( mv,CHANNEL_NO, COLUMN_ID, PAGE_NO);
+		mv.setViewName("wapv2/column_video_list");
+		return mv;
+	}	
+	/**
+	 * 频道视频列表
+	 */
+	@RequestMapping(value="/listDiamondVideo/{CHANNEL_NO}/{COLUMN_ID}")
+	public ModelAndView listDiamondVideo(Page page,@PathVariable String CHANNEL_NO,@PathVariable("COLUMN_ID") String COLUMN_ID,@RequestParam(value="PAGE_NO",required=false) String PAGE_NO){
+		
+		logBefore(logger, "listColumnVideo");
+		ModelAndView mv = this.getModelAndView();
+		listColumnVideo( mv,CHANNEL_NO, COLUMN_ID, PAGE_NO);
+		mv.setViewName("wapv2/diamond");
+		return mv;
+	}
+	private void listColumnVideo(ModelAndView mv,String CHANNEL_NO,String COLUMN_ID,String PAGE_NO){
 		try{
-	
+			
 			PageData pd = new PageData();
 
 
@@ -101,12 +118,11 @@ public class WapMovieV2Controller extends BaseController {
 				pageCnt = (int) Math.ceil(videoCnt/Const.PAGE_SZIE);
 			}
 			List<PageData>  videoDataList = videoService.listVideosByPage(pd);
-			page.setPd(pd);
 			List <String> pageNoList = new ArrayList<String>();
 			for(int i=1;i<=pageCnt;i++){
 				pageNoList.add(String.valueOf(i));
 			}
-			mv.setViewName("wapv2/column_video_list");
+
 			mv.addObject("bannerDataList", HomeController.mapHomeData.get("bannerDataList"));
 			mv.addObject("columnDataList", HomeController.mapHomeData.get("columnDataList"));
 			mv.addObject("columnData", columnData);
@@ -118,9 +134,7 @@ public class WapMovieV2Controller extends BaseController {
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
-		return mv;
-	}	
-
+	}
 	/**
 	 * 视频列表
 	 */
@@ -172,6 +186,7 @@ public class WapMovieV2Controller extends BaseController {
 		PageData pd = new PageData();
 		Map filmMap =new HashMap();
 		Map newFilmMap =new HashMap();
+		Map columnNameMap =new HashMap();
 		try{
 			pd = this.getPageData();
 			pd.put("CHANNEL_NO", CHANNEL_NO);
@@ -191,7 +206,9 @@ public class WapMovieV2Controller extends BaseController {
 						filmMap.put(columnId, filmCnt);
 						newFilmMap.put(columnId, newFilmCnt);
 					}
+					columnNameMap.put(columnId, columnData.getString("NAME_TWO"));
 				}
+				HomeController.mapHomeData.put("columnNameMap",columnNameMap);
 				HomeController.mapHomeData.put("filmMap",filmMap);
 				HomeController.mapHomeData.put("newFilmMap",newFilmMap);
 				HomeController.mapHomeData.put("filmUpdateDate",DateUtil.getDays());
@@ -199,8 +216,9 @@ public class WapMovieV2Controller extends BaseController {
 			mv.setViewName("wapv2/channel");
 			mv.addObject("bannerDataList", HomeController.mapHomeData.get("bannerDataList"));
 			mv.addObject("columnDataList", HomeController.mapHomeData.get("columnDataList"));
-			mv.addObject("columnDataList", HomeController.mapHomeData.get("filmMap"));
-			mv.addObject("columnDataList", HomeController.mapHomeData.get("newFilmMap"));
+			mv.addObject("filmMap", HomeController.mapHomeData.get("filmMap"));
+			mv.addObject("newFilmMap", HomeController.mapHomeData.get("newFilmMap"));
+			mv.addObject("columnNameMap", HomeController.mapHomeData.get("columnNameMap"));
 		//	mv.addObject("topVideoDataList", topVideoDataList);
 			mv.addObject("pd", pd);
 			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
