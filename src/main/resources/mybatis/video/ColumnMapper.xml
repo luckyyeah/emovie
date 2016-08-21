@@ -135,6 +135,38 @@
 		</if>			
 		 order by a.POWER	
 	</select>	
+	<select id="listCoversByPage" parameterType="pd" resultType="pd">
+		SELECT A.*
+		FROM tab_column A
+		WHERE 1 = 1		
+		<if test="COLUMN_ID != null and COLUMN_ID != ''">
+			and a.COLUMN_ID = #{COLUMN_ID} 
+		</if>
+		<if test="TAB_ID != null and TAB_ID != ''">
+			and a.TAB_ID = #{TAB_ID} 
+		</if>				
+		<if test="DATA_TYPE != null and DATA_TYPE != ''">
+			and a.DATA_TYPE = #{DATA_TYPE} 
+		</if>				
+		ORDER BY A.POWER,A.ADD_TIME DESC
+		LIMIT  #{PAGE_FROM} ,#{PAGE_SIZE}				
+	</select>		
+	<select id="getCoverCnt" parameterType="pd" resultType="pd">
+		SELECT COUNT(A.COLUMN_ID) AS COVER_CNT		       
+		FROM tab_column A
+		WHERE 1 = 1
+		<if test="COLUMN_ID != null and COLUMN_ID != ''">
+			and A.COLUMN_ID = #{COLUMN_ID} 
+		</if>
+		<if test="TAB_ID != null and TAB_ID != ''">
+			and A.TAB_ID = #{TAB_ID} 
+		</if>				
+		<if test="DATA_TYPE != null and DATA_TYPE != ''">
+			and A.DATA_TYPE = #{DATA_TYPE} 
+		</if>							
+		ORDER BY A.POWER,A.ADD_TIME DESC
+		
+	</select>			
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
 		delete from tab_column

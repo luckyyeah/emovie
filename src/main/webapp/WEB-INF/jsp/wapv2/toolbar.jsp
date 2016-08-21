@@ -5,10 +5,10 @@
     <div class="online"></div>
     <nav>     
      		 <c:if test="${pd.COLUMN_ID==null}">
-    		 <a href="index/259" class="active">精品</a> 
+    		 <a href="index/${pd.CHANNEL_NO}" class="active">精品</a> 
     		 </c:if>
      		 <c:if test="${pd.COLUMN_ID!=null}">
-    		 <a href="index/259" >精品</a> 
+    		 <a href="index/${pd.CHANNEL_NO}" >精品</a> 
     		 </c:if>
          <c:forEach items="${columnDataList}" var="column" varStatus="vs" >
          <c:if test="${column.DATA_TYPE==2}">
@@ -21,5 +21,5 @@
          </c:if>
 
          </c:forEach>
-          <a href="tuku.html">美图</a>
+          <a href="tuku/index/${pd.CHANNEL_NO}">美图</a>
     </nav>

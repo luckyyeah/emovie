@@ -9,7 +9,8 @@ public enum PlanTypeEnum {
 	Android(1, "安卓"),
 	Image(2, "图库"),
 	PC(3, "PC"),
-	Wap(4, "Wap");
+	Wap(4, "Wap"),
+	Tuku(5, "Tuku");
     private int key;
     private String text;
     

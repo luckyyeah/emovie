@@ -58,6 +58,18 @@ public class ColumnService {
 		return (List<PageData>)dao.findForList("ColumnMapper.listColumns", pd);
 	}	
 	/*
+	*列表(条件部分)
+	*/
+	public List<PageData> listCoversByPage(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("ColumnMapper.listCoversByPage", pd);
+	}	
+	/*
+	*列表(条件部分)
+	*/
+	public PageData getCoverCnt(PageData pd)throws Exception{
+		return (PageData)dao.findForObject("ColumnMapper.getCoverCnt", pd);
+	}
+	/*
 	* 通过id获取数据
 	*/
 	public PageData findById(PageData pd)throws Exception{
