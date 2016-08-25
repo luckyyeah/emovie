@@ -234,6 +234,7 @@
 		  	/tuku/**          = anon		  	  	
        	/viapay/**        = anon  
        	/ylpay/**         = anon  
+       	/alipay/**        = anon  
         /login 				    = anon	
         /logout 				  = anon                 	
        	/**							= authc

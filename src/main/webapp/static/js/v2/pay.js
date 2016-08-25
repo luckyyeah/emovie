@@ -106,8 +106,12 @@ function pay() {
 
 function alipay_submit(){
     var parentClass='layermmain';
+	  uid = getCookie('uid');
+	  if(uid==null){
+		  reuuid();
+	  }
     var vipType = $("."+parentClass+" input[name='vipType']:checked").val();
-    var url="/movie/alipay?vipType="+vipType;
+    var url="alipay/getAliPayLink?vipType="+vipType +"&channelNo=" + $("#CHANNEL_NO").val() + '&uid=' + uid + "&format=js";
     location.href=url;
 }
 

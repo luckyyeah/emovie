@@ -1,4 +1,4 @@
-package com.fh.controller.heepay;
+package com.fh.controller.alipay;
 
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -29,6 +29,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alipay.config.AlipayConfig;
+import com.alipay.util.AlipaySubmit;
 import com.fh.controller.base.BaseController;
 import com.fh.controller.main.HomeController;
 import com.fh.controller.swiftpass.SwiftpassController;
@@ -50,8 +52,8 @@ import com.heepay.WeiXinPayModel;
  * 创建时间：2016-06-23
  */
 @Controller
-@RequestMapping(value="/thirdpay2")
-public class HeepayController extends BaseController {
+@RequestMapping(value="/alipay")
+public class AliPayController extends BaseController {
 	
 
 	@Resource(name="thirdOrderService")
@@ -62,52 +64,14 @@ public class HeepayController extends BaseController {
 	
 	public static Map<String,Integer> orderResult =new HashMap<String,Integer>(); //用来存储订单的交易状态(key:订单号，value:状态(0:未支付，1：已支付))  ---- 这里可以根据需要存储在数据库中
 	public static Map<String,OrderInfo> mapUserInfo =new HashMap<String,OrderInfo>(); //用来存储订单用户信息
-	/**
-	 * 列表
-	 */
-	@RequestMapping(value="/goPay")
-	public ModelAndView goPay(Page page){
-		logBefore(logger, "goPay");
-		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		String payUrl=  "";
-		try{
-			pd = this.getPageData();
-			SortedMap<String,String> map =new TreeMap<String,String>();
-			String total_fee =pd.getString("total_fee");
-			String channelNo = pd.getString("channelNo");
-			String userId = pd.getString("uid");
-			if(channelNo==null){
-				channelNo="";
-			}
-			if(total_fee !=null){
-				total_fee =String.valueOf((int)(Double.parseDouble(total_fee)));
-			} else {
-				total_fee =HeepayConfig.total_fee;
-			}
-			String orderNo = createOrderNo(channelNo);
-		  payUrl= createOrder(orderNo,total_fee,channelNo,HeepayConfig.callback_url+"/"+channelNo);
-		  OrderInfo orderInfo=new OrderInfo();
-		  orderInfo.setOrderNo(orderNo);
-		  orderInfo.setUserId(userId);
-		  orderInfo.setChannelNo(channelNo);
-		  orderInfo.setPayAmt(total_fee);
 
-		  SwiftpassController.mapUserInfo.put(userId, orderInfo);
-		  SwiftpassController.orderResult.put(orderNo, 0);//初始状态
-		} catch(Exception e){
-			logger.error(e.toString(), e);
-		}
-
-		return  new ModelAndView("redirect:" +payUrl);
-	}
 	/**
 	 * 获取播放信息
 	 */
-	@RequestMapping(value="/getWxPayLink")
-	public void getWxPayLink(PrintWriter out){
+	@RequestMapping(value="/getAliPayLink")
+	public ModelAndView getWxPayLink(PrintWriter out){
 		logBefore(logger, "checkPayed");
-
+		ModelAndView mv = this.getModelAndView();
 		Map payMap =new HashMap();
 		try{
 			PageData pd = new PageData();
@@ -124,13 +88,13 @@ public class HeepayController extends BaseController {
 			String total_fee = null;
 			Map payInfo = (HashMap)HomeController.mapHomeData.get("payInfo");
 			if(payInfo.get(vipType) !=null && !"".equals(payInfo.get(vipType))){
-				total_fee =String.valueOf((int)(Double.parseDouble(payInfo.get(vipType).toString())));
+				total_fee =String.valueOf(Double.parseDouble(payInfo.get(vipType).toString()));
 			} else {
 				vipType="0";
 				total_fee =HeepayConfig.total_fee;
 			}
 			String orderNo = createOrderNo(channelNo);
-		  payUrl= createOrder(orderNo,total_fee,channelNo,HeepayConfig.callback_urlv2+"/"+channelNo);
+		  payUrl= createOrder(orderNo,total_fee,channelNo,null);
 		  OrderInfo orderInfo=new OrderInfo();
 		  orderInfo.setOrderNo(orderNo);
 		  orderInfo.setUserId(userId);
@@ -138,19 +102,18 @@ public class HeepayController extends BaseController {
 		  orderInfo.setPayAmt(total_fee);
 
 		  orderInfo.setVipType(Integer.parseInt(vipType));
+		  saveThirdOrder(orderInfo);
 		  SwiftpassController.mapUserInfo.put(userId, orderInfo);
 		  SwiftpassController.orderResult.put(orderNo, 0);//初始状态
-		  
-		  payMap.put("out_trade_no", orderNo);
-		  payMap.put("info", payUrl);
-		//  saveThirdOrder(orderInfo);
-		  String jsonData = JSONArray.toJSONString(payMap);
-			out.write(jsonData);
-			out.close();
+		  mv.addObject("payUrl", payUrl);
+
+			
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
+		mv.setViewName("wapv2/alipay");
 		
+		return mv;
 	}
 
 	private String createOrderNo(String channelNo){
@@ -160,43 +123,27 @@ public class HeepayController extends BaseController {
 	}
 	private String createOrder(String agent_bill_id,String pay_amt,String channelNo,String return_url ) throws Exception{
 		String  payUrl = "";
-		SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");//设置日期格式
-		String time = df.format(new Date());
+		//把请求参数打包成数组
+		Map<String, String> sParaTemp = new HashMap<String, String>();
+		sParaTemp.put("service", AlipayConfig.service);
+    sParaTemp.put("partner", AlipayConfig.partner);
+    sParaTemp.put("seller_id", AlipayConfig.seller_id);
+    sParaTemp.put("_input_charset", AlipayConfig.input_charset);
+		sParaTemp.put("payment_type", AlipayConfig.payment_type);
+		sParaTemp.put("notify_url", AlipayConfig.notify_url+"/"+channelNo);
+		sParaTemp.put("return_url", AlipayConfig.return_url+"/"+channelNo);
+		sParaTemp.put("out_trade_no", agent_bill_id);
+		sParaTemp.put("subject", AlipayConfig.subject);
+		sParaTemp.put("total_fee", pay_amt);
+		sParaTemp.put("show_url", "");
+		sParaTemp.put("app_pay","Y");//启用此参数可唤起钱包APP支付。
+		sParaTemp.put("body", "");
+		//其他业务参数根据在线开发文档，添加参数.文档地址:https://doc.open.alipay.com/doc2/detail.htm?spm=a219a.7629140.0.0.2Z6TSk&treeId=60&articleId=103693&docType=1
+        //如sParaTemp.put("参数名","参数值");
 
-		String version = "1";                   //当前接口版本号
-
-    String user_ip = this.getClientIp().replace(".", "_");		//用户所在客户端的真实ip其中的“.”替换为“_” 。如 127_127_12_12。因为近期我司发现用户在提交数据时，user_ip在网络层被篡改，导致签名错误，所以我们规定使用这种格式。
-    String agent_bill_time = time;			//提交单据的时间yyyyMMddHHmmss 如：20100225102000该参数共计14位，当时不满14位时，在后面加0补足14位
-		 try{
-		    
-				//将数据初始化WeiXinPayModel
-				WeiXinPayModel model=new WeiXinPayModel();
-				model.set_agent_bill_id(agent_bill_id);
-				model.set_agent_bill_time(agent_bill_time);
-				model.set_agent_id(HeepayConfig.agent_id);
-				model.set_goods_name(HeepayConfig.goods_name);
-				model.set_goods_note(HeepayConfig.goods_note);
-				model.set_goods_num(HeepayConfig.goods_num);
-				model.set_is_frame(HeepayConfig.is_frame);
-				model.set_notify_url(HeepayConfig.notify_url+"/"+channelNo);
-				model.set_pay_amt(pay_amt);
-				model.set_pay_type(HeepayConfig.pay_type);
-				model.set_remark(HeepayConfig.remark);
-				model.set_return_url(return_url);
-				model.set_user_ip(user_ip);
-				model.set_is_phone(HeepayConfig.is_phone);
-				model.set_version(version);
-				String sign=WeiXinHelper.signMd5(HeepayConfig.key, model);
-
-				//获取提交地址
-				payUrl=WeiXinHelper.GatewaySubmitUrl(sign, model);
-
-
-			   
-			    
-		 } catch (Exception e) {
-		     e.printStackTrace();
-		 }
+		
+		//建立请求
+			payUrl = AlipaySubmit.buildRequest(sParaTemp,"get","确认");
        return payUrl;
 	}
 	/**
@@ -210,15 +157,15 @@ public class HeepayController extends BaseController {
 	            resp.setCharacterEncoding("utf-8");
 	            resp.setHeader("Content-type", "text/html;charset=UTF-8");
 	            String respString = "fail";
-                String status = req.getParameter("result");
+                String status = req.getParameter("trade_status");
                 paylogger.info("通知内容status=：" + status);
-                if(status != null && "1".equals(status)){
+                if(status != null && ("TRADE_FINISHED".equals(status)||"TRADE_SUCCESS".equals(status))){
                 	Map<String,String> map = new HashMap<String,String>();
                     String result_code = req.getParameter("result");
                     //商户系统内部的定单号 
-                    String out_trade_no = req.getParameter("agent_bill_id");
+                    String out_trade_no = req.getParameter("out_trade_no");
                     //汇付宝交易号(订单号) 
-                    String transaction_id = req.getParameter("jnet_bill_no");
+                    String transaction_id = req.getParameter("trade_no");
                     
                     String pay_amt = req.getParameter("pay_amt");
                     map.put("out_trade_no", out_trade_no);
@@ -267,30 +214,18 @@ public class HeepayController extends BaseController {
 			e.printStackTrace();
 		}
 	}
-	/**
-	 * 获取支付信息
-	 */
-	@RequestMapping(value="/callbackPay/{CHANNEL_NO}")
-	public ModelAndView callbackPay(Page page,@PathVariable String CHANNEL_NO){
-		paylogger.info("callbackPay");
-		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
 
-		pd.put("CHANNEL_NO", CHANNEL_NO);
-		mv.addObject("pd", pd);
-		mv.setViewName("wap/payresult");
-		return  mv;
-	}
 	/**
 	 * 获取支付信息
 	 */
 	@RequestMapping(value="/callbackPayV2/{CHANNEL_NO}")
-	public ModelAndView callbackPayV2(Page page,@PathVariable String CHANNEL_NO){
+	public ModelAndView callbackPayV2(HttpServletRequest req,Page page,@PathVariable String CHANNEL_NO){
 		paylogger.info("callbackPay");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
-
+    String out_trade_no = req.getParameter("out_trade_no");
 		pd.put("CHANNEL_NO", CHANNEL_NO);
+		pd.put("out_trade_no", out_trade_no);
 		mv.addObject("pd", pd);
 		mv.setViewName("wapv2/login_result");
 		return  mv;

@@ -43,6 +43,9 @@ var interval = setInterval(function(){
 		clearInterval(interval); 
 	};
 }, 1000);  
+if("${pd.out_trade_no}"!="" && "${pd.out_trade_no}"!="null"){
+	setCookie("out_trade_no","${pd.out_trade_no}",30);
+}
 checkPay();
 })();
 </script>
