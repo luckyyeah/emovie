@@ -5,10 +5,10 @@
     <div class="online"></div>
     <nav>     
      		 <c:if test="${pd.COLUMN_ID==null}">
-    		 <a href="index/${pd.CHANNEL_NO}" class="active">精品</a> 
+    		 <a href="index/${pd.CHANNEL_NO}?first=0" class="active">精品</a> 
     		 </c:if>
      		 <c:if test="${pd.COLUMN_ID!=null}">
-    		 <a href="index/${pd.CHANNEL_NO}" >精品</a> 
+    		 <a href="index/${pd.CHANNEL_NO}?first=0" >精品</a> 
     		 </c:if>
          <c:forEach items="${columnDataList}" var="column" varStatus="vs" >
          <c:if test="${column.DATA_TYPE==2}">

@@ -4,10 +4,10 @@
 <iframe style='display:none;' id="tiao_iframe_xxxx"></iframe>
 <footer>
 		<c:if test="${COLUMN_NO==1}">
-		<a href="index/${pd.CHANNEL_NO}" class="icon1  active"></a>
+		<a href="index/${pd.CHANNEL_NO}?first=0" class="icon1  active"></a>
 		</c:if>
 		<c:if test="${COLUMN_NO!=1}">
-		<a href="index/${pd.CHANNEL_NO}" class="icon1"></a>
+		<a href="index/${pd.CHANNEL_NO}?first=0" class="icon1"></a>
 		</c:if>		
 		<c:if test="${COLUMN_NO==2}">
 		    <a href="wapv2/channel/${pd.CHANNEL_NO}" class="icon2 active"></a>
@@ -22,10 +22,10 @@
 		    <a href="wapv2/listDiamondVideo/${pd.CHANNEL_NO}/099" class="icon3 "></a>
 		</c:if>		   
 		<c:if test="${COLUMN_NO==4}">
-		   <a href="../tuku.html" class="icon4 active"></a>
+		   <a href="tuku/index/${pd.CHANNEL_NO}" class="icon4 active"></a>
 		</c:if>
 		<c:if test="${COLUMN_NO!=4}">
-		  <a href="../tuku.html" class="icon4 "></a>
+		  <a href="tuku/index/${pd.CHANNEL_NO}" class="icon4 "></a>
 		</c:if>		
 		<c:if test="${COLUMN_NO==5}">
     		<a href="wapv2/member/${pd.CHANNEL_NO}" class="icon5 active"></a>
@@ -41,7 +41,7 @@
         <script src="static/js/v2/jquery.min.js" type="text/javascript"></script>
         <script src="static/js/v2/swiper-3.3.1.min.js" type="text/javascript"></script>
         <script src="static/js/v2/pay.js" type="text/javascript"></script> 	
-        <script type="text/javascript">var sid = 1, aid = 1, checkTimer = 0, vipType = 0, regTime = 0, resourceType = 0;</script>
+        <script type="text/javascript">var sid = 1, aid = 1, checkTimer = 0, vipType = parseInt(getCookie("openVIP")), regTime = 0, resourceType = 0;</script>
         <script>
             var $ = jQuery;
             $(function(){

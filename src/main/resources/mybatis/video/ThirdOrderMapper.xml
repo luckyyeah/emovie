@@ -21,6 +21,8 @@
 			IMEI,
 			CELL_MODEL,
 			SDK_VERSION,
+			VIP_TYPE,
+			STATUS,
 			VERSION_NO
 
 		) values (
@@ -39,11 +41,21 @@
 			#{imei},
 			#{cell_model},
 			#{sdk_version},	
+			#{vip_type},	
+		  #{status},	
 			#{version_no}
 		)
 	</insert>
 	
-
+	<!-- 修改 -->
+	<update id="edit" parameterType="java.util.Map">
+		update  third_order
+			set 
+				TRANSACTION_ID = #{transaction_id},
+				STATUS = #{status}
+			where 
+				out_trade_no = #{out_trade_no}
+	</update>
 	
 	<!-- 根据订单号获取数据 -->
 	<select id="findByOrderNo" parameterType="pd" resultType="pd">
@@ -52,9 +64,19 @@
 		from 
 				third_order a
 		where 
-				a.OUT_TRADE_NO =#{ORDER_NO}
+				a.OUT_TRADE_NO =#{out_trade_no}
 
 	</select>
 	
+		<!-- 根据订单号获取数据 -->
+	<select id="findByWxOrderNo" parameterType="pd" resultType="pd">
+		select
+				a.*			
+		from 
+				third_order a
+		where 
+				a.TRANSACTION_ID =#{transaction_id}
+
+	</select>
 	
 </mapper>

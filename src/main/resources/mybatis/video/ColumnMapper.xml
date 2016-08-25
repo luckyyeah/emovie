@@ -166,6 +166,22 @@
 		</if>							
 		ORDER BY A.POWER,A.ADD_TIME DESC
 		
+	</select>		
+	<!-- 列表(全部) -->
+	<select id="listRecommendCovers" parameterType="pd" resultType="pd">
+		select
+				a.*,
+				 RAND() as RANDSORT
+		from 
+				tab_column a
+		where 1=1
+
+		<if test="TAB_ID != null and TAB_ID != ''">
+			and a.TAB_ID = #{TAB_ID} 
+		</if>		
+			
+		ORDER BY RANDSORT		
+		LIMIT 0,3
 	</select>			
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">

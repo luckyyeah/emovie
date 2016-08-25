@@ -103,22 +103,7 @@ function pay() {
         	checkPay();
         }, 3000);*/
 }
-function checkPay() {
-	var isPay = -1;
-	var chkUid = getCookie("uid");
-$.ajax({
-	type : "post",
-	url : "wapmovie/checkPayed",
-	data: {uid:chkUid}, 
-	async : false,
-	success : function(data){
-		if(data=="0"){
-			 setCookie("tradeno", tradeno, 30);		
-		} 
-	}
-	});
-return isPay;
-}
+
 function alipay_submit(){
     var parentClass='layermmain';
     var vipType = $("."+parentClass+" input[name='vipType']:checked").val();
@@ -134,12 +119,12 @@ function show_wx() {
 	  if(uid==null){
 		  reuuid();
 	  }
-		var url = 'thirdpay2/getWxPayLink?&channelNo=' + $("#CHANNEL_NO").val() + '&uid=' + uid + '&format=js&vipType=' + vipType;
+	  var out_trade_no =getCookie("out_trade_no")
+		var url = 'wapv2/saveOrder?channelNo=' + $("#CHANNEL_NO").val() + '&out_trade_no=' + out_trade_no + '&format=js&vipType=' + vipType;
 		$.get(url,function(data){
-				var pay_request_return = eval('(' + data + ')');
-	        setCookie("out_trade_no",pay_request_return.out_trade_no,30);
-	        location.href = pay_request_return.info;
+					location.href = $(".weixin").attr('data-pay');
 	    });
+		 
 
 }
 function close_wx() {
@@ -171,12 +156,11 @@ function loadWeiXinLink() {
     var parentClass='layermmain';
     var vipType = $("."+parentClass+" input[name='vipType']:checked").val();   
 
-       // $.getScript('http://pay.maoliangdong.com/pay/?action=wx_wap_link&sid=' + sid + '&aid=' + aid + '&format=js&vipType=' + vipType, function () {
 	var url = 'thirdpay2/getWxPayLink?&channelNo=' + $("#CHANNEL_NO").val() + '&uid=' + uid + '&format=js&vipType=' + vipType;
 	$.get(url,function(data){
 			var pay_request_return = eval('(' + data + ')');
         setCookie("out_trade_no",pay_request_return.out_trade_no,30);
-        $(".weixin").attr('href', pay_request_return.info);
+        $(".weixin").attr('data-pay', pay_request_return.info);
     });
 
 }
@@ -186,9 +170,12 @@ $(function () {
 		if(getCookie('uid')==null){
 			reuuid();
 		}
+		if(getCookie('openVIP')==null){
+			setCookie("openVIP", 0, 30);
+		}
     $("body").delegate("input[name='vipType']","change",function(){
         loadWeiXinLink();
-    });    
+    });   
     
     $("body").delegate(".laymshade","click",function(e){
         $(e.currentTarget).parent().remove();
@@ -208,4 +195,25 @@ function reuuid() {
     _uid = uuid(16, 32),
     setCookie("uid", _uid, "d30"),
     uid = _uid
+}
+
+function checkPay() {
+		var isPay = -1;
+		var out_trade_no = getCookie("out_trade_no");
+		if(out_trade_no==null){
+			return;
+		}
+    $.ajax({
+    	type : "post",
+    	url : "wapv2/checkPayed",
+    	data: {out_trade_no:out_trade_no}, 
+    	async : false,
+    	success : function(data){
+    		if(data){
+    			setCookie("openVIP", data, 30);
+
+    		} 
+    	}
+    	});
+    return ;
 }

@@ -225,13 +225,8 @@
         $('.purpleContent').css('height', $('.purpleline').height());
         $(".pd20").each(function (i, e) {
             var id = $(e).data("id");
-            $(e).parent().parent().parent().parent().bind("click", function () {
+            $(e).parent().parent().parent().bind("click", function () {
                 location.href="wapv2/listColumnVideo/${pd.CHANNEL_NO}/"+id;
-            });
-            $.post("/index.php/index/channel_info", {id: id}, function (data) {
-                $(e).find(".title").html(data.info.name);
-                $(e).find(".total").html(data.info.count);
-                $(e).find(".renew").html(data.info.renew);
             });
         });
     });

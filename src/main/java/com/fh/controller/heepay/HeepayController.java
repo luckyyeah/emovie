@@ -86,12 +86,13 @@ public class HeepayController extends BaseController {
 				total_fee =HeepayConfig.total_fee;
 			}
 			String orderNo = createOrderNo(channelNo);
-		  payUrl= createOrder(orderNo,total_fee,channelNo);
+		  payUrl= createOrder(orderNo,total_fee,channelNo,HeepayConfig.callback_url+"/"+channelNo);
 		  OrderInfo orderInfo=new OrderInfo();
 		  orderInfo.setOrderNo(orderNo);
 		  orderInfo.setUserId(userId);
 		  orderInfo.setChannelNo(channelNo);
 		  orderInfo.setPayAmt(total_fee);
+
 		  SwiftpassController.mapUserInfo.put(userId, orderInfo);
 		  SwiftpassController.orderResult.put(orderNo, 0);//初始状态
 		} catch(Exception e){
@@ -125,19 +126,24 @@ public class HeepayController extends BaseController {
 			if(payInfo.get(vipType) !=null && !"".equals(payInfo.get(vipType))){
 				total_fee =String.valueOf((int)(Double.parseDouble(payInfo.get(vipType).toString())));
 			} else {
+				vipType="0";
 				total_fee =HeepayConfig.total_fee;
 			}
 			String orderNo = createOrderNo(channelNo);
-		  payUrl= createOrder(orderNo,total_fee,channelNo);
+		  payUrl= createOrder(orderNo,total_fee,channelNo,HeepayConfig.callback_urlv2+"/"+channelNo);
 		  OrderInfo orderInfo=new OrderInfo();
 		  orderInfo.setOrderNo(orderNo);
 		  orderInfo.setUserId(userId);
 		  orderInfo.setChannelNo(channelNo);
 		  orderInfo.setPayAmt(total_fee);
+
+		  orderInfo.setVipType(Integer.parseInt(vipType));
 		  SwiftpassController.mapUserInfo.put(userId, orderInfo);
 		  SwiftpassController.orderResult.put(orderNo, 0);//初始状态
+		  
 		  payMap.put("out_trade_no", orderNo);
 		  payMap.put("info", payUrl);
+		  saveThirdOrder(orderInfo);
 		  String jsonData = JSONArray.toJSONString(payMap);
 			out.write(jsonData);
 			out.close();
@@ -152,7 +158,7 @@ public class HeepayController extends BaseController {
 		orderNo =channelNo + DateUtil.getDays()+CommonUtil.getRandomString(0,9,6);
 		return orderNo;
 	}
-	private String createOrder(String agent_bill_id,String pay_amt,String channelNo ) throws Exception{
+	private String createOrder(String agent_bill_id,String pay_amt,String channelNo,String return_url ) throws Exception{
 		String  payUrl = "";
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");//设置日期格式
 		String time = df.format(new Date());
@@ -176,7 +182,7 @@ public class HeepayController extends BaseController {
 				model.set_pay_amt(pay_amt);
 				model.set_pay_type(HeepayConfig.pay_type);
 				model.set_remark(HeepayConfig.remark);
-				model.set_return_url(HeepayConfig.callback_url+"/"+channelNo);
+				model.set_return_url(return_url);
 				model.set_user_ip(user_ip);
 				model.set_is_phone(HeepayConfig.is_phone);
 				model.set_version(version);
@@ -209,16 +215,22 @@ public class HeepayController extends BaseController {
                 if(status != null && "1".equals(status)){
                 	Map<String,String> map = new HashMap<String,String>();
                     String result_code = req.getParameter("result");
+                    //商户系统内部的定单号 
                     String out_trade_no = req.getParameter("agent_bill_id");
+                    //汇付宝交易号(订单号) 
+                    String transaction_id = req.getParameter("jnet_bill_no");
+                    
                     String pay_amt = req.getParameter("pay_amt");
                     map.put("out_trade_no", out_trade_no);
                     map.put("total_fee", pay_amt);
                     map.put("pay_result", result_code);
                 		map.put("channel_no", CHANNEL_NO);
+                		map.put("transaction_id", transaction_id);
+                		map.put("status", String.valueOf(1));
                 		if(CHANNEL_NO.indexOf(Const.IOS_CHANNEL_HREAD)>=0){
-                			thirdOrderService.saveThirdOrder(map);
+                			thirdOrderService.edit(map);
                 		} else {
-                			thirdOrderService.saveAndroidThirdOrder(map);
+                			thirdOrderService.editAndroid(map);
                 		}
                 		SwiftpassController.orderResult.put(out_trade_no, 1);//支付成功
                    
@@ -242,6 +254,8 @@ public class HeepayController extends BaseController {
         map.put("total_fee", pay_amt);
         map.put("pay_result", result_code);
     		map.put("channel_no", orderInfo.getOrderNo());
+    		map.put("status", "0");
+    		map.put("vip_type", String.valueOf(orderInfo.getVipType()));
     		if(orderNo.indexOf(Const.IOS_CHANNEL_HREAD)>=0){
 					thirdOrderService.saveThirdOrder(map);
     		} else {
@@ -257,7 +271,7 @@ public class HeepayController extends BaseController {
 	 * 获取支付信息
 	 */
 	@RequestMapping(value="/callbackPay/{CHANNEL_NO}")
-	public ModelAndView videoDetail(Page page,@PathVariable String CHANNEL_NO){
+	public ModelAndView callbackPay(Page page,@PathVariable String CHANNEL_NO){
 		paylogger.info("callbackPay");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
@@ -265,6 +279,20 @@ public class HeepayController extends BaseController {
 		pd.put("CHANNEL_NO", CHANNEL_NO);
 		mv.addObject("pd", pd);
 		mv.setViewName("wap/payresult");
+		return  mv;
+	}
+	/**
+	 * 获取支付信息
+	 */
+	@RequestMapping(value="/callbackPayV2/{CHANNEL_NO}")
+	public ModelAndView callbackPayV2(Page page,@PathVariable String CHANNEL_NO){
+		paylogger.info("callbackPay");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+
+		pd.put("CHANNEL_NO", CHANNEL_NO);
+		mv.addObject("pd", pd);
+		mv.setViewName("wapv2/login_result");
 		return  mv;
 	}
 	public static int checkOrderPayed(String orderNo){

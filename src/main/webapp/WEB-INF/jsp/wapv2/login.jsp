@@ -18,7 +18,8 @@
         <link rel="stylesheet" href="http://lg08.eeb24.com/wap/static/css/activity/grid.css">
         <script src="http://lg08.eeb24.com/wap/static/js/activity/flexible_0.3.4.js" type="text/javascript" charset="utf-8"></script>
         <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
-
+		     <script src="<%=basePath%>static/js/v2/swiper-3.3.1.min.js" type="text/javascript"></script>
+		     <script src="<%=basePath%>static/js/v2/pay.js" type="text/javascript"></script> 
         <style>
             .swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction{
                 height: auto;bottom: 0.78125rem;
@@ -40,14 +41,20 @@
                 return false;
             } else {
 								var url = "<%=basePath%>wapv2/checkOrderPayed?orderNo=" + orderNo +"&uid="+getCookie("uid")+ "&tm="+new Date().getTime();
-								$.get(url,function(data){
-									if(data=="1"){
-										 activeBtn.html("登录成功，页面正在跳转");
-										 location.href ="<%=basePath%>wapmovie/loadResult/${pd.CHANNEL_NO}";
-									} else {
-				              activeBtn.html("登录失败，请检查订单号");
-				            }
-									
+							    $.ajax({
+							    	type : "get",
+							    	url : url,
+							    	async : false,
+							    	success : function(data){
+											if(data>"0"){
+												 activeBtn.html("登录成功，页面正在跳转");
+												 setCookie("out_trade_no",orderNo,30);
+												 setCookie("openVIP", data, 30);
+												 location.href ="<%=basePath%>index/${pd.CHANNEL_NO}?first=0";
+											} else {
+						              activeBtn.html("登录失败，请检查订单号");
+						            }
+							    	}
 								});
 
                 
@@ -81,5 +88,5 @@
         <p><img src="http://ww2.sinaimg.cn/large/d2d743f1gw1f5x1kpp4y4j20jb0fyq5y.jpg" alt=""></p>
     </section>
 </body>
-
+	
 </html>

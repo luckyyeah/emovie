@@ -31,19 +31,23 @@ import com.fh.controller.base.BaseController;
 import com.fh.controller.heepay.HeepayController;
 import com.fh.controller.swiftpass.SwiftpassController;
 import com.fh.controller.ylpay.YLpayController;
+import com.fh.entity.ClientComment;
 import com.fh.entity.OrderInfo;
 import com.fh.entity.Page;
 import com.fh.entity.PayData;
 import com.fh.service.videocontent.column.ColumnService;
+import com.fh.service.videocontent.comment.ClientCommentService;
 import com.fh.service.videocontent.plan.PlanService;
 import com.fh.service.videocontent.tab.TabService;
 import com.fh.service.videocontent.video.PayService;
+import com.fh.service.videocontent.video.ThirdOrderService;
 import com.fh.service.videocontent.video.VideoService;
 import com.fh.util.CommonUtil;
 import com.fh.util.Const;
 import com.fh.util.DateUtil;
 import com.fh.util.PageData;
 import com.fh.util.Tools;
+import com.heepay.HeepayConfig;
 /** 
  * 类名称：HomeController
  * 创建人：FH 
@@ -69,7 +73,19 @@ public class WapMovieV2Controller extends BaseController {
 	@Resource(name="payService")
 	private PayService payService;
 	
+	@Resource(name="thirdOrderService")
+	private ThirdOrderService thirdOrderService;
+	
+	@Resource(name="clientCommentService")
+	private ClientCommentService clientCommentService;
+	
+	public static  Map mapcolumnData =new HashMap();
+	
+	public static  Map mapVideoData =new HashMap();
+	
 	private static Log paylogger = LogFactory.getLog("paylogger");
+	
+	private static String ck_player =null;
 	/**
 	 * 频道视频列表
 	 */
@@ -115,24 +131,34 @@ public class WapMovieV2Controller extends BaseController {
 			pd.put("CHANNEL_NO", CHANNEL_NO);
 			//取得视频信息
 			pd.put("COLUMN_ID", COLUMN_ID);
-			PageData columnData = columnService.findById(pd);        
-			PageData pageCntObj = videoService.getVideoCnt(pd);
-			int pageCnt = 0;
-			if(pageCntObj !=null && pageCntObj.get("VIDEO_CNT")!=null){
-				double videoCnt=(Long)pageCntObj.get("VIDEO_CNT");
-				pageCnt = (int) Math.ceil(videoCnt/Const.PAGE_SZIE);
+			if(mapcolumnData.get(COLUMN_ID)==null || ((HashMap)mapcolumnData.get(COLUMN_ID)).get(PAGE_NO)==null){
+				Map mapcolumnPageNoData =new HashMap();
+				Map mapcolumnPageNoInfoData =new HashMap();
+				if(mapcolumnData.get(COLUMN_ID)!=null){
+					mapcolumnPageNoData = (HashMap)mapcolumnData.get(COLUMN_ID);
+				}
+				PageData columnData = columnService.findById(pd);        
+				PageData pageCntObj = videoService.getVideoCnt(pd);
+				int pageCnt = 0;
+				if(pageCntObj !=null && pageCntObj.get("VIDEO_CNT")!=null){
+					double videoCnt=(Long)pageCntObj.get("VIDEO_CNT");
+					pageCnt = (int) Math.ceil(videoCnt/Const.PAGE_SZIE);
+				}
+				List<PageData>  videoDataList = videoService.listVideosByPage(pd);
+				List <String> pageNoList = new ArrayList<String>();
+				for(int i=1;i<=pageCnt;i++){
+					pageNoList.add(String.valueOf(i));
+				}
+				mapcolumnPageNoInfoData.put("pageNoList", pageNoList);
+				mapcolumnPageNoInfoData.put("videoDataList", videoDataList);
+				mapcolumnPageNoData.put(PAGE_NO, mapcolumnPageNoInfoData);
+				mapcolumnPageNoData.put("columnData", columnData);
+				mapcolumnData.put(COLUMN_ID, mapcolumnPageNoData);
 			}
-			List<PageData>  videoDataList = videoService.listVideosByPage(pd);
-			List <String> pageNoList = new ArrayList<String>();
-			for(int i=1;i<=pageCnt;i++){
-				pageNoList.add(String.valueOf(i));
-			}
-
-			mv.addObject("bannerDataList", HomeController.mapHomeData.get("bannerDataList"));
 			mv.addObject("columnDataList", HomeController.mapHomeData.get("columnDataList"));
-			mv.addObject("columnData", columnData);
-			mv.addObject("videoDataList", videoDataList);
-			mv.addObject("pageNoList", pageNoList);
+			mv.addObject("columnData",((HashMap)WapMovieV2Controller.mapcolumnData.get(COLUMN_ID)).get("columnData"));
+			mv.addObject("videoDataList", ((HashMap)((HashMap)WapMovieV2Controller.mapcolumnData.get(COLUMN_ID)).get(PAGE_NO)).get("videoDataList"));
+			mv.addObject("pageNoList", ((HashMap)((HashMap)WapMovieV2Controller.mapcolumnData.get(COLUMN_ID)).get(PAGE_NO)).get("pageNoList"));
 			mv.addObject("PAGE_NO",Integer.parseInt(PAGE_NO));
 			mv.addObject("pd", pd);
 			mv.addObject("payInfo", 	HomeController.mapHomeData.get("payInfo"));
@@ -151,46 +177,81 @@ public class WapMovieV2Controller extends BaseController {
 		PageData pd = new PageData();
 
 		try{
+			
 			pd = this.getPageData();
-
+			Map mapcolumnVideoData =new HashMap();
 			pd.put("CHANNEL_NO", CHANNEL_NO);
 			//取得视频信息
 			pd.put("COLUMN_ID", COLUMN_ID);
-			List<PageData>  recommenVideoDataList = videoService.listRecommendVideos(pd);
-			page.setPd(pd);
-			pd.put("VIDEO_ID", VIDEO_ID);
-			PageData videoData = videoService.findById(pd);
-			PageData columnData = columnService.findById(pd); 
-			PageData pdTop =new PageData();
-			pdTop.put("PAGE_FROM", 0);
-			//
-			pdTop.put("PAGE_SIZE", Const.TOP_MAX_NUM);
-			pdTop.put("RECOMMEND_FLAG", Const.RECOMMEND_FLAG);
-			//List<PageData>  topVideoDataList = videoService.listVideosByPage(pdTop);
-			int resourceType =0;
-			if(videoData.get("FREE_FLAG")!=null){
-				if((Integer)videoData.get("FREE_FLAG")==1){
-					resourceType =2;
+			List<PageData>  clientCommentList= new ArrayList<PageData>();
+			//使用内存缓存，避免多次查询数据库
+			if(mapVideoData.get(VIDEO_ID)==null){
+				List<PageData>  recommenVideoDataList = videoService.listRecommendVideos(pd);
+				page.setPd(pd);
+				pd.put("VIDEO_ID", VIDEO_ID);
+				PageData videoData = videoService.findById(pd);
+				PageData columnData = columnService.findById(pd); 
+				int resourceType =0;
+				if(videoData.get("FREE_FLAG")!=null){
+					if((Integer)videoData.get("FREE_FLAG")==1){
+						resourceType =2;
+					}
 				}
+				if(videoData.get("VIP_FLAG")!=null){
+					resourceType =(Integer)videoData.get("VIP_FLAG");
+				}
+		    clientCommentList=clientCommentService.listClientComment(pd);
+				mapcolumnVideoData.put("recommenVideoDataList", recommenVideoDataList);
+				mapcolumnVideoData.put("videoData", videoData);
+				mapcolumnVideoData.put("columnData", columnData);
+				mapcolumnVideoData.put("resourceType", resourceType);
+				mapcolumnVideoData.put("clientCommentList", clientCommentList);
+				mapVideoData.put(VIDEO_ID, mapcolumnVideoData);
+			} else {
+				mapcolumnVideoData = (HashMap)mapVideoData.get(VIDEO_ID);
+				clientCommentList = (ArrayList<PageData>)mapcolumnVideoData.get("clientCommentList");
 			}
-			if(videoData.get("VIP_FLAG")!=null){
-				if((Integer)videoData.get("VIP_FLAG")==1){
-					resourceType =2;
-				}
-				if((Integer)videoData.get("VIP_FLAG")==2){
-					resourceType =3;
-				}
-			}
+			List<ClientComment>  clientCommentDataList= new ArrayList<ClientComment>();
+	    try { 
+	    	pd.put("CLIENT_COMMENT_CNT", Const.CLIENT_COMMENT_CNT);
+
+	    	int commentTime =0;
+	    	for(int i=0;i<10;i++){
+	    		//随机取评价
+	    		int randIndex = CommonUtil.getRandomInt(1, clientCommentList.size()-1);
+	    		PageData clientComment =clientCommentList.get(randIndex);
+	    		ClientComment clientCommentData =new ClientComment();
+	    		clientCommentData.setClientId(clientComment.getString("CLIENT_NAME"));
+	    		//产生1-9的随机数时间
+	    		commentTime+=CommonUtil.getRandomInt(8, 100);
+	    		clientCommentData.setCommentTime(commentTime);
+	    		clientCommentData.setClientComment(clientComment.getString("CLIENT_COMMENT"));
+	    		clientCommentData.setClientIconUrl(clientComment.getString("CLIENT_ICON_URL"));
+	    		clientCommentData.setPreCol1(clientComment.getString("PRE_COL1"));
+	    		clientCommentData.setPreCol2(clientComment.getString("PRE_COL2"));
+	    		clientCommentData.setPreCol3(clientComment.getString("PRE_COL3"));
+	    		clientCommentDataList.add(clientCommentData);
+	    	}
+	    }
+	    catch(Exception ex) {
+	    	logger.error(ex);
+	    }
 			mv.setViewName("wapv2/play");
 			mv.addObject("bannerDataList", HomeController.mapHomeData.get("bannerDataList"));
 			mv.addObject("columnDataList", HomeController.mapHomeData.get("columnDataList"));
-			mv.addObject("columnData", columnData);
-			mv.addObject("videoData", videoData);
-			mv.addObject("recommenVideoDataList", recommenVideoDataList);
+			mv.addObject("columnData", mapcolumnVideoData.get("columnData"));
+			mv.addObject("videoData", mapcolumnVideoData.get("videoData"));
+			mv.addObject("recommenVideoDataList", mapcolumnVideoData.get("recommenVideoDataList"));
 			mv.addObject("payInfo", 	HomeController.mapHomeData.get("payInfo"));
+			mv.addObject("clientCommentDataList", 	clientCommentDataList);
 		//	mv.addObject("topVideoDataList", topVideoDataList);
 			mv.addObject("pd", pd);
-			mv.addObject("resourceType", resourceType);
+			if((Integer)mapcolumnVideoData.get("resourceType")==3){
+				mv.addObject("COLUMN_NO", 3);
+			} else {
+				mv.addObject("COLUMN_NO", 1);
+			}
+			mv.addObject("resourceType", mapcolumnVideoData.get("resourceType"));
 			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
 		} catch(Exception e){
 			logger.error(e.toString(), e);
@@ -288,12 +349,46 @@ public class WapMovieV2Controller extends BaseController {
 		try{
 			pd = this.getPageData();
 			pd.put("VIDEO_ID", VIDEO_ID);
-			PageData videoData = videoService.findById(pd);
-			String playData =  Tools.readTxtFile(Const.CKPLAY);
-			if(SHOW_TYPE==1){
-				playData = 	playData.replaceAll("VIDEO_URL", videoData.getString("VIDEO_URL"));
+			PageData videoData = null;
+			Map mapcolumnVideoData = (HashMap)mapVideoData.get(VIDEO_ID);
+			if(mapcolumnVideoData !=null){
+				videoData = (PageData)mapcolumnVideoData.get("videoData");
 			} else {
-				playData = 	playData.replaceAll("VIDEO_URL", videoData.getString("VIDEO_URL_TWO"));
+				videoData = videoService.findById(pd);
+			}
+			String playData =  null;
+			//保存在静态变量中避免每次去读取文件
+			if(ck_player==null){
+				playData = Tools.readTxtFile(Const.CKPLAY);
+				ck_player = playData;
+			} else {
+				playData =ck_player;
+			}
+			//shiro管理的session
+			Subject currentUser = SecurityUtils.getSubject();  
+			Session session = currentUser.getSession();
+			int vipType= 0;
+			if(session.getAttribute("vipType")!=null){
+				vipType = (Integer)session.getAttribute("vipType");
+			}
+			int videoVipType= 0;
+			int freeFlag = 0;
+			if(videoData !=null){
+				if(videoData.get("FREE_FLAG")!=null){
+					freeFlag = (Integer)videoData.get("FREE_FLAG");
+				}
+				if(videoData.get("VIP_FLAG")!=null){
+					videoVipType = (Integer)videoData.get("VIP_FLAG");
+				}
+				if((freeFlag==1&&SHOW_TYPE==1) ||(videoVipType<=vipType)){
+					if(SHOW_TYPE==1){
+						playData = 	playData.replaceAll("VIDEO_URL", videoData.getString("VIDEO_URL"));
+					} else {
+						playData = 	playData.replaceAll("VIDEO_URL", videoData.getString("VIDEO_URL_TWO"));
+					}
+				} else{
+					playData="0";
+				}
 			}
 			out.write(playData);
 			out.close();
@@ -327,6 +422,55 @@ public class WapMovieV2Controller extends BaseController {
 		}
 		
 	}
+	/**
+	 * 获取播放信息
+	 */
+	@RequestMapping(value="/checkPayed")
+	public void checkPayed(PrintWriter out){
+		logBefore(logger, "checkPayed");
+		PageData pd = new PageData();
+		int vipType = 0;
+		try{
+			pd = this.getPageData();
+			String orderNo = pd.getString("out_trade_no");
+			PageData orderData = thirdOrderService.findByOrderNo(pd);
+			if(orderData!=null){
+				
+			} else {
+				orderData = thirdOrderService.findAndroidByOrderNo(pd);
+			}
+			if(orderData !=null){
+				vipType =(Integer)orderData.get("VIP_TYPE");
+			}
+			//漏单是付费通服务器上检查
+			if(orderData==null || (Integer)orderData.get("STATUS")==0){
+				//海豚支付
+				if("4".equals(WapHomeController.payType)){
+					int ret =YLpayController.checkOrderPayed(orderNo);
+					if(ret==0){
+						vipType =0;
+					}
+				} else {
+					int ret = HeepayController.checkOrderPayed(orderNo);
+					if(ret==0){
+						vipType =0;
+					}
+				}
+			}
+			if(vipType !=0){
+				//shiro管理的session
+				Subject currentUser = SecurityUtils.getSubject();  
+				Session session = currentUser.getSession();
+				session.setAttribute("vipType", vipType);
+			}
+			logger.info("out_trade_no="+orderNo +"|vipType="+vipType);
+			out.write(String.valueOf(vipType));
+			out.close();
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		
+	}	
     @RequestMapping(value="/pay")
     public String pay(HttpServletRequest request,PrintWriter out) {
     	paylogger.info("pay start");
@@ -356,34 +500,38 @@ public class WapMovieV2Controller extends BaseController {
     }
 	/**
 	 * 自助激活
+	 * @throws Exception 
 	 */
 	@RequestMapping(value="/checkOrderPayed")
-	public void checkOrderPayed(HttpServletRequest request,PrintWriter out){
+	public void checkOrderPayed(HttpServletRequest request,PrintWriter out) throws Exception{
 		paylogger.info("checkOrderPayed");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
 		String orderNo = pd.getString("orderNo");
 		String userId = pd.getString("uid");
 		int ret= 0;
-		//海豚支付
-		if("4".equals(WapHomeController.payType)){
-			ret=YLpayController.checkOrderPayed(orderNo);
+		pd.put("transaction_id", orderNo);
+		PageData orderData = thirdOrderService.findByWxOrderNo(pd);
+		int vipType=0;
+		if(orderData!=null){
+			
 		} else {
-			ret = HeepayController.checkOrderPayed(orderNo);
+			orderData = thirdOrderService.findAndroidByWxOrderNo(pd);
 		}
-		if(1==ret){
-			OrderInfo orderInfo = (OrderInfo)SwiftpassController.mapUserInfo.get(userId);
-			if(orderInfo ==null){
-			  orderInfo=new OrderInfo();
-			  orderInfo.setOrderNo(orderNo);
-			  orderInfo.setUserId(userId);
-			  SwiftpassController.mapUserInfo.put(userId, orderInfo);
-			} else {
-				orderInfo.setOrderNo(orderNo);
-				SwiftpassController.mapUserInfo.put(userId, orderInfo);
-			}
+		if(orderData !=null){
+			vipType =(Integer)orderData.get("VIP_TYPE");
 		}
-		out.write(String.valueOf(ret));
+		//付费订单
+		if(vipType !=0 && (Integer)orderData.get("STATUS")==1){
+			//shiro管理的session
+			Subject currentUser = SecurityUtils.getSubject();  
+			Session session = currentUser.getSession();
+			session.setAttribute("vipType", vipType);
+			ret=1;
+		} else {
+			vipType =0;
+		}
+		out.write(String.valueOf(vipType));
 		out.close();
 	
 	}
@@ -451,6 +599,89 @@ public class WapMovieV2Controller extends BaseController {
 		mv.addObject("pd", pd);
 		return mv;
 	}	
+    @RequestMapping(value="/clearChache")
+    public String clearChache(HttpServletRequest request,PrintWriter out) {
+    	paylogger.info("clearChache start");
+    	String acceptjson = "";  
+    	Map<String, Object> result = new HashMap<String, Object>();
+    	PageData pd = new PageData();
+    	pd = this.getPageData();
+    	result.put("result", "success");
+    	HomeController.mapHomeData =new HashMap();
+    	WapMovieV2Controller.mapcolumnData =new HashMap();
+    	WapMovieV2Controller.mapVideoData =new HashMap();
+
+       String jsonData = JSONArray.toJSONString(result);
+       WapHomeController.payType = "-1";
+			 out.write(jsonData);
+				out.close();
+        paylogger.info("clearChache end");
+        return null;
+    }
+	/**
+	 * 获取支付信息
+	 */
+	@RequestMapping(value="/loadResult/{CHANNEL_NO}")
+	public ModelAndView loadResult(Page page,@PathVariable String CHANNEL_NO){
+		paylogger.info("loadResult");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+
+		pd.put("CHANNEL_NO", CHANNEL_NO);
+		mv.addObject("pd", pd);
+		mv.setViewName("wapv2/login_result");
+		return  mv;
+	}
+	@RequestMapping(value="/saveOrder")
+	public void saveOrder(HttpServletRequest request,PrintWriter out) {
+		PageData pd = new PageData();
+		String payUrl=  "";
+
+			pd = this.getPageData();
+			String vipType =pd.getString("vipType");
+			String channelNo = pd.getString("channelNo");
+			String orderNo = pd.getString("out_trade_no");	
+			String total_fee = null;
+			Map payInfo = (HashMap)HomeController.mapHomeData.get("payInfo");
+			if(payInfo.get(vipType) !=null && !"".equals(payInfo.get(vipType))){
+				total_fee =String.valueOf((int)(Double.parseDouble(payInfo.get(vipType).toString())));
+			} else {
+				vipType="0";
+				total_fee =HeepayConfig.total_fee;
+			}
+		  OrderInfo orderInfo=new OrderInfo();
+		  orderInfo.setOrderNo(orderNo);
+		  orderInfo.setChannelNo(channelNo);
+		  orderInfo.setPayAmt(total_fee);
+		  orderInfo.setVipType(Integer.parseInt(vipType));
+		  saveThirdOrder(orderInfo);
+			out.write("OK");
+			out.close();
+	}
+	public  void saveThirdOrder(OrderInfo orderInfo){
+		try {
+    	Map<String,String> map = new HashMap<String,String>();
+        String result_code = "1";
+        String out_trade_no = orderInfo.getOrderNo();
+        String pay_amt = orderInfo.getPayAmt();
+        String orderNo=orderInfo.getOrderNo();
+        map.put("out_trade_no", out_trade_no);
+        map.put("total_fee", pay_amt);
+        map.put("pay_result", result_code);
+    		map.put("channel_no", orderInfo.getOrderNo());
+    		map.put("status", "0");
+    		map.put("vip_type", String.valueOf(orderInfo.getVipType()));
+    		if(orderNo.indexOf(Const.IOS_CHANNEL_HREAD)>=0){
+					thirdOrderService.saveThirdOrder(map);
+    		} else {
+    			thirdOrderService.saveAndroidThirdOrder(map);
+    		}
+    		SwiftpassController.orderResult.put(out_trade_no, 1);//支付成功
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	/* ===============================权限================================== */
 	public Map<String, String> getHC(){
 		Subject currentUser = SecurityUtils.getSubject();  //shiro管理的session

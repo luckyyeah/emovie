@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ClientCommentMapper">
+	
+	
+	<!-- 新增-->
+	<insert id="save" parameterType="pd">
+		insert into client_comment(
+			CLIENT_COMMENT,	
+			CLIENT_ICON_URL,	
+			PRE_COL1,	
+			PRE_COL2,	
+			PRE_COL3
+		) values (
+			#{CLIENT_COMMENT},	
+			#{CLIENT_ICON_URL},	
+			#{PRE_COL1},	
+			#{PRE_COL2},	
+			#{PRE_COL3}
+		)
+	</insert>
+	
+	
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from client_comment
+		where 
+			CLIENT_COMMENT_ID = #{CLIENT_COMMENT_ID}
+	</delete>
+	
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="pd">
+		update  client_comment
+			set 
+				CLIENT_COMMENT = #{CLIENT_COMMENT},
+				CLIENT_ICON_URL = #{CLIENT_ICON_URL},
+				PRE_COL1 = #{PRE_COL1},
+				PRE_COL2 = #{PRE_COL2},
+				PRE_COL3 = #{PRE_COL3}
+			where 
+				CLIENT_COMMENT_ID = #{CLIENT_COMMENT_ID}
+	</update>
+		<!-- 修改 -->
+
+	
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select 
+			*
+		from 
+			client_comment
+		where 
+			CLIENT_COMMENT_ID = #{CLIENT_COMMENT_ID}
+		
+	</select>
+	
+		<select id="listClientCommentInfo" parameterType="pd" resultType="pd">
+		SELECT 
+			A.*
+		FROM 
+			client_comment A
+		ORDER BY A.UPDATE_TIME
+	</select>	
+	
+	<select id="listClientComment" parameterType="pd" resultType="pd">
+		SELECT 
+			A.*
+		FROM 
+			client_comment A
+	</select>	
+	
+	<!-- 批量删除 -->
+	<delete id="deleteAll" parameterType="String">
+		delete from client_comment
+		where 
+			CLIENT_COMMENT_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+	
+</mapper>

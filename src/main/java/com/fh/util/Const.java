@@ -76,6 +76,8 @@ public class Const {
 	
 	public static final  int IMG_PAGE_SZIE = 9;
 	
+	public static final  int IMG_MAX_PAGE_SZIE = 100;
+	
 	public static final  int APP_PAGE_SZIE = 10;
 
     public static final String WX_APP_ID = "wx09aae063a26e6dfc";

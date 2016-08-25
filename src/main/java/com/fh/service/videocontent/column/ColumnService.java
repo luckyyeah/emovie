@@ -66,6 +66,12 @@ public class ColumnService {
 	/*
 	*列表(条件部分)
 	*/
+	public List<PageData> listRecommendCovers(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("ColumnMapper.listRecommendCovers", pd);
+	}	
+	/*
+	*列表(条件部分)
+	*/
 	public PageData getCoverCnt(PageData pd)throws Exception{
 		return (PageData)dao.findForObject("ColumnMapper.getCoverCnt", pd);
 	}

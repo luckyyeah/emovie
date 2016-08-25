@@ -18,12 +18,14 @@
         <a href="javascript:history.back()" class="back"></a>性感美女<a href="javascript:pay();" class="openVIP">开通VIP</a>
     </header>
     <section>
-        <div class="picTitle">性感美女南湘baby饱满酥胸很是诱人（<i class="nownub" style="font-style:normal">1</i>/11）</div>
+        <div class="picTitle">${columnData.NAME_ONE}（<i class="nownub" style="font-style:normal">1</i>/${imageCnt}）</div>
         <div class="picTip">温馨提示：支持左右滑动翻页浏览</div>
         <div class="picContent">
             <div class="swiper-container">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide firstimg"><img src="http://ww3.sinaimg.cn/large/006r311dgw1f4s6v0f7gjj305k07qgmm.jpg" alt=""></div>
+                <c:forEach items="${imageDataList}" var="videoData" varStatus="vs" end="0"> 
+                    <div class="swiper-slide firstimg"><img src="${videoData.IMG_ONE}" alt=""></div>
+                </c:forEach>		 	
                 </div>
                 <!-- 如果需要导航按钮 -->
                 <div class="swiper-button-prev"></div>
@@ -31,40 +33,35 @@
             </div>
         </div>
     </section>
-    <section class="detailbox clearfix">
-    <h3>猜你喜欢<a href="list_25.html" class="fr more">+MORE</a></h3>        
+    <section class="detailbox clearfix">  
+    <h3>猜你喜欢<a href="tuku/listTukuCovers/${pd.CHANNEL_NO}/${columnData.TAB_ID}" class="fr more">+MORE</a></h3>        
+
     <div class="videoList-play">
-                <a href="image_28.html">
+    <c:forEach items="${recommendCoversList}" var="recommendCovers" varStatus="vs" >   
+                <a href="tuku/listImages/${pd.CHANNEL_NO}/${recommendCovers.COLUMN_ID}">
             <div class="listBox">
-                <div class="relative"><img src="http://ww3.sinaimg.cn/large/006r311dgw1f4s6v0f7gjj305k07qgmm.jpg" alt=""><span class="flag01"></span></div>
-                <div class="title">极品大胸妹刘娅希黑色蕾丝内衣人体艺术照</div>
+                <div class="relative"><img src="${recommendCovers.IMG_TWO }" alt=""><span class="flag01"></span></div>
+                <div class="title">${recommendCovers.NAME_ONE }</div>
             </div>
         </a>
-                <a href="image_84.html">
-            <div class="listBox">
-                <div class="relative"><img src="http://ww4.sinaimg.cn/large/006r311dgw1f5egu15ljuj305k07qq3u.jpg" alt=""><span class="flag01"></span></div>
-                <div class="title">巨乳美女Barbie可儿性感图片写真</div>
-            </div>
-        </a>
-                <a href="image_29.html">
-            <div class="listBox">
-                <div class="relative"><img src="http://ww1.sinaimg.cn/large/006r311dgw1f4s6v17alcj305k07qdgs.jpg" alt=""><span class="flag01"></span></div>
-                <div class="title">性感美女兜豆靓私房全裸雪白肌肤娇艳迷人</div>
-            </div>
-        </a>
+    </c:forEach>
+
             </div>
 <%@ include file="./../footer.jsp"%> 
 <%@ include file="./../paybox.jsp"%> 
 
 <script type="text/javascript">resourceType=1;</script>
 <script>
-    $(function () {       
-        $.getScript("http://user.zpiyi.com/index/loadimg1/id/86",function(){
-            
-            pics.forEach(function(i,e){
-               var html='<div class="swiper-slide"><img src="http://ww1.sinaimg.cn/large/006r311dgw1f4s6v17alcj305k07qdgs.jpg" alt=""></div>';
-               $(html).appendTo($(".swiper-wrapper"));
-            });
+    $(function () {     
+    	
+   			var url='<%=basePath%>tuku/getNextImage/${columnData.COLUMN_ID}';
+    	 $.get(url,function(data){
+    		     var pics=eval("("+data+")");;
+    		     $.each(pics, function(i,val){
+                 var html='<div class="swiper-slide"><img src="'+val.IMG_ONE+'" alt=""></div>';
+                 $(html).appendTo($(".swiper-wrapper"));
+    		     });
+
             $(".firstimg").remove();
             var mySwiper = new Swiper('.swiper-container', {
             loop: false,

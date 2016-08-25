@@ -31,12 +31,42 @@ public class ThirdOrderService {
 	public void saveAndroidThirdOrder( Map<String,String> map)throws Exception{
 		daoEx2.save("ThirdOrderMapper.saveThirdOrder", map);
 	}
+	
+	/*
+	* 修改
+	*/
+	public void edit(Map<String,String> map)throws Exception{
+		daoEx.update("ThirdOrderMapper.edit", map);
+	}
+	/*
+	* 修改
+	*/
+	public void editAndroid(Map<String,String> map)throws Exception{
+		daoEx2.update("ThirdOrderMapper.edit", map);
+	}
 	/*
 	* 通过id获取数据
 	*/
 	public PageData findByOrderNo(PageData pd)throws Exception{
 		return (PageData)daoEx.findForObject("ThirdOrderMapper.findByOrderNo", pd);
 	}
-	
+	/*
+	* 通过id获取数据
+	*/
+	public PageData findAndroidByOrderNo(PageData pd)throws Exception{
+		return (PageData)daoEx2.findForObject("ThirdOrderMapper.findByOrderNo", pd);
+	}
+	/*
+	* 通过id获取数据
+	*/
+	public PageData findByWxOrderNo(PageData pd)throws Exception{
+		return (PageData)daoEx.findForObject("ThirdOrderMapper.findByWxOrderNo", pd);
+	}
+	/*
+	* 通过id获取数据
+	*/
+	public PageData findAndroidByWxOrderNo(PageData pd)throws Exception{
+		return (PageData)daoEx2.findForObject("ThirdOrderMapper.findByWxOrderNo", pd);
+	}
 }
 

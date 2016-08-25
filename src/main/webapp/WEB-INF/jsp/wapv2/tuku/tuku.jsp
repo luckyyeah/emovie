@@ -24,7 +24,7 @@
  								<c:forEach items="${bannerDataList}" var="bannerData" varStatus="vs" end="4">
      
                       <div class="swiper-slide">
-                        <a href="wapv2/videoPlay/${pd.CHANNEL_NO}/${bannerData.COLUMN_ID}/${bannerData.VIDEO_ID}">
+                        <a href="tuku/listImages/${pd.CHANNEL_NO}/${bannerData.COLUMN_ID}">
                             <img src="${bannerData.IMG_ONE}">
                             <div class="shaddow"></div>
                             <div class="shaddowTitle">${bannerData.NAME_ONE}</div>
@@ -49,7 +49,7 @@
        			<c:forEach items="${tabColumnList}" var="tabColumn" varStatus="vs" end="1">
                <c:if test="${vs.index<tabColumnList.size()-1}">  
                   <c:if    test="${tabColumn.DATA_TYPE==3}">        
-				        <a href="tuku/image_10.html">
+				        <a href="tuku/listImages/${pd.CHANNEL_NO}/${tabColumn.COLUMN_ID}">
 				            <div class="col-md-8">
 				                <div class="pl10">                   
 				                    <div class="relative"><img class="top-pic" src="${tabColumn.IMG_ONE}" alt=""></div>
@@ -59,7 +59,7 @@
 				        </a>
 				        </c:if>
 				        <c:if    test="${tabColumn.DATA_TYPE==2}">        
-				        <a href="tuku/image_10.html">
+				        <a href="tuku/listImages/${pd.CHANNEL_NO}/${tabColumn.COLUMN_ID}">
 				            <div class="col-md-4">
 				                <div class="pl10">                   
 				                    <div class="relative"><img class="little-pic" src="${tabColumn.IMG_ONE}" alt=""></div>
@@ -71,10 +71,10 @@
 			        </c:if>
 			     </c:forEach>
 			    </div>
-       			<c:forEach items="${tabColumnList}" var="tabColumn" varStatus="vs" begin="1" >
+       			<c:forEach items="${tabColumnList}" var="tabColumn" varStatus="vs" begin="1" end="3">
                <c:if test="${vs.index<tabColumnList.size()-1}">  
                   <c:if    test="${tabColumn.DATA_TYPE==2}"> 
-						        <a href="tuku/image_13.html">
+						        <a href="tuku/listImages/${pd.CHANNEL_NO}/${tabColumn.COLUMN_ID}">
 						        <div class="col-md-4">
 						            <div class="pl10">
 						                <div class="relative"><img src="${tabColumn.IMG_ONE}" alt=""></div>

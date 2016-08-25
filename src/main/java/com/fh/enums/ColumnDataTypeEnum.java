@@ -12,6 +12,7 @@ public enum ColumnDataTypeEnum {
 	PushType(6, "推送类型"),
 	DownloadStatusType(7, "下载状态类型"),
 	AbaoutType(8, "关于我们"),
+	
 	Image(2, "图库");
     private int key;
     private String text;

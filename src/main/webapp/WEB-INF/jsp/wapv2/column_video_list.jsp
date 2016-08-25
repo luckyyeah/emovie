@@ -25,7 +25,7 @@
                 <c:if    test="${columnvideo.FREE_FLAG==1}"> 
                 <span class="flag01"></span>
                 </c:if>
-                <c:if    test="${columnvideo.VIP_FLAG==1}"> 
+                <c:if    test="${columnvideo.VIP_FLAG==2}"> 
                 <span class="flag02"></span>
                 </c:if>
                 </div>

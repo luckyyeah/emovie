@@ -69,51 +69,56 @@ public class HomeController extends BaseController {
 		try{
 			pd = this.getPageData();
 			pd.put("OS_TYPE", PlanTypeEnum.PC.getKey());
-			List<PageData>  planList = planService.listAll(pd);
-
-			String showType="";
-			Map payInfo =new HashMap();
-			//取得方案数据
-			for(PageData plan:planList){
-				//取得版块信息
-				pd.put("PLAN_ID", plan.getString("PLAN_ID"));
-				List<PageData> tabList = tabService.listTabs(pd);
-				for(PageData tab:tabList){
-					//取得栏目信息
-					pd.put("TAB_ID", tab.getString("TAB_ID"));
-					columnDataList=columnService.listColumns(pd);
-					for(PageData column:columnDataList){
-						//取得视频信息
-						pd.put("COLUMN_ID", column.getString("COLUMN_ID"));
-						List<PageData>  videoDataList = videoService.listVideos(pd);
-						
-						if(ColumnDataTypeEnum.BannerType.getKey()==(Integer)column.get("DATA_TYPE")){
-							bannerDataList= videoDataList;
-						}
-						if(ColumnDataTypeEnum.VideoDataType.getKey()==(Integer)column.get("DATA_TYPE")){
-							mapColumnvideoList.put(column.getString("COLUMN_ID"), videoDataList);
+			
+			if(mapHomeData.get("bannerDataList")==null || 	mapHomeData.get("columnDataList")==null){ 
+				List<PageData>  planList = planService.listAll(pd);
+	
+				String showType="";
+				Map payInfo =new HashMap();
+				//取得方案数据
+				for(PageData plan:planList){
+					//取得版块信息
+					pd.put("PLAN_ID", plan.getString("PLAN_ID"));
+					List<PageData> tabList = tabService.listTabs(pd);
+					for(PageData tab:tabList){
+						//取得栏目信息
+						pd.put("TAB_ID", tab.getString("TAB_ID"));
+						columnDataList=columnService.listColumns(pd);
+						for(PageData column:columnDataList){
+							//取得视频信息
+							pd.put("COLUMN_ID", column.getString("COLUMN_ID"));
+							List<PageData>  videoDataList = videoService.listVideos(pd);
+							
+							if(ColumnDataTypeEnum.BannerType.getKey()==(Integer)column.get("DATA_TYPE")){
+								bannerDataList= videoDataList;
+							}
+							//不是banner的全为视频
+							if(ColumnDataTypeEnum.BannerType.getKey()!=(Integer)column.get("DATA_TYPE")){
+								mapColumnvideoList.put(column.getString("COLUMN_ID"), videoDataList);
+							}
 						}
 					}
+					//取得版块信息
+					pd.put("PLAN_ID", plan.getString("PLAN_ID"));
+					List<PageData>  appPriceList =planService.listAppPrice(pd);
+					for(PageData appPrice :appPriceList){
+						payInfo.put(appPrice.getString("VIP_TYPE"), appPrice.get("PRICE"));
+					}
+					break;
 				}
-				//取得版块信息
-				pd.put("PLAN_ID", plan.getString("PLAN_ID"));
-				List<PageData>  appPriceList =planService.listAppPrice(pd);
-				for(PageData appPrice :appPriceList){
-					payInfo.put(appPrice.getString("VIP_TYPE"), appPrice.get("PRICE"));
-				}
-				break;
-			}
+				mapHomeData.put("payInfo", payInfo);
+				mapHomeData.put("bannerDataList", bannerDataList);
+				mapHomeData.put("columnDataList", columnDataList);
+				mapHomeData.put("mapColumnvideoList", mapColumnvideoList);
+			} 
 			pd.put("COLUMN_ID",null);
 			pd.put("CHANNEL_NO", CHANNEL_NO);
 			page.setPd(pd);
-			mapHomeData.put("payInfo", payInfo);
-			mapHomeData.put("bannerDataList", bannerDataList);
-			mapHomeData.put("columnDataList", columnDataList);
 			//mv.setViewName("home/index");
 			mv.setViewName("wapv2/index");
-			mv.addObject("bannerDataList", bannerDataList);
-			mv.addObject("columnDataList", columnDataList);
-			mv.addObject("mapColumnvideoList", mapColumnvideoList);
+			mv.addObject("bannerDataList", HomeController.mapHomeData.get("bannerDataList"));
+			mv.addObject("columnDataList", HomeController.mapHomeData.get("columnDataList"));
+			mv.addObject("mapColumnvideoList", HomeController.mapHomeData.get("mapColumnvideoList"));
 			mv.addObject("payInfo", 	HomeController.mapHomeData.get("payInfo"));
 			mv.addObject("pd", pd);
 			mv.addObject("COLUMN_NO", 1);

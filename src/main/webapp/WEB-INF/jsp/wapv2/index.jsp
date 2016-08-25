@@ -23,7 +23,7 @@
  								<c:forEach items="${bannerDataList}" var="bannerData" varStatus="vs" end="4">
                  <div class="swiper-slide">
                     <a href="wapv2/videoPlay/${pd.CHANNEL_NO}/${bannerData.COLUMN_ID}/${bannerData.VIDEO_ID}">
-                        <img src="${bannerData.IMG_ONE}" />
+                        <img src="${bannerData.IMG_TWO}" />
                 				<div class="shaddow"></div>
                         <div class="shaddowTitle">${bannerData.NAME_ONE}</div>
                     </a>
@@ -67,28 +67,7 @@
 </c:forEach>
   
 <%@ include file="./footer.jsp"%> 
-    <script src="http://h5.hyxxzzc.com/public/js/layer/layer.js"></script>
-<script type="text/javascript">        
-        function popPayDiv(){
-            var popHTML = $('.pop').html(); 
-            layer.open({
-                content: popHTML,
-                success: function() {
-                    var device=getDevice();
-                    if(device=='android') $('#player video').hide();   
-                },
-                end: function(index) {
-                    $('#player video').show(); 
-                }
-            });
-        }
-        
-    </script> 
-<style>
-    .layermbox0 .layermchild {height: auto;border-radius: 30px;overflow: hidden}
-    .layermcont{padding:0;}
-</style>    
-
+<%@ include file="./paybox.jsp"%> 
 <script type="text/javascript">resourceType=2;</script>
 <script>
     $(function () {
@@ -116,6 +95,9 @@
             var picWidth = $(".relative img").width(), picHeight = parseInt(264 / 200 * picWidth);
             $(".relative img").height(picHeight);
         });
+        if("${pd.first}"!='0'){
+        	checkPay();
+        }
     });
 </script>
 </body>
