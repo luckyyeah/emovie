@@ -125,6 +125,8 @@ public class HomeTuKuController extends BaseController {
 			mv.addObject("pd", pd);
 			mv.addObject("COLUMN_NO", 4);
 			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
+			//动态支付
+			mv.addObject("payType", HomeController.mapPayType);
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
@@ -199,6 +201,8 @@ public class HomeTuKuController extends BaseController {
 			mv.addObject("pd", pd);
 			mv.addObject("payInfo", 	HomeController.mapHomeData.get("payInfo"));
 			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
+			//动态支付
+			mv.addObject("payType", HomeController.mapPayType);
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
@@ -264,6 +268,8 @@ public class HomeTuKuController extends BaseController {
 			mv.addObject("pd", pd);
 			mv.addObject("payInfo", 	HomeController.mapHomeData.get("payInfo"));
 			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
+			//动态支付
+			mv.addObject("payType", HomeController.mapPayType);
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}

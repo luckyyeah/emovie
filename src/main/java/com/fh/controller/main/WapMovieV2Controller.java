@@ -163,6 +163,8 @@ public class WapMovieV2Controller extends BaseController {
 			mv.addObject("pd", pd);
 			mv.addObject("payInfo", 	HomeController.mapHomeData.get("payInfo"));
 			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
+			//动态支付
+			mv.addObject("payType", HomeController.mapPayType);
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
@@ -253,6 +255,8 @@ public class WapMovieV2Controller extends BaseController {
 			}
 			mv.addObject("resourceType", mapcolumnVideoData.get("resourceType"));
 			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
+			//动态支付
+			mv.addObject("payType", HomeController.mapPayType);
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
@@ -306,7 +310,8 @@ public class WapMovieV2Controller extends BaseController {
 			mv.addObject("pd", pd);
 			mv.addObject("COLUMN_NO", 2);
 			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
-			
+			//动态支付
+			mv.addObject("payType", HomeController.mapPayType);
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
@@ -610,7 +615,10 @@ public class WapMovieV2Controller extends BaseController {
     	HomeController.mapHomeData =new HashMap();
     	WapMovieV2Controller.mapcolumnData =new HashMap();
     	WapMovieV2Controller.mapVideoData =new HashMap();
-
+    	HomeController.mapPayType = new HashMap();
+    	HomeTuKuController.mapHomeData = new HashMap();
+    	HomeTuKuController.mapTabData =new HashMap();
+    	HomeTuKuController.mapImageData =new HashMap();
        String jsonData = JSONArray.toJSONString(result);
        WapHomeController.payType = "-1";
 			 out.write(jsonData);

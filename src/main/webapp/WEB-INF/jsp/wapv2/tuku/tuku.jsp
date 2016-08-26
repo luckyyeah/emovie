@@ -52,7 +52,7 @@
 				        <a href="tuku/listImages/${pd.CHANNEL_NO}/${tabColumn.COLUMN_ID}">
 				            <div class="col-md-8">
 				                <div class="pl10">                   
-				                    <div class="relative"><img class="top-pic" src="${tabColumn.IMG_ONE}" alt=""></div>
+				                    <div class="relative"><img class="top-pic" src="${tabColumn.IMG_ONE}" alt="" style="height: 325px;"></div>
 				                    <div class="title">${tabColumn.NAME_ONE}</div>                   
 				                </div>
 				            </div>
@@ -62,7 +62,7 @@
 				        <a href="tuku/listImages/${pd.CHANNEL_NO}/${tabColumn.COLUMN_ID}">
 				            <div class="col-md-4">
 				                <div class="pl10">                   
-				                    <div class="relative"><img class="little-pic" src="${tabColumn.IMG_ONE}" alt=""></div>
+				                    <div class="relative"><img class="little-pic" src="${tabColumn.IMG_ONE}" alt="" style="height: 325px;"></div>
 				                    <div class="title">${tabColumn.NAME_ONE}</div>                   
 				                </div>
 				            </div>
@@ -71,13 +71,13 @@
 			        </c:if>
 			     </c:forEach>
 			    </div>
-       			<c:forEach items="${tabColumnList}" var="tabColumn" varStatus="vs" begin="1" end="3">
+       			<c:forEach items="${tabColumnList}" var="tabColumn" varStatus="vs" begin="3" end="5">
                <c:if test="${vs.index<tabColumnList.size()-1}">  
                   <c:if    test="${tabColumn.DATA_TYPE==2}"> 
 						        <a href="tuku/listImages/${pd.CHANNEL_NO}/${tabColumn.COLUMN_ID}">
 						        <div class="col-md-4">
 						            <div class="pl10">
-						                <div class="relative"><img src="${tabColumn.IMG_ONE}" alt=""></div>
+						                <div class="relative"><img src="${tabColumn.IMG_ONE}" alt="" style="height: 325px;"></div>
 						                <div class="title">${tabColumn.NAME_ONE}</div>
 						            </div>
 						        </div>

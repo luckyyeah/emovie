@@ -26,6 +26,7 @@ import com.fh.entity.Page;
 import com.fh.enums.ColumnDataTypeEnum;
 import com.fh.enums.PlanTypeEnum;
 import com.fh.service.videocontent.column.ColumnService;
+import com.fh.service.videocontent.pay.PayPluginService;
 import com.fh.service.videocontent.plan.PlanService;
 import com.fh.service.videocontent.tab.TabService;
 import com.fh.service.videocontent.video.VideoService;
@@ -54,6 +55,11 @@ public class HomeController extends BaseController {
 	private VideoService videoService;
 	
 	public static Map mapHomeData =new HashMap();
+	
+	public static Map mapPayType =new HashMap();
+	
+	@Resource(name="payPluginService")
+	private PayPluginService payPluginService;
 	/**
 	 * 列表
 	 */
@@ -69,7 +75,12 @@ public class HomeController extends BaseController {
 		try{
 			pd = this.getPageData();
 			pd.put("OS_TYPE", PlanTypeEnum.PC.getKey());
-			
+			if(HomeController.mapPayType.isEmpty()){
+				List<PageData>   payPluginPDList=payPluginService.listPayPluginPD(pd);
+				for(PageData payPluginPD:payPluginPDList){
+					HomeController.mapPayType.put(payPluginPD.getString("PLUGIN_TYPE"), payPluginPD.getString("PLUGIN_TYPE"));
+				}
+			}			
 			if(mapHomeData.get("bannerDataList")==null || 	mapHomeData.get("columnDataList")==null){ 
 				List<PageData>  planList = planService.listAll(pd);
 	
@@ -122,6 +133,8 @@ public class HomeController extends BaseController {
 			mv.addObject("payInfo", 	HomeController.mapHomeData.get("payInfo"));
 			mv.addObject("pd", pd);
 			mv.addObject("COLUMN_NO", 1);
+			//动态支付
+			mv.addObject("payType", HomeController.mapPayType);
 			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
 		} catch(Exception e){
 			logger.error(e.toString(), e);

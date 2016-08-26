@@ -235,6 +235,7 @@
        	/viapay/**        = anon  
        	/ylpay/**         = anon  
        	/alipay/**        = anon  
+       	/bbpay/**         = anon         	
         /login 				    = anon	
         /logout 				  = anon                 	
        	/**							= authc

@@ -158,29 +158,8 @@
             </div>
         </div>
     </section>
-    <section class="channelBox col-md-12 top01">
-        <div class="mainbox pt0">
-            <div class="col-md-8 relative">
-                <div class="col-md-6">
-                    <div class="c1"><img src="http://ww3.sinaimg.cn/large/d2d743f1gw1f5x0b8zln4j205k05kdfn.jpg" alt=""></div>
-                </div>
-                <div class="col-md-6">
-                    <div class="c7top">
-                        <div class="pd20" data-id="006">
-                            <p class="title" ><c:out value="${columnNameMap['006']}" /></p>
-                            <p><span class="red total"><c:out value="${filmMap['006']}" /></span>部精品等您品鉴</p>
-                            <p>今日更新<span class="red renew"><c:out value="${newFilmMap['006']}" /></span>部</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="v1"><img src="http://ww4.sinaimg.cn/large/d2d743f1gw1f5x0b8zgr1j205k05kmx1.jpg" alt=""></div>
-            </div>
-        </div>
-    </section>
     <section class="col-md-12 channelBoxBottom">
-        <div class="mainbox pl10 relative" onclick="location.href='/tuku'">
+        <div class="mainbox pl10 relative" onclick="location.href='tuku/index/${pd.CHANNEL_NO}'">
             <img src="http://ww1.sinaimg.cn/large/d2d743f1gw1f5x0b9e6xlj20h805x0so.jpg" alt="">
             <div class="channelBoxBottomFont">
                 <p class="title">激情美图</p>

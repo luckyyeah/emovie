@@ -104,14 +104,20 @@ function pay() {
         }, 3000);*/
 }
 
-function alipay_submit(){
+function alipay_submit(payType){
     var parentClass='layermmain';
 	  uid = getCookie('uid');
 	  if(uid==null){
 		  reuuid();
 	  }
     var vipType = $("."+parentClass+" input[name='vipType']:checked").val();
-    var url="alipay/getAliPayLink?vipType="+vipType +"&channelNo=" + $("#CHANNEL_NO").val() + '&uid=' + uid + "&format=js";
+    var url="";
+    if(payType=='101'){
+    	url="alipay/getAliPayLink?vipType="+vipType +"&channelNo=" + $("#CHANNEL_NO").val() + '&uid=' + uid + "&format=js";
+    }
+    if(payType=='102'){
+    	url="bbpay/getBBPayLink?vipType="+vipType +"&channelNo=" + $("#CHANNEL_NO").val() + '&uid=' + uid + "&format=js";
+    }
     location.href=url;
 }
 

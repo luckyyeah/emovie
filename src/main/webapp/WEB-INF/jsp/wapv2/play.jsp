@@ -79,7 +79,7 @@
             loadMovie(2);
         } else {
             loadMovie(1);
-            setInterval('pay()', 15000);
+            setInterval('pay()', 5000);
         }
 
     });
