@@ -578,6 +578,9 @@ public class WapMovieV2Controller extends BaseController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		mv.addObject("payInfo", 	HomeController.mapHomeData.get("payInfo"));
+		//动态支付
+		mv.addObject("payType", HomeController.mapPayType);
 		mv.setViewName("wapv2/member");
 		mv.addObject("pd", pd);
 		mv.addObject("COLUMN_NO", 5);
@@ -604,7 +607,7 @@ public class WapMovieV2Controller extends BaseController {
 		mv.addObject("pd", pd);
 		return mv;
 	}	
-    @RequestMapping(value="/clearChache")
+    @RequestMapping(value="/clearCache")
     public String clearChache(HttpServletRequest request,PrintWriter out) {
     	paylogger.info("clearChache start");
     	String acceptjson = "";  
@@ -676,7 +679,7 @@ public class WapMovieV2Controller extends BaseController {
         map.put("out_trade_no", out_trade_no);
         map.put("total_fee", pay_amt);
         map.put("pay_result", result_code);
-    		map.put("channel_no", orderInfo.getOrderNo());
+    		map.put("channel_no", orderInfo.getChannelNo());
     		map.put("status", "0");
     		map.put("vip_type", String.valueOf(orderInfo.getVipType()));
     		if(orderNo.indexOf(Const.IOS_CHANNEL_HREAD)>=0){
@@ -689,6 +692,36 @@ public class WapMovieV2Controller extends BaseController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	/**
+	 * 获取支付信息
+	 */
+	@RequestMapping(value="/goIdea/{CHANNEL_NO}")
+	public ModelAndView goIdea(Page page,@PathVariable String CHANNEL_NO){
+		paylogger.info("loadResult");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+
+		pd.put("CHANNEL_NO", CHANNEL_NO);
+		mv.addObject("pd", pd);
+		mv.setViewName("wapv2/idea");
+		return  mv;
+	}
+	/**
+	 * 提交建议
+	 * @throws Exception 
+	 */
+	@RequestMapping(value="/idea")
+	public void idea(HttpServletRequest request,PrintWriter out) throws Exception{
+		paylogger.info("idea");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = this.getPageData();
+		pd.put("FEEDBACK_ID", this.get32UUID());
+		clientCommentService.saveIdea(pd);
+
+		out.write("1");
+		out.close();
+	
 	}
 	/* ===============================权限================================== */
 	public Map<String, String> getHC(){

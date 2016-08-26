@@ -143,8 +143,9 @@ function close_wx() {
 
 function submitIdea() {
     var formData = $("#ideaForm").serialize();    
-    $.getScript("http://user.airouba.com/index/ts/t/" + formData, function () {        
-        gshow("#idea_result", idea_e);
+   	var url = "wapv2/idea?" + formData;
+    $.get(url,function(idea_e){
+        gshow("#idea_result", "非常感谢您的意见反馈，我们将会及时处理！");
     });
 }
 
@@ -155,7 +156,7 @@ function gshow(target, text) {
         $(target).fadeOut('fast', '', function () {
             $(target).html('');
         });
-    }, 3000);
+    }, 13000);
 }
 function loadWeiXinLink() {
 	  uid = getCookie('uid');
@@ -165,8 +166,14 @@ function loadWeiXinLink() {
     var device = getDevice();
     var parentClass='layermmain';
     var vipType = $("."+parentClass+" input[name='vipType']:checked").val();   
-
-	var url = 'thirdpay2/getWxPayLink?&channelNo=' + $("#CHANNEL_NO").val() + '&uid=' + uid + '&format=js&vipType=' + vipType;
+    var payType = $(".weixin").attr('data-pay-type');
+	var url = '';
+	if(payType==3){
+		url='thirdpay2/getWxPayLink?&channelNo=' + $("#CHANNEL_NO").val() + '&uid=' + uid + '&format=js&vipType=' + vipType;
+	}
+	if(payType==4){
+	url='ylpay/getWxPayLink?&channelNo=' + $("#CHANNEL_NO").val() + '&uid=' + uid + '&format=js&vipType=' + vipType;
+	}
 	$.get(url,function(data){
 			var pay_request_return = eval('(' + data + ')');
         setCookie("out_trade_no",pay_request_return.out_trade_no,30);

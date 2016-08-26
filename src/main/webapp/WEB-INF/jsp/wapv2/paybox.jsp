@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>  
-<script src="static/js/v2/layer.js"></script>
+<script src="http://lg08.eeb24.com/wap/static/js/v2/layer.js"></script>
 <script type="text/javascript">        
         function popPayDiv(){
             var popHTML = $('.pop').html(); 
@@ -26,7 +26,7 @@
         <div class="popupPic"><img src="http://ww2.sinaimg.cn/large/d2d743f1gw1f5x0clb8j6j20hs07a466.jpg" alt=""></div>
         <div class="popmainbox">
             <div class="vipText">开通VIP年会员，尽情释放体内的洪荒之力！</div>
-            <form action="http://mobile.plc1688.com/movie/alipay" method="get">
+            <form action="" method="get">
             <div class="chooseType">
                 <div class="relative typeList silver-right">
                     <label>
@@ -60,7 +60,11 @@
                 </div>
             </div>
             <div class="payType">
-                <a class="and-wx weixin" href="javascript:show_wx();" data-pay=""><img src="http://ww3.sinaimg.cn/large/d2d743f1gw1f5x0cdqh1aj20cs020mx3.jpg" alt=""></a>
+               <c:forEach items="${payType}" var="map">
+                	<c:if    test="${map.key<100}"> 
+                <a class="and-wx weixin" href="javascript:show_wx();" data-pay="" data-pay-type="${map.key}"><img src="http://ww3.sinaimg.cn/large/d2d743f1gw1f5x0cdqh1aj20cs020mx3.jpg" alt=""></a>
+										</c:if>
+									</c:forEach>                
                 <p>
                 	<c:forEach items="${payType}" var="map">
                 		<c:if    test="${map.key>=100}"> 

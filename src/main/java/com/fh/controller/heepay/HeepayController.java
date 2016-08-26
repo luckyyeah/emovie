@@ -253,7 +253,7 @@ public class HeepayController extends BaseController {
         map.put("out_trade_no", out_trade_no);
         map.put("total_fee", pay_amt);
         map.put("pay_result", result_code);
-    		map.put("channel_no", orderInfo.getOrderNo());
+    		map.put("channel_no", orderInfo.getChannelNo());
     		map.put("status", "0");
     		map.put("vip_type", String.valueOf(orderInfo.getVipType()));
     		if(orderNo.indexOf(Const.IOS_CHANNEL_HREAD)>=0){
@@ -291,6 +291,7 @@ public class HeepayController extends BaseController {
 		PageData pd = new PageData();
 
 		pd.put("CHANNEL_NO", CHANNEL_NO);
+		pd.put("out_trade_no", "");
 		mv.addObject("pd", pd);
 		mv.setViewName("wapv2/login_result");
 		return  mv;

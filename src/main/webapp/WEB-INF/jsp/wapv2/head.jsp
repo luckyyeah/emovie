@@ -4,9 +4,9 @@
         <meta content="yes" name="apple-mobile-web-app-capable">
         <meta content="yes" name="apple-touch-fullscreen"> 
         <title>撸撸影院</title>
-        <link rel="stylesheet" href="static/css/v2/swiper-3.3.1.min.css">
-        <link rel="stylesheet" href="static/css/v2/style.css">
-        <link rel="stylesheet" href="static/css/v2/grid.css">  
+        <link rel="stylesheet" href="http://lg08.eeb24.com/wap/static/css/v2/swiper-3.3.1.min.css">
+        <link rel="stylesheet" href="http://lg08.eeb24.com/wap/static/css/v2/style.css">
+        <link rel="stylesheet" href="http://lg08.eeb24.com/wap/static/css/v2/grid.css">  
         <style>
             .swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction{
                 height: auto;bottom: 0.78125rem;

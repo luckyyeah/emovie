@@ -40,7 +40,7 @@
 		<a href="javascript:pay();">
 			<div class="list-icon2 list">购买会员<i></i></div>
 		</a>
-		<a href="member/idea.html">
+		<a href="wapv2/goIdea/${pd.CHANNEL_NO}">
 			<div class="list-icon3 list">用户反馈<i></i></div>
 		</a>
 		<a href="wapv2/contract/${pd.CHANNEL_NO}">

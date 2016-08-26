@@ -46,7 +46,49 @@
 			#{version_no}
 		)
 	</insert>
-	
+		<!-- 新增-->
+	<insert id="savePdThirdOrder" parameterType="pd">
+		insert into third_order(
+			TRANSACTION_ID,	
+			OUT_TRADE_NO,			
+			OUT_TRANSACTION_ID,
+			BANK_TYPE,
+			FEE,
+			RESULT_CODE,
+			PAY_RESULT,
+			PAY_INFO,
+			PAY_TIME,
+			VERSION,			
+			CHANNEL_NO,
+			IMSI,
+			IMEI,
+			CELL_MODEL,
+			SDK_VERSION,
+			VIP_TYPE,
+			STATUS,
+			VERSION_NO
+
+		) values (
+			#{transaction_id},	
+			#{out_trade_no},			
+			#{out_transaction_id},
+			#{bank_type},
+			#{total_fee},
+			#{result_code},
+			#{pay_result},	
+			#{pay_info},	
+			#{time_end},
+			#{version},
+			#{channel_no},
+			#{imsi},
+			#{imei},
+			#{cell_model},
+			#{sdk_version},	
+			#{vip_type},	
+		  #{status},	
+			#{version_no}
+		)
+	</insert>
 	<!-- 修改 -->
 	<update id="edit" parameterType="java.util.Map">
 		update  third_order

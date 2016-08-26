@@ -200,7 +200,7 @@ public class AliPayController extends BaseController {
         map.put("out_trade_no", out_trade_no);
         map.put("total_fee", pay_amt);
         map.put("pay_result", result_code);
-    		map.put("channel_no", orderInfo.getOrderNo());
+    		map.put("channel_no", orderInfo.getChannelNo());
     		map.put("status", "0");
     		map.put("vip_type", String.valueOf(orderInfo.getVipType()));
     		if(orderNo.indexOf(Const.IOS_CHANNEL_HREAD)>=0){

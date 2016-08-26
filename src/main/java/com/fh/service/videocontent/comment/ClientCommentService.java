@@ -27,7 +27,12 @@ public class ClientCommentService {
 	public void save(PageData pd)throws Exception{
 		dao.save("ClientCommentMapper.save", pd);
 	}
-	
+	/*
+	* 新增
+	*/
+	public void saveIdea(PageData pd)throws Exception{
+		dao.save("ClientCommentMapper.saveIdea", pd);
+	}
 	/*
 	* 删除
 	*/

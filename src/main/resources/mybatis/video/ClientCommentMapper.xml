@@ -20,7 +20,23 @@
 		)
 	</insert>
 	
-	
+	<!-- 新增-->
+	<insert id="saveIdea" parameterType="pd">
+		insert into feedback(
+			FEEDBACK_ID,
+			FEEDBACK_CONTENT,	
+			MAIL,	
+			CHANNEL_NO,	
+			TYPE
+		) values (
+			#{FEEDBACK_ID},	
+			#{FEEDBACK_CONTENT},	
+			#{MAIL},	
+			#{CHANNEL_NO},	
+			#{TYPE}
+		)
+	</insert>
+		
 	<!-- 删除-->
 	<delete id="delete" parameterType="pd">
 		delete from client_comment

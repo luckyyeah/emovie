@@ -1,5 +1,6 @@
 package com.fh.controller.ylpay;
 
+import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -28,7 +29,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.fh.controller.base.BaseController;
+import com.fh.controller.main.HomeController;
 import com.fh.controller.swiftpass.SwiftpassController;
 import com.fh.entity.OrderInfo;
 import com.fh.entity.Page;
@@ -48,6 +51,7 @@ import com.ylpay.YlpayConfig;
  * 类名称：HomeController
  * 创建人：yrh 
  * 创建时间：2016-06-23
+ * 海豚支付
  */
 @Controller
 @RequestMapping(value="/ylpay")
@@ -89,7 +93,7 @@ public class YLpayController extends BaseController {
 			}
 			YLpayController.pay_amt= total_fee;
 			String orderNo = createOrderNo(channelNo);
-		  payUrl= createOrder(orderNo,total_fee,channelNo);
+		  payUrl= createOrder(orderNo,total_fee,channelNo,YlpayConfig.notify_url+"/"+channelNo+"/"+orderNo);
 		  OrderInfo orderInfo=new OrderInfo();
 		  orderInfo.setOrderNo(orderNo);
 		  orderInfo.setUserId(userId);
@@ -102,12 +106,64 @@ public class YLpayController extends BaseController {
 		}
 		return  new ModelAndView("redirect:" +payUrl);
 	}
+	/**
+	 * 获取播放信息
+	 */
+	@RequestMapping(value="/getWxPayLink")
+	public void getWxPayLink(PrintWriter out){
+		logBefore(logger, "checkPayed");
+
+		Map payMap =new HashMap();
+		try{
+			PageData pd = new PageData();
+			String payUrl=  "";
+
+			pd = this.getPageData();
+			SortedMap<String,String> map =new TreeMap<String,String>();
+			String vipType =pd.getString("vipType");
+			String channelNo = pd.getString("channelNo");
+			String userId = pd.getString("uid");
+			if(channelNo==null){
+				channelNo="";
+			}
+			String total_fee = null;
+			Map payInfo = (HashMap)HomeController.mapHomeData.get("payInfo");
+			if(payInfo.get(vipType) !=null && !"".equals(payInfo.get(vipType))){
+				total_fee =String.valueOf((int)(Double.parseDouble(payInfo.get(vipType).toString())));
+			} else {
+				vipType="0";
+				total_fee =HeepayConfig.total_fee;
+			}
+			String orderNo = createOrderNo(channelNo);
+		  payUrl= createOrder(orderNo,total_fee,channelNo,YlpayConfig.callback_url+"/"+channelNo+"/"+orderNo);
+		  OrderInfo orderInfo=new OrderInfo();
+		  orderInfo.setOrderNo(orderNo);
+		  orderInfo.setUserId(userId);
+		  orderInfo.setChannelNo(channelNo);
+		  orderInfo.setPayAmt(total_fee);
+
+		  orderInfo.setVipType(Integer.parseInt(vipType));
+		  SwiftpassController.mapUserInfo.put(userId, orderInfo);
+		  SwiftpassController.orderResult.put(orderNo, 0);//初始状态
+		  
+		  payMap.put("out_trade_no", orderNo);
+		  payMap.put("info", payUrl);
+		//  saveThirdOrder(orderInfo);
+		  String jsonData = JSONArray.toJSONString(payMap);
+			out.write(jsonData);
+			out.close();
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		
+	}
+
 	private String createOrderNo(String channelNo){
 		String orderNo ="";
 		orderNo =channelNo + DateUtil.getDays()+CommonUtil.getRandomString(0,9,6);
 		return orderNo;
 	}
-	private String createOrder(String agent_bill_id,String pay_amt,String channelNo ) throws Exception{
+	private String createOrder(String agent_bill_id,String pay_amt,String channelNo,String notifyUrl  ) throws Exception{
 		String  payUrl = "";
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");//设置日期格式
 		String time = df.format(new Date());
@@ -128,7 +184,7 @@ public class YLpayController extends BaseController {
 				.append("0")
 				.append("0")
 				.append(YlpayConfig.goods_name)
-				.append(YlpayConfig.notify_url+"/"+channelNo+"/"+agent_bill_id)
+				.append(notifyUrl)
 				.append("0")
 				.append("0")
 				.append("zsyh")
@@ -144,7 +200,7 @@ public class YLpayController extends BaseController {
         		 new StringPart("p5_Pid", "0"),
         		 new StringPart("p6_Pcat", "0"),
         		 new StringPart("p7_Pdesc", YlpayConfig.goods_name),
-        		 new StringPart("p8_Url", YlpayConfig.notify_url+"/"+channelNo+"/"+agent_bill_id),
+        		 new StringPart("p8_Url", notifyUrl),
         		 new StringPart("p9_SAF", "0"),
         		 new StringPart("pa_MP", "0"),
         		 new StringPart("pd_FrpId", "zsyh"),
@@ -206,6 +262,53 @@ public class YLpayController extends BaseController {
 					pd.put("CHANNEL_NO", CHANNEL_NO);
 					mv.addObject("pd", pd);
 					mv.setViewName("wap/payresult");
+					return  mv;
+		
+	}
+	/**
+	 * 获取支付信息
+	 */
+	@RequestMapping(value="/returnPayInfoV2/{CHANNEL_NO}/{ORDER_NO}")
+	public ModelAndView returnPayInfoV2(HttpServletRequest req, HttpServletResponse resp,@PathVariable String CHANNEL_NO,@PathVariable String ORDER_NO){
+
+		  try {
+	            req.setCharacterEncoding("utf-8");
+	            resp.setCharacterEncoding("utf-8");
+	            resp.setHeader("Content-type", "text/html;charset=UTF-8");
+	            String respString = "fail";
+	            String pay_result =	req.getParameter("Sjt_Return");
+                paylogger.info("通知内容status=：" + pay_result);
+                if("1".equals(pay_result)){
+                		Map<String,String> map = new HashMap<String,String>();
+                		String pay_amt = req.getParameter("Sjt_factMoney");
+                		String transaction_id = req.getParameter("Sjt_TransID");
+                    map.put("out_trade_no", ORDER_NO);
+                    map.put("total_fee", pay_amt);
+                    map.put("pay_result", "1");
+                		map.put("channel_no", CHANNEL_NO);
+		            		map.put("transaction_id", transaction_id);
+		            		map.put("status", String.valueOf(1));
+		            		if(CHANNEL_NO.indexOf(Const.IOS_CHANNEL_HREAD)>=0){
+		            			thirdOrderService.edit(map);
+		            		} else {
+		            			thirdOrderService.editAndroid(map);
+		            		}
+                		SwiftpassController.orderResult.put(ORDER_NO, 1);//支付成功
+                   
+                    paylogger.info(ORDER_NO+ "result_code=1");
+                } 
+                respString = "OK";
+	            resp.getWriter().write(respString);
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+					ModelAndView mv = this.getModelAndView();
+					PageData pd = new PageData();
+		
+					pd.put("CHANNEL_NO", CHANNEL_NO);
+					pd.put("out_trade_no", "");
+					mv.addObject("pd", pd);
+					mv.setViewName("wapv2/login_result");
 					return  mv;
 		
 	}
@@ -288,7 +391,7 @@ public class YLpayController extends BaseController {
 /*		getStringOfStr("m_ios290");
 		System.out.println(getRandomString(0,9,10));*/
 		YLpayController ylpayController =new YLpayController();
-		ylpayController.createOrder("test001","2","m_ios200");
+		//ylpayController.createOrder("test001","2","m_ios200");
 	//	checkOrderPayed("m_ios500120160811006417");
 	}
 }
