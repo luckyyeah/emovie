@@ -100,7 +100,7 @@ public class AliPayController extends BaseController {
 		  orderInfo.setUserId(userId);
 		  orderInfo.setChannelNo(channelNo);
 		  orderInfo.setPayAmt(total_fee);
-
+		  orderInfo.setPlugin_type(pd.getString("plugin_type"));
 		  orderInfo.setVipType(Integer.parseInt(vipType));
 		  saveThirdOrder(orderInfo);
 		  SwiftpassController.mapUserInfo.put(userId, orderInfo);

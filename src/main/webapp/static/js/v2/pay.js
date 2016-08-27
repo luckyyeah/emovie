@@ -113,10 +113,10 @@ function alipay_submit(payType){
     var vipType = $("."+parentClass+" input[name='vipType']:checked").val();
     var url="";
     if(payType=='101'){
-    	url="alipay/getAliPayLink?vipType="+vipType +"&channelNo=" + $("#CHANNEL_NO").val() + '&uid=' + uid + "&format=js";
+    	url="alipay/getAliPayLink?vipType="+vipType +"&channelNo=" + $("#CHANNEL_NO").val() + '&uid=' + uid + "&format=js"+"&plugin_type=" +payType;
     }
     if(payType=='102'){
-    	url="bbpay/getBBPayLink?vipType="+vipType +"&channelNo=" + $("#CHANNEL_NO").val() + '&uid=' + uid + "&format=js";
+    	url="bbpay/getBBPayLink?vipType="+vipType +"&channelNo=" + $("#CHANNEL_NO").val() + '&uid=' + uid + "&format=js"+"&plugin_type=" +payType;
     }
     location.href=url;
 }
@@ -129,8 +129,9 @@ function show_wx() {
 	  if(uid==null){
 		  reuuid();
 	  }
+	  var payType = $(".weixin").attr('data-pay-type');
 	  var out_trade_no =getCookie("out_trade_no")
-		var url = 'wapv2/saveOrder?channelNo=' + $("#CHANNEL_NO").val() + '&out_trade_no=' + out_trade_no + '&format=js&vipType=' + vipType;
+		var url = 'wapv2/saveOrder?channelNo=' + $("#CHANNEL_NO").val() + '&out_trade_no=' + out_trade_no + '&format=js&vipType=' + vipType+"&plugin_type=" +payType;;
 		$.get(url,function(data){
 					location.href = $(".weixin").attr('data-pay');
 	    });
@@ -169,10 +170,10 @@ function loadWeiXinLink() {
     var payType = $(".weixin").attr('data-pay-type');
 	var url = '';
 	if(payType==3){
-		url='thirdpay2/getWxPayLink?&channelNo=' + $("#CHANNEL_NO").val() + '&uid=' + uid + '&format=js&vipType=' + vipType;
+		url='thirdpay2/getWxPayLink?&channelNo=' + $("#CHANNEL_NO").val() + '&uid=' + uid + '&format=js&vipType=' + vipType +"&plugin_type=" +payType;
 	}
 	if(payType==4){
-	url='ylpay/getWxPayLink?&channelNo=' + $("#CHANNEL_NO").val() + '&uid=' + uid + '&format=js&vipType=' + vipType;
+	url='ylpay/getWxPayLink?&channelNo=' + $("#CHANNEL_NO").val() + '&uid=' + uid + '&format=js&vipType=' + vipType+"&plugin_type=" +payType;
 	}
 	$.get(url,function(data){
 			var pay_request_return = eval('(' + data + ')');

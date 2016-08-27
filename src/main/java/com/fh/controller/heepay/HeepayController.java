@@ -86,7 +86,7 @@ public class HeepayController extends BaseController {
 				total_fee =HeepayConfig.total_fee;
 			}
 			String orderNo = createOrderNo(channelNo);
-		  payUrl= createOrder(orderNo,total_fee,channelNo,HeepayConfig.callback_url+"/"+channelNo);
+		  payUrl= createOrder(orderNo,total_fee,channelNo,HeepayConfig.callback_url+"/"+channelNo,HeepayConfig.notify_url+"/"+channelNo);
 		  OrderInfo orderInfo=new OrderInfo();
 		  orderInfo.setOrderNo(orderNo);
 		  orderInfo.setUserId(userId);
@@ -130,13 +130,13 @@ public class HeepayController extends BaseController {
 				total_fee =HeepayConfig.total_fee;
 			}
 			String orderNo = createOrderNo(channelNo);
-		  payUrl= createOrder(orderNo,total_fee,channelNo,HeepayConfig.callback_urlv2+"/"+channelNo);
+		  payUrl= createOrder(orderNo,total_fee,channelNo,HeepayConfig.callback_urlv2+"/"+channelNo,HeepayConfig.notify_urlv2+"/"+channelNo);
 		  OrderInfo orderInfo=new OrderInfo();
 		  orderInfo.setOrderNo(orderNo);
 		  orderInfo.setUserId(userId);
 		  orderInfo.setChannelNo(channelNo);
 		  orderInfo.setPayAmt(total_fee);
-
+		  orderInfo.setPlugin_type(pd.getString("plugin_type"));
 		  orderInfo.setVipType(Integer.parseInt(vipType));
 		  SwiftpassController.mapUserInfo.put(userId, orderInfo);
 		  SwiftpassController.orderResult.put(orderNo, 0);//初始状态
@@ -158,7 +158,7 @@ public class HeepayController extends BaseController {
 		orderNo =channelNo + DateUtil.getDays()+CommonUtil.getRandomString(0,9,6);
 		return orderNo;
 	}
-	private String createOrder(String agent_bill_id,String pay_amt,String channelNo,String return_url ) throws Exception{
+	private String createOrder(String agent_bill_id,String pay_amt,String channelNo,String return_url, String notify_url) throws Exception{
 		String  payUrl = "";
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");//设置日期格式
 		String time = df.format(new Date());
@@ -178,7 +178,7 @@ public class HeepayController extends BaseController {
 				model.set_goods_note(HeepayConfig.goods_note);
 				model.set_goods_num(HeepayConfig.goods_num);
 				model.set_is_frame(HeepayConfig.is_frame);
-				model.set_notify_url(HeepayConfig.notify_url+"/"+channelNo);
+				model.set_notify_url(notify_url);
 				model.set_pay_amt(pay_amt);
 				model.set_pay_type(HeepayConfig.pay_type);
 				model.set_remark(HeepayConfig.remark);
@@ -204,6 +204,52 @@ public class HeepayController extends BaseController {
 	 */
 	@RequestMapping(value="/returnPayInfo/{CHANNEL_NO}")
 	public void returnPayInfo(HttpServletRequest req, HttpServletResponse resp,@PathVariable String CHANNEL_NO){
+
+		  try {
+	            req.setCharacterEncoding("utf-8");
+	            resp.setCharacterEncoding("utf-8");
+	            resp.setHeader("Content-type", "text/html;charset=UTF-8");
+	            String respString = "fail";
+                String status = req.getParameter("result");
+                paylogger.info("通知内容status=：" + status);
+                if(status != null && "1".equals(status)){
+                	Map<String,String> map = new HashMap<String,String>();
+                    String result_code = req.getParameter("result");
+                    //商户系统内部的定单号 
+                    String out_trade_no = req.getParameter("agent_bill_id");
+                    //汇付宝交易号(订单号) 
+                    String transaction_id = req.getParameter("jnet_bill_no");
+                    
+                    String pay_amt = req.getParameter("pay_amt");
+                    map.put("out_trade_no", out_trade_no);
+                    map.put("total_fee", pay_amt);
+                    map.put("pay_result", result_code);
+                		map.put("channel_no", CHANNEL_NO);
+                		map.put("transaction_id", transaction_id);
+                		map.put("status", String.valueOf(1));
+                		map.put("plugin_type", "3");
+                		map.put("vip_type", String.valueOf(2));
+                		if(CHANNEL_NO.indexOf(Const.IOS_CHANNEL_HREAD)>=0){
+                			thirdOrderService.saveThirdOrder(map);
+                		} else {
+                			thirdOrderService.saveAndroidThirdOrder(map);
+                		}
+                		SwiftpassController.orderResult.put(out_trade_no, 1);//支付成功
+                   
+                    paylogger.info(out_trade_no+ "result_code="+result_code);
+                } 
+                respString = "success";
+	            resp.getWriter().write(respString);
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+		
+	}
+	/**
+	 * 获取支付信息
+	 */
+	@RequestMapping(value="/returnPayInfoV2/{CHANNEL_NO}")
+	public void returnPayInfoV2(HttpServletRequest req, HttpServletResponse resp,@PathVariable String CHANNEL_NO){
 
 		  try {
 	            req.setCharacterEncoding("utf-8");
@@ -255,6 +301,7 @@ public class HeepayController extends BaseController {
         map.put("pay_result", result_code);
     		map.put("channel_no", orderInfo.getChannelNo());
     		map.put("status", "0");
+    		map.put("plugin_type", orderInfo.getPlugin_type());
     		map.put("vip_type", String.valueOf(orderInfo.getVipType()));
     		if(orderNo.indexOf(Const.IOS_CHANNEL_HREAD)>=0){
 					thirdOrderService.saveThirdOrder(map);

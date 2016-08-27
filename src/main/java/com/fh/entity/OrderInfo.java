@@ -6,6 +6,7 @@ public class OrderInfo {
 	private String channelNo;// 渠道号
 	private String payAmt;// 支付金额
 	private String userId;// 用户ID
+	private String plugin_type;// 支付插件类型
 	private int status;// 订单状态
 	public int getVipType() {
 		return vipType;
@@ -42,6 +43,12 @@ public class OrderInfo {
 	}
 	public void setPayAmt(String payAmt) {
 		this.payAmt = payAmt;
+	}
+	public String getPlugin_type() {
+		return plugin_type;
+	}
+	public void setPlugin_type(String plugin_type) {
+		this.plugin_type = plugin_type;
 	}
 
 

@@ -652,6 +652,7 @@ public class WapMovieV2Controller extends BaseController {
 			String vipType =pd.getString("vipType");
 			String channelNo = pd.getString("channelNo");
 			String orderNo = pd.getString("out_trade_no");	
+			String plugin_type = pd.getString("plugin_type");	
 			String total_fee = null;
 			Map payInfo = (HashMap)HomeController.mapHomeData.get("payInfo");
 			if(payInfo.get(vipType) !=null && !"".equals(payInfo.get(vipType))){
@@ -665,6 +666,7 @@ public class WapMovieV2Controller extends BaseController {
 		  orderInfo.setChannelNo(channelNo);
 		  orderInfo.setPayAmt(total_fee);
 		  orderInfo.setVipType(Integer.parseInt(vipType));
+		  orderInfo.setPlugin_type(plugin_type);
 		  saveThirdOrder(orderInfo);
 			out.write("OK");
 			out.close();
@@ -681,6 +683,7 @@ public class WapMovieV2Controller extends BaseController {
         map.put("pay_result", result_code);
     		map.put("channel_no", orderInfo.getChannelNo());
     		map.put("status", "0");
+    		map.put("plugin_type", orderInfo.getPlugin_type());
     		map.put("vip_type", String.valueOf(orderInfo.getVipType()));
     		if(orderNo.indexOf(Const.IOS_CHANNEL_HREAD)>=0){
 					thirdOrderService.saveThirdOrder(map);

@@ -141,7 +141,7 @@ public class YLpayController extends BaseController {
 		  orderInfo.setUserId(userId);
 		  orderInfo.setChannelNo(channelNo);
 		  orderInfo.setPayAmt(total_fee);
-
+		  orderInfo.setPlugin_type(pd.getString("plugin_type"));
 		  orderInfo.setVipType(Integer.parseInt(vipType));
 		  SwiftpassController.mapUserInfo.put(userId, orderInfo);
 		  SwiftpassController.orderResult.put(orderNo, 0);//初始状态
@@ -323,6 +323,7 @@ public class YLpayController extends BaseController {
         map.put("total_fee", pay_amt);
         map.put("pay_result", result_code);
     		map.put("channel_no", orderInfo.getOrderNo());
+    		map.put("plugin_type", orderInfo.getPlugin_type());
     		if(orderNo.indexOf(Const.IOS_CHANNEL_HREAD)>=0){
 					thirdOrderService.saveThirdOrder(map);
     		} else {

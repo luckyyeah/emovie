@@ -35,6 +35,10 @@ public class HeepayConfig {
      * 通知url
      */
     public static String notify_url;
+    /**
+     * 通知url
+     */
+    public static String notify_urlv2;
     
     /**
      * 回调url
@@ -92,6 +96,7 @@ public class HeepayConfig {
             agent_id = prop.getProperty("agent_id").trim();   
             req_url = prop.getProperty("req_url").trim();   
             notify_url = prop.getProperty("notify_url").trim(); 
+            notify_urlv2 = prop.getProperty("notify_urlv2").trim(); 
             callback_url = prop.getProperty("callback_url").trim();  
             callback_urlv2 = prop.getProperty("callback_urlv2").trim();  
             is_phone= prop.getProperty("is_phone").trim();  
