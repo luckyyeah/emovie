@@ -461,14 +461,14 @@ public class WapMovieController extends BaseController {
 		PageData pd = this.getPageData();
 		String orderNo = pd.getString("orderNo");
 		String userId = pd.getString("uid");
-		int ret= 0;
+		String ret= null;
 		//海豚支付
 		if("4".equals(WapHomeController.payType)){
 			ret=YLpayController.checkOrderPayed(orderNo);
 		} else {
 			ret = HeepayController.checkOrderPayed(orderNo);
 		}
-		if(1==ret){
+		if(ret== null){
 			OrderInfo orderInfo = (OrderInfo)SwiftpassController.mapUserInfo.get(userId);
 			if(orderInfo ==null){
 			  orderInfo=new OrderInfo();

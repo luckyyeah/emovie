@@ -99,6 +99,9 @@ public class YLpayController extends BaseController {
 		  orderInfo.setUserId(userId);
 		  orderInfo.setChannelNo(channelNo);
 		  orderInfo.setPayAmt(total_fee);
+		  orderInfo.setPlugin_type("4");
+		  orderInfo.setVipType(2);
+		  saveThirdOrder(orderInfo);
 		  SwiftpassController.mapUserInfo.put(userId, orderInfo);
 		  SwiftpassController.orderResult.put(orderNo, 0);//初始状态
 		} catch(Exception e){
@@ -238,14 +241,17 @@ public class YLpayController extends BaseController {
                 if("1".equals(pay_result)){
                 		Map<String,String> map = new HashMap<String,String>();
                 		String pay_amt = req.getParameter("Sjt_factMoney");
-                    map.put("out_trade_no", ORDER_NO);
+                		String transaction_id = req.getParameter("Sjt_TransID");
+                		map.put("out_trade_no", ORDER_NO);
                     map.put("total_fee", pay_amt);
                     map.put("pay_result", "1");
                 		map.put("channel_no", CHANNEL_NO);
+		            		map.put("transaction_id", transaction_id);
+		            		map.put("status", String.valueOf(1));
                 		if(CHANNEL_NO.indexOf(Const.IOS_CHANNEL_HREAD)>=0){
-                			thirdOrderService.saveThirdOrder(map);
+                			thirdOrderService.edit(map);
                 		} else {
-                			thirdOrderService.saveAndroidThirdOrder(map);
+                			thirdOrderService.editAndroid(map);
                 		}
                 		SwiftpassController.orderResult.put(ORDER_NO, 1);//支付成功
                    
@@ -323,7 +329,9 @@ public class YLpayController extends BaseController {
         map.put("total_fee", pay_amt);
         map.put("pay_result", result_code);
     		map.put("channel_no", orderInfo.getOrderNo());
+    		map.put("status", "0");
     		map.put("plugin_type", orderInfo.getPlugin_type());
+    		map.put("vip_type", String.valueOf(orderInfo.getVipType()));
     		if(orderNo.indexOf(Const.IOS_CHANNEL_HREAD)>=0){
 					thirdOrderService.saveThirdOrder(map);
     		} else {
@@ -350,7 +358,7 @@ public class YLpayController extends BaseController {
 		return  mv;
 	}
 
-	public static int checkOrderPayed(String orderNo){
+	public static String checkOrderPayed(String orderNo){
 
 		String param = "Sjt_TransID="+orderNo;
 	
@@ -365,13 +373,13 @@ public class YLpayController extends BaseController {
 				YlPayReturnData ylPayReturnData=  JSON.parseObject(acceptjson, YlPayReturnData.class);
 			  if(ylPayReturnData.getStatus()!=null && "1".equals(ylPayReturnData.getStatus())){
 				  SwiftpassController.orderResult.put(orderNo, 1);//支付成功
-				  return 1;
+				  return orderNo;
 			  }
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return 0;
+		return null;
 	}
 	
 

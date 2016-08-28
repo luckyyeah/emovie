@@ -120,5 +120,16 @@
 				a.TRANSACTION_ID =#{transaction_id}
 
 	</select>
-	
+	<!-- 根据订单号获取数据 -->
+	<select id="findNotCompleteOrder" parameterType="pd" resultType="pd">
+		select
+				a.*			
+		from 
+				third_order a
+		where 
+				a.STATUS =#{STATUS}
+				AND A.ADD_TIME &gt;= DATE_SUB(CURRENT_TIMESTAMP(),INTERVAL 15 MINUTE)
+				
+
+	</select>	
 </mapper>

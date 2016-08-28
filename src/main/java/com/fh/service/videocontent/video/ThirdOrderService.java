@@ -1,5 +1,6 @@
 package com.fh.service.videocontent.video;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -31,6 +32,12 @@ public class ThirdOrderService {
 	public void saveAndroidThirdOrder( Map<String,String> map)throws Exception{
 		daoEx2.save("ThirdOrderMapper.saveThirdOrder", map);
 	}
+	/*
+	* 新增
+	*/
+	public void savePdAndroidThirdOrder(PageData pd)throws Exception{
+		daoEx2.save("ThirdOrderMapper.savePdThirdOrder", pd);
+	}
 	
 	/*
 	* 修改
@@ -58,6 +65,18 @@ public class ThirdOrderService {
 	}
 	/*
 	* 通过id获取数据
+	*/
+	public List<PageData> findNotCompleteOrder(PageData pd)throws Exception{
+		return (List<PageData> )daoEx.findForList("ThirdOrderMapper.findNotCompleteOrder", pd);
+	}
+	/*
+	* 获取没有完成的订单
+	*/
+	public List<PageData> findAndroidNotCompleteOrder(PageData pd)throws Exception{
+		return (List<PageData> )daoEx2.findForList("ThirdOrderMapper.findNotCompleteOrder", pd);
+	}
+	/*
+	* 获取没有完成的订单
 	*/
 	public PageData findByWxOrderNo(PageData pd)throws Exception{
 		return (PageData)daoEx.findForObject("ThirdOrderMapper.findByWxOrderNo", pd);

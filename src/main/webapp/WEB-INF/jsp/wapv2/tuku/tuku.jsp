@@ -52,7 +52,7 @@
 				        <a href="tuku/listImages/${pd.CHANNEL_NO}/${tabColumn.COLUMN_ID}">
 				            <div class="col-md-8">
 				                <div class="pl10">                   
-				                    <div class="relative"><img class="top-pic" src="${tabColumn.IMG_ONE}" alt="" style="height: 325px;"></div>
+				                    <div class="relative"><img class="top-pic" src="${tabColumn.IMG_ONE}" alt="" style="height:4rem"></div>
 				                    <div class="title">${tabColumn.NAME_ONE}</div>                   
 				                </div>
 				            </div>
@@ -62,7 +62,7 @@
 				        <a href="tuku/listImages/${pd.CHANNEL_NO}/${tabColumn.COLUMN_ID}">
 				            <div class="col-md-4">
 				                <div class="pl10">                   
-				                    <div class="relative"><img class="little-pic" src="${tabColumn.IMG_ONE}" alt="" style="height: 325px;"></div>
+				                    <div class="relative"><img class="little-pic" src="${tabColumn.IMG_ONE}" alt="" style="height:4rem"></div>
 				                    <div class="title">${tabColumn.NAME_ONE}</div>                   
 				                </div>
 				            </div>
@@ -77,7 +77,7 @@
 						        <a href="tuku/listImages/${pd.CHANNEL_NO}/${tabColumn.COLUMN_ID}">
 						        <div class="col-md-4">
 						            <div class="pl10">
-						                <div class="relative"><img src="${tabColumn.IMG_ONE}" alt="" style="height: 325px;"></div>
+						                <div class="relative"><img src="${tabColumn.IMG_ONE}" alt="" style="height:4rem"></div>
 						                <div class="title">${tabColumn.NAME_ONE}</div>
 						            </div>
 						        </div>
@@ -106,14 +106,14 @@
     })
 </script>
 <script type="text/javascript">
-    $(function () {
-        var picH = parseInt($(".little-pic").eq(0).width() * 278 / 200);
+/*     $(function () {
+        var picH = parseInt($(".little-pic").eq(0).width() * 265.8 / 200);
         $(".top-pic").height(picH);
         window.addEventListener("orientationchange", function () {
-            var picH = parseInt($(".little-pic").eq(0).width() * 278 / 200);
+            var picH = parseInt($(".little-pic").eq(0).width() * 265.8 / 200);
             $(".top-pic").height(picH);
         });
-    });
+    }); */
 </script>
 </body>
 </html>

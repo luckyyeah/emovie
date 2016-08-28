@@ -51,10 +51,12 @@
 <%@ include file="./../paybox.jsp"%> 
 
 <script type="text/javascript">resourceType=1;</script>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src="http://h5.hyxxzzc.com/public/js/swiper-3.3.1.min.js"></script>
 <script>
     $(function () {     
     	
-   			var url='<%=basePath%>tuku/getNextImage/${columnData.COLUMN_ID}';
+   			var url='<%=basePath%>tuku/getNextImage/${columnData.COLUMN_ID}'+"?vipType="+vipType;
     	 $.get(url,function(data){
     		     var pics=eval("("+data+")");;
     		     $.each(pics, function(i,val){
@@ -70,9 +72,10 @@
             observe : true,
             onSlideChangeStart: function(swiper){               
                 var activeIndex=mySwiper.activeIndex;                 
-                if(activeIndex==3&&vipType==0){                     
+                if(activeIndex>=2&&vipType==0){                     
                     interValPay();
                     mySwiper.off();
+                    
                     } 
               },
             onSlideChangeEnd: function(swiper){

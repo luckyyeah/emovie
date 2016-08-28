@@ -123,5 +123,7 @@ public class Const {
     public static final String HEE_PAY_ORDER_QUERY_URL ="https://pay.heepay.com/Phone/SDK/PayQuery.aspx";
     //惠付通商户可通过此接口查询单据支付状态，数据将以XML形式同步返回。
     public static final String YL_PAY_ORDER_QUERY_URL ="http://check.ylsdk.com"; 
+    //订单同步接口
+    public static final String ORDER_SYN_URL ="/wapv2/orderSyn"; 
     
 }

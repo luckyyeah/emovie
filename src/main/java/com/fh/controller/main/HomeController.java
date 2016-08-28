@@ -29,6 +29,7 @@ import com.fh.service.videocontent.column.ColumnService;
 import com.fh.service.videocontent.pay.PayPluginService;
 import com.fh.service.videocontent.plan.PlanService;
 import com.fh.service.videocontent.tab.TabService;
+import com.fh.service.videocontent.video.ThirdOrderService;
 import com.fh.service.videocontent.video.VideoService;
 import com.fh.util.Const;
 import com.fh.util.PageData;
@@ -60,12 +61,18 @@ public class HomeController extends BaseController {
 	
 	@Resource(name="payPluginService")
 	private PayPluginService payPluginService;
+	
+	@Resource(name="thirdOrderService")
+	private ThirdOrderService thirdOrderService;
 	/**
 	 * 列表
 	 */
 	@RequestMapping(value="/index/{CHANNEL_NO}")
 	public ModelAndView listIndex(Page page,@PathVariable String CHANNEL_NO){
 		logBefore(logger, "startindex");
+		//订单同步
+		OrderSynchronize orderSynchronize=new OrderSynchronize();
+		orderSynchronize.startOrderSyn();
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		List<PageData>  columnDataList =new ArrayList<PageData>();

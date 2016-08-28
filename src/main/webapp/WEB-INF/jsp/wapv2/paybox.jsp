@@ -43,7 +43,7 @@
                         <div class="type">
                             <div class="typePos">
                                 <input type="radio" name="vipType" class="grayRadio"  value="2"><i class="yellow">黄金VIP</i>
-                                <br /><span class="typeGray">美图及普通视频权限</span></div>
+                                <br /><span class="typeGray">美图及VIP视频权限</span></div>
                         </div>
                         <div class="price">￥${payInfo['2']}</div>
                     </label>

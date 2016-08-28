@@ -450,14 +450,15 @@ public class WapMovieV2Controller extends BaseController {
 			//漏单是付费通服务器上检查
 			if(orderData==null || (Integer)orderData.get("STATUS")==0){
 				//海豚支付
-				if("4".equals(WapHomeController.payType)){
-					int ret =YLpayController.checkOrderPayed(orderNo);
-					if(ret==0){
+				//海豚支付
+				if(HomeController.mapPayType.get("4")!=null){
+					String ret =YLpayController.checkOrderPayed(orderNo);
+					if(ret==null){
 						vipType =0;
 					}
-				} else {
-					int ret = HeepayController.checkOrderPayed(orderNo);
-					if(ret==0){
+				} else	if(HomeController.mapPayType.get("3")!=null){ 
+					String ret = HeepayController.checkOrderPayed(orderNo);
+					if(ret==null){
 						vipType =0;
 					}
 				}
@@ -726,6 +727,51 @@ public class WapMovieV2Controller extends BaseController {
 		out.close();
 	
 	}
+	/**
+	 * 获取播放信息
+	 */
+	@RequestMapping(value="/orderSyn")
+	public void OrderSyn(PrintWriter out){
+		logBefore(logger, "checkPayed");
+		PageData pd = new PageData();
+		int vipType = 0;
+		String transaction_id=null;
+		try{
+			pd = this.getPageData();
+			pd.put("STATUS", 0);
+		
+			List<PageData> notCompleteOrderList = thirdOrderService.findNotCompleteOrder(pd);
+			for(PageData notCompleteOrder:notCompleteOrderList){
+				String orderNo = notCompleteOrder.getString("OUT_TRADE_NO");
+				if(HomeController.mapPayType.get("4")!=null){
+					transaction_id =YLpayController.checkOrderPayed(orderNo);
+					if(transaction_id==null){
+						vipType =0;
+					}
+				} else	if(HomeController.mapPayType.get("3")!=null){ 
+					transaction_id = HeepayController.checkOrderPayed(orderNo);
+					if(transaction_id==null){
+						vipType =0;
+					}
+				}
+				if(transaction_id!=null){
+					//更新订单信息
+					Map<String,String> map = new HashMap<String,String>();
+	        map.put("out_trade_no", orderNo);
+					map.put("status", String.valueOf(1));
+	        map.put("transaction_id", transaction_id);
+	        thirdOrderService.edit(map);
+	    		logger.info("update out_trade_no="+orderNo );
+			}
+			out.write(String.valueOf(vipType));
+			out.close();
+		
+			}
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		
+	}	
 	/* ===============================权限================================== */
 	public Map<String, String> getHC(){
 		Subject currentUser = SecurityUtils.getSubject();  //shiro管理的session

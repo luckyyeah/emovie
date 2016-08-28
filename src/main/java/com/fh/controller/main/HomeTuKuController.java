@@ -216,7 +216,7 @@ public class HomeTuKuController extends BaseController {
 		logBefore(logger, "listImages");
 		ModelAndView mv = this.getModelAndView();
 		listColumnVideo( mv,CHANNEL_NO, COLUMN_ID, PAGE_NO);
-		mv.addObject("COLUMN_NO", 3);
+		mv.addObject("COLUMN_NO", 4);
 		mv.setViewName("wapv2/tuku/image");
 		return mv;
 	}
@@ -285,11 +285,19 @@ public class HomeTuKuController extends BaseController {
 			pd = this.getPageData();
 			PageData pdImage = new PageData();
 			Map mapColumnVideoList =(HashMap)mapImageData.get(COLUMN_ID);
-			
+			String vipType= pd.getString("vipType");
+			List<PageData>  showImageDataList =new ArrayList<PageData>();
 			if(mapColumnVideoList!=null){
-				
 				List<PageData>  imageDataList = (List<PageData>)mapColumnVideoList.get("imageDataList");
-				String jsonData = JSONArray.toJSONString(imageDataList);
+				
+				if((vipType==null||"0".equals(vipType)) && (imageDataList !=null && imageDataList.size()>3)){
+					for(int i=0;i<3;i++){
+						showImageDataList.add(imageDataList.get(i));
+					}
+				} else {
+					showImageDataList=imageDataList;
+				}
+				String jsonData = JSONArray.toJSONString(showImageDataList);
 				out.write(jsonData);
 				//return imageDataList;
 			}

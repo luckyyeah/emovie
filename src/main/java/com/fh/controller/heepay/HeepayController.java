@@ -92,7 +92,9 @@ public class HeepayController extends BaseController {
 		  orderInfo.setUserId(userId);
 		  orderInfo.setChannelNo(channelNo);
 		  orderInfo.setPayAmt(total_fee);
-
+		  orderInfo.setPlugin_type("3");
+		  orderInfo.setVipType(2);
+		  saveThirdOrder(orderInfo);
 		  SwiftpassController.mapUserInfo.put(userId, orderInfo);
 		  SwiftpassController.orderResult.put(orderNo, 0);//初始状态
 		} catch(Exception e){
@@ -230,9 +232,9 @@ public class HeepayController extends BaseController {
                 		map.put("plugin_type", "3");
                 		map.put("vip_type", String.valueOf(2));
                 		if(CHANNEL_NO.indexOf(Const.IOS_CHANNEL_HREAD)>=0){
-                			thirdOrderService.saveThirdOrder(map);
+                			thirdOrderService.edit(map);
                 		} else {
-                			thirdOrderService.saveAndroidThirdOrder(map);
+                			thirdOrderService.editAndroid(map);
                 		}
                 		SwiftpassController.orderResult.put(out_trade_no, 1);//支付成功
                    
@@ -343,23 +345,30 @@ public class HeepayController extends BaseController {
 		mv.setViewName("wapv2/login_result");
 		return  mv;
 	}
-	public static int checkOrderPayed(String orderNo){
+	public static String checkOrderPayed(String orderNo){
 		String signString = "version=1&agent_id="+HeepayConfig.agent_id+"&agent_bill_id="+orderNo+"&key="+HeepayConfig.key;
 		String param = signString+"&sign="+MD5.md5(signString);
-	
+	  String transaction_id=null;
 		Map<String,String> resultMap = null;
 		  try {
 			  //result	必填	支付结果 1=成功
 				String returnXml= CommonUtil.doGet(Const.HEE_PAY_ORDER_QUERY_URL+"?"+param);
 			  if(returnXml!=null && returnXml.indexOf("result=1")>0){
 				  SwiftpassController.orderResult.put(orderNo, 1);//支付成功
-				  return 1;
+				  int beginIndex= returnXml.indexOf("jnet_bill_no=");
+				  int endIndex =0;
+				  if(beginIndex>=0){
+					  endIndex=returnXml.substring(beginIndex).indexOf("|");
+					  transaction_id =returnXml.substring(beginIndex+"jnet_bill_no=".length(), beginIndex+endIndex);
+				  }
+				  return transaction_id;
 			  }
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return 0;
+		return transaction_id;
+		
 	}
 	
 
