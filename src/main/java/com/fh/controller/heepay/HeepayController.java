@@ -86,6 +86,7 @@ public class HeepayController extends BaseController {
 				total_fee =HeepayConfig.total_fee;
 			}
 			String orderNo = createOrderNo(channelNo);
+			logger.info("saveorder orderNo="+orderNo);
 		  payUrl= createOrder(orderNo,total_fee,channelNo,HeepayConfig.callback_url+"/"+channelNo,HeepayConfig.notify_url+"/"+channelNo);
 		  OrderInfo orderInfo=new OrderInfo();
 		  orderInfo.setOrderNo(orderNo);
@@ -310,7 +311,7 @@ public class HeepayController extends BaseController {
     		} else {
     			thirdOrderService.saveAndroidThirdOrder(map);
     		}
-    		SwiftpassController.orderResult.put(out_trade_no, 1);//支付成功
+    		//SwiftpassController.orderResult.put(out_trade_no, 1);//支付成功
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

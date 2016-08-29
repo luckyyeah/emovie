@@ -83,18 +83,21 @@ public class BeiBeiPayController extends BaseController {
 			if(total_fee !=null){
 				total_fee =String.valueOf((int)(Double.parseDouble(total_fee)));
 			} else {
-				total_fee =HeepayConfig.total_fee;
+				total_fee =BeiBeiPayConfig.total_fee;
 			}
 			String orderNo = createOrderNo(channelNo);
-		  payUrl= createOrder(orderNo,total_fee,channelNo,HeepayConfig.callback_url+"/"+channelNo);
+		  payUrl= createOrder(orderNo,total_fee,channelNo,BeiBeiPayConfig.callback_url+"/"+channelNo+"/"+orderNo);
 		  OrderInfo orderInfo=new OrderInfo();
 		  orderInfo.setOrderNo(orderNo);
 		  orderInfo.setUserId(userId);
 		  orderInfo.setChannelNo(channelNo);
 		  orderInfo.setPayAmt(total_fee);
-
+		  orderInfo.setPlugin_type(pd.getString("plugin_type"));
+		  orderInfo.setVipType(2);
 		  SwiftpassController.mapUserInfo.put(userId, orderInfo);
 		  SwiftpassController.orderResult.put(orderNo, 0);//初始状态
+		  
+		  saveThirdOrder(orderInfo);
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
@@ -130,7 +133,7 @@ public class BeiBeiPayController extends BaseController {
 				total_fee =HeepayConfig.total_fee;
 			}
 			String orderNo = createOrderNo(channelNo);
-		  payUrl= createOrder(orderNo,total_fee,channelNo,BeiBeiPayConfig.callback_url+"/"+channelNo+"/"+orderNo);
+		  payUrl= createOrder(orderNo,total_fee,channelNo,BeiBeiPayConfig.callback_urlv2+"/"+channelNo+"/"+orderNo);
 		  OrderInfo orderInfo=new OrderInfo();
 		  orderInfo.setOrderNo(orderNo);
 		  orderInfo.setUserId(userId);
@@ -141,8 +144,6 @@ public class BeiBeiPayController extends BaseController {
 		  SwiftpassController.mapUserInfo.put(userId, orderInfo);
 		  SwiftpassController.orderResult.put(orderNo, 0);//初始状态
 		  
-		  payMap.put("out_trade_no", orderNo);
-		  payMap.put("info", payUrl);
 		  saveThirdOrder(orderInfo);
 /*		  String jsonData = JSONArray.toJSONString(payMap);
 			out.write(jsonData);
@@ -250,13 +251,25 @@ public class BeiBeiPayController extends BaseController {
     		} else {
     			thirdOrderService.saveAndroidThirdOrder(map);
     		}
-    		SwiftpassController.orderResult.put(out_trade_no, 1);//支付成功
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * 获取支付信息
+	 */
+	@RequestMapping(value="/callbackPay/{CHANNEL_NO}/{OUT_TRADE_NO}")
+	public ModelAndView callbackPay(HttpServletRequest req, Page page,@PathVariable String CHANNEL_NO,@PathVariable String OUT_TRADE_NO){
+		paylogger.info("callbackPay");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd.put("out_trade_no", OUT_TRADE_NO);
+		pd.put("CHANNEL_NO", CHANNEL_NO);
+		mv.addObject("pd", pd);
+		mv.setViewName("wap/payresult");
+		return  mv;
+	}
 	/**
 	 * 获取支付信息
 	 */

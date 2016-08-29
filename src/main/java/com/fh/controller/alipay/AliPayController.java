@@ -64,13 +64,61 @@ public class AliPayController extends BaseController {
 	
 	public static Map<String,Integer> orderResult =new HashMap<String,Integer>(); //用来存储订单的交易状态(key:订单号，value:状态(0:未支付，1：已支付))  ---- 这里可以根据需要存储在数据库中
 	public static Map<String,OrderInfo> mapUserInfo =new HashMap<String,OrderInfo>(); //用来存储订单用户信息
+	/**
+	 * 获取播放信息
+	 */
+	@RequestMapping(value="/getPay")
+	public ModelAndView getPay(PrintWriter out){
+		logBefore(logger, "getPay");
+		ModelAndView mv = this.getModelAndView();
+		Map payMap =new HashMap();
+		try{
+			PageData pd = new PageData();
+			String payUrl=  "";
 
+			pd = this.getPageData();
+			SortedMap<String,String> map =new TreeMap<String,String>();
+			String vipType =pd.getString("vipType");
+			String channelNo = pd.getString("channelNo");
+			String userId = pd.getString("uid");
+			if(channelNo==null){
+				channelNo="";
+			}
+			String total_fee =pd.getString("total_fee");
+			if(total_fee !=null){
+				total_fee =String.valueOf((int)(Double.parseDouble(total_fee)));
+			} else {
+				vipType="0";
+				total_fee =HeepayConfig.total_fee;
+			}
+			String orderNo = createOrderNo(channelNo);
+		  payUrl= createOrder(orderNo,total_fee,channelNo,AlipayConfig.return_url+"/"+channelNo);
+		  OrderInfo orderInfo=new OrderInfo();
+		  orderInfo.setOrderNo(orderNo);
+		  orderInfo.setUserId(userId);
+		  orderInfo.setChannelNo(channelNo);
+		  orderInfo.setPayAmt(total_fee);
+		  orderInfo.setPlugin_type(pd.getString("plugin_type"));
+		  orderInfo.setVipType(Integer.parseInt(vipType));
+		  saveThirdOrder(orderInfo);
+		  SwiftpassController.mapUserInfo.put(userId, orderInfo);
+		  SwiftpassController.orderResult.put(orderNo, 0);//初始状态
+		  mv.addObject("payUrl", payUrl);
+
+			
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		mv.setViewName("wapv2/alipay");
+		
+		return mv;
+	}
 	/**
 	 * 获取播放信息
 	 */
 	@RequestMapping(value="/getAliPayLink")
 	public ModelAndView getWxPayLink(PrintWriter out){
-		logBefore(logger, "checkPayed");
+		logBefore(logger, "getAliPayLink");
 		ModelAndView mv = this.getModelAndView();
 		Map payMap =new HashMap();
 		try{
@@ -94,7 +142,7 @@ public class AliPayController extends BaseController {
 				total_fee =HeepayConfig.total_fee;
 			}
 			String orderNo = createOrderNo(channelNo);
-		  payUrl= createOrder(orderNo,total_fee,channelNo,null);
+		  payUrl= createOrder(orderNo,total_fee,channelNo,AlipayConfig.return_urlv2+"/"+channelNo);
 		  OrderInfo orderInfo=new OrderInfo();
 		  orderInfo.setOrderNo(orderNo);
 		  orderInfo.setUserId(userId);
@@ -131,7 +179,7 @@ public class AliPayController extends BaseController {
     sParaTemp.put("_input_charset", AlipayConfig.input_charset);
 		sParaTemp.put("payment_type", AlipayConfig.payment_type);
 		sParaTemp.put("notify_url", AlipayConfig.notify_url+"/"+channelNo);
-		sParaTemp.put("return_url", AlipayConfig.return_url+"/"+channelNo);
+		sParaTemp.put("return_url", return_url);
 		sParaTemp.put("out_trade_no", agent_bill_id);
 		sParaTemp.put("subject", AlipayConfig.subject);
 		sParaTemp.put("total_fee", pay_amt);
@@ -208,13 +256,27 @@ public class AliPayController extends BaseController {
     		} else {
     			thirdOrderService.saveAndroidThirdOrder(map);
     		}
-    		SwiftpassController.orderResult.put(out_trade_no, 1);//支付成功
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * 获取支付信息
+	 */
+	@RequestMapping(value="/callbackPay/{CHANNEL_NO}")
+	public ModelAndView callbackPay(HttpServletRequest req,Page page,@PathVariable String CHANNEL_NO){
+		paylogger.info("callbackPay");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+    String out_trade_no = req.getParameter("out_trade_no");
+		pd.put("CHANNEL_NO", CHANNEL_NO);
+		pd.put("out_trade_no", out_trade_no);
+		mv.addObject("pd", pd);
+		mv.setViewName("wap/payresult");
+		return  mv;
+	}
 	/**
 	 * 获取支付信息
 	 */

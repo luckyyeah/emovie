@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>MEILI</groupId>
-	<artifactId>me</artifactId>
+	<artifactId>emovie</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>me</name>
@@ -165,6 +165,7 @@
 			<artifactId>commons-httpclient</artifactId>
 			<version>3.1</version>
 		</dependency>
+
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
@@ -529,7 +530,7 @@
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>4.3.2</version>
+            <version>4.5.2</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -541,9 +542,19 @@
 			<artifactId>google-collections</artifactId>
 			<version>1.0-rc2</version>
 		</dependency>
-              	
+	 <dependency>
+	  <groupId>com.qiniu</groupId>
+	  <artifactId>qiniu-java-sdk</artifactId>
+	  <version>[7.0.0, 7.1.99]</version>
+	 </dependency>     
+		<dependency>
+		    <groupId>com.aliyun.oss</groupId>
+		    <artifactId>aliyun-sdk-oss</artifactId>
+		    <version>2.2.3</version>
+		</dependency>
+      	
 	</dependencies>
 	<build>
-		<finalName>me</finalName>
+		<finalName>emovie</finalName>
 	</build>
 </project>

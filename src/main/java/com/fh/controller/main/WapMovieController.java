@@ -337,7 +337,7 @@ public class WapMovieController extends BaseController {
 			mv.setViewName("wap/order");
 			mv.addObject("pd", pd);
 			mv.addObject("payInfo", payInfo);
-			mv.addObject("payType",Integer.parseInt(WapHomeController.payType));
+			mv.addObject("payType",WapHomeController.mapPayType);
 			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
 		} catch(Exception e){
 			logger.error(e.toString(), e);
@@ -361,8 +361,10 @@ public class WapMovieController extends BaseController {
 			if(orderInfo !=null){
 				orderNo= orderInfo.getOrderNo();
 			}
+			logger.info("orderNo="+orderNo );
 			if(orderInfo !=null && orderNo !=null){
 				Integer orderStatus = (Integer)SwiftpassController.orderResult.get(orderNo);
+				logger.info("orderStatus="+orderStatus );
 				if((orderStatus !=null) && (orderStatus==1)){
 					checkRet="0";
 				} else {
@@ -463,9 +465,9 @@ public class WapMovieController extends BaseController {
 		String userId = pd.getString("uid");
 		String ret= null;
 		//海豚支付
-		if("4".equals(WapHomeController.payType)){
+		if(WapHomeController.mapPayType.get("4")!=null){
 			ret=YLpayController.checkOrderPayed(orderNo);
-		} else {
+		} else if(WapHomeController.mapPayType.get("3")!=null){
 			ret = HeepayController.checkOrderPayed(orderNo);
 		}
 		if(ret== null){
@@ -495,7 +497,7 @@ public class WapMovieController extends BaseController {
     	WapMovieController.mapColumnData =new HashMap();
     	WapMovieController.tryVideoDataList =null;
         String jsonData = JSONArray.toJSONString(result);
-        WapHomeController.payType = "-1";
+        WapHomeController.mapPayType = new HashMap();
 		out.write(jsonData);
 		out.close();
         paylogger.info("clearChache end");

@@ -93,6 +93,7 @@ public class BeiBeiPayConfig {
             req_url = prop.getProperty("req_url").trim();   
             notify_url = prop.getProperty("notify_url").trim(); 
             callback_url = prop.getProperty("callback_url").trim();  
+            callback_urlv2 = prop.getProperty("callback_urlv2").trim();  
             is_phone= prop.getProperty("is_phone").trim();  
             is_frame= prop.getProperty("is_frame").trim();  
             total_fee= prop.getProperty("total_fee").trim(); 

@@ -59,7 +59,7 @@ public class WapHomeController extends BaseController {
 	private PayPluginService payPluginService;
 	
 	public static Map mapHomeData =new HashMap();
-	public static String payType = "-1";
+	public static Map mapPayType =new HashMap();
 	/**
 	 * 列表
 	 */
@@ -75,12 +75,12 @@ public class WapHomeController extends BaseController {
 			pd = this.getPageData();
 			pd.put("OS_TYPE", PlanTypeEnum.Wap.getKey());
 			
-			if("-1".equals(WapHomeController.payType)){
+			if(WapHomeController.mapPayType.isEmpty()){
 				List<PageData>   payPluginPDList=payPluginService.listPayPluginPD(pd);
-				if(payPluginPDList!=null&& payPluginPDList.size()>0){
-					WapHomeController.payType =payPluginPDList.get(0).getString("PLUGIN_TYPE");
+				for(PageData payPluginPD:payPluginPDList){
+					WapHomeController.mapPayType.put(payPluginPD.getString("PLUGIN_TYPE"), payPluginPD.getString("PLUGIN_TYPE"));
 				}
-			}
+			}		
 			String showType="";
 			if(mapHomeData.get("columnDataList")==null||mapHomeData.get("columnId")==null){
 				List<PageData>  planList = planService.listAll(pd);

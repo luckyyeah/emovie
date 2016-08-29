@@ -91,13 +91,15 @@
 		</tx:attributes>
 	</tx:advice>
 	
-	<aop:aspectj-autoproxy proxy-target-class="true"/>
-	
-	<!-- 事物处理 -->
+		<!-- 事物处理 -->
 	<aop:config>
 		<aop:pointcut id="pc" expression="execution(* com.fh.service..*(..))" />
 		<aop:advisor pointcut-ref="pc" advice-ref="txAdvice" />
 	</aop:config>
+	
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
+	
+
 	
 
 	 <!-- 数据库2 开始 -->
@@ -148,7 +150,24 @@
     <bean id="sqlSessionTemplateEx" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg ref="sqlSessionFactoryEx" />
 	</bean>
-    
+ 	<tx:advice id="txAdviceEx" transaction-manager="transactionManagerEx">
+		<tx:attributes>
+			<tx:method name="delete*" propagation="REQUIRED" read-only="false" 
+			           rollback-for="java.lang.Exception"/>
+			<tx:method name="insert*" propagation="REQUIRED" read-only="false" 
+			           rollback-for="java.lang.Exception" />
+			<tx:method name="update*" propagation="REQUIRED" read-only="false" 
+			           rollback-for="java.lang.Exception" />
+			<tx:method name="save*" propagation="REQUIRED" read-only="false" 
+			           rollback-for="java.lang.Exception" />
+		</tx:attributes>
+	</tx:advice>
+	
+		<!-- 事物处理 -->
+	<aop:config>
+		<aop:pointcut id="pcEx" expression="execution(* com.fh.service..*(..))" />
+		<aop:advisor pointcut-ref="pcEx" advice-ref="txAdviceEx" />
+	</aop:config>   
     <!-- 数据库2 结束 -->
 
 	 <!-- 数据库3 开始 -->
@@ -199,7 +218,24 @@
     <bean id="sqlSessionTemplateEx2" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg ref="sqlSessionFactoryEx2" />
 	</bean>
-    
+ 	<tx:advice id="txAdviceEx2" transaction-manager="transactionManagerEx2">
+		<tx:attributes>
+			<tx:method name="delete*" propagation="REQUIRED" read-only="false" 
+			           rollback-for="java.lang.Exception"/>
+			<tx:method name="insert*" propagation="REQUIRED" read-only="false" 
+			           rollback-for="java.lang.Exception" />
+			<tx:method name="update*" propagation="REQUIRED" read-only="false" 
+			           rollback-for="java.lang.Exception" />
+			<tx:method name="save*" propagation="REQUIRED" read-only="false" 
+			           rollback-for="java.lang.Exception" />
+		</tx:attributes>
+	</tx:advice>
+	
+		<!-- 事物处理 -->
+	<aop:config>
+		<aop:pointcut id="pcEx2" expression="execution(* com.fh.service..*(..))" />
+		<aop:advisor pointcut-ref="pcEx2" advice-ref="txAdviceEx2" />
+	</aop:config>       
     <!-- 数据库3 结束 -->    
 	<!-- ================ Shiro start ================ -->
 		<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">

@@ -28,14 +28,30 @@
 			<p></p>
 		</div>
 		<div class="ui-btn-wrap">
-		 <c:if test="${payType==4 }">
+     <c:forEach items="${payType}" var="map">
+     <c:if    test="${map.key<100}"> 
+		 <c:if test="${map.key==4 }">
 			<button class="ui-btn-lg ui-btn-weixin" data-role="button" data-href="ylpay/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}">
 		</c:if>	
-		 <c:if test="${payType!=4 }">
+		 <c:if test="${map.key==3 }">
 			<button class="ui-btn-lg ui-btn-weixin" data-role="button" data-href="thirdpay2/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}">
 		</c:if>					
 				<img src="static/images/icon_wechat.png" alt=""> 微信支付
 			</button>
+			</c:if>
+			</c:forEach>
+     <c:forEach items="${payType}" var="map">
+     <c:if    test="${map.key>=100}"> 
+		 <c:if test="${map.key==101 }">
+			<button class="ui-btn-lg ui-btn-weixin ui-btn-alipay" data-role="button" data-href="alipay/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}">
+		</c:if>	
+		 <c:if test="${map.key==102 }">
+			<button class="ui-btn-lg ui-btn-weixin ui-btn-alipay" data-role="button" data-href="bbpay/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}">
+		</c:if>					
+				<img src="static/images/icon_alipay.png" alt=""> 支付宝
+			</button>
+			</c:if>			
+			</c:forEach>			
 			<a class="ui-btn-lg ui-btn-weixin" href="wap/index/${pd.CHANNEL_NO}" >支付完成</a>
 		</div>
 		<div style="display: none">
@@ -59,6 +75,14 @@
 	position: absolute;
 	right: 7px;
 	top: 0;
+}
+.ui-btn-alipay {
+    background-color: #44b549;
+    border-color: #44b549;
+    background-image: -webkit-gradient(linear,left top,left bottom,color-stop(.5,#1fbaf3),to(#18b4ed));
+    color: #fff;
+    background-clip: padding-box;
+    margin-bottom: 20px;
 }
 </style>
 	<%@ include file="./footer.jsp"%> 

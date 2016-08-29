@@ -624,7 +624,7 @@ public class WapMovieV2Controller extends BaseController {
     	HomeTuKuController.mapTabData =new HashMap();
     	HomeTuKuController.mapImageData =new HashMap();
        String jsonData = JSONArray.toJSONString(result);
-       WapHomeController.payType = "-1";
+
 			 out.write(jsonData);
 				out.close();
         paylogger.info("clearChache end");
@@ -654,6 +654,7 @@ public class WapMovieV2Controller extends BaseController {
 			String channelNo = pd.getString("channelNo");
 			String orderNo = pd.getString("out_trade_no");	
 			String plugin_type = pd.getString("plugin_type");	
+			logger.info("saveorder orderNo="+orderNo);
 			String total_fee = null;
 			Map payInfo = (HashMap)HomeController.mapHomeData.get("payInfo");
 			if(payInfo.get(vipType) !=null && !"".equals(payInfo.get(vipType))){

@@ -337,7 +337,7 @@ public class YLpayController extends BaseController {
     		} else {
     			thirdOrderService.saveAndroidThirdOrder(map);
     		}
-    		SwiftpassController.orderResult.put(out_trade_no, 1);//支付成功
+    		//SwiftpassController.orderResult.put(out_trade_no, 1);//支付成功
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
