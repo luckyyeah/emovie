@@ -6,7 +6,7 @@
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-dpr="3" style="font-size: 124.5px;">
 
     <head>
 			<%@ include file="./head.jsp"%> 
@@ -18,7 +18,7 @@
         <a href="javascript:history.back()" class="back"></a>会员中心
     </header>
 	<section class="vip">
-		<a href="member.html#">
+		<a href="javascript:pay();">
 			<div class="vipimg"><img src="http://ww4.sinaimg.cn/large/d2d743f1gw1f5x1gkuwosj20ku07xt9a.jpg" alt=""></div>
 		</a>
 	</section>

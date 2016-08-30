@@ -6,7 +6,7 @@
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-dpr="3" style="font-size: 124.5px;">
 
     <head>
 			<%@ include file="./head.jsp"%> 
@@ -171,20 +171,6 @@
 
 <%@ include file="./footer.jsp"%> 
 <%@ include file="./paybox.jsp"%> 
-   <script>
-         var $ = jQuery;
-         $(function(){
-             if(vipType==0){
-                 $(".openVIP").html("开通VIP");
-             }else if(vipType==1){
-                 $(".openVIP").html("白银VIP");
-             }else if(vipType==2){
-                 $(".openVIP").html("黄金VIP");
-             }else if(vipType==3){
-                 $(".openVIP").html("钻石VIP");
-             }                
-         });
-     </script>
 <script type="text/javascript">resourceType=2;</script>
 <script>
     $(function () {

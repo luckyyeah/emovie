@@ -6,14 +6,14 @@
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"  data-dpr="3" style="font-size: 124.5px;">
 
     <head>
 			<%@ include file="./head.jsp"%> 
     </head>
 
 
-<body class="list-video">
+<body class="list-video play">
 	<%@ include file="./toolbar.jsp"%> 
     <section class="videoList" style="float:none; overflow:hidden;">
     		<c:forEach items="${videoDataList}" var="columnvideo" varStatus="vs" >
@@ -53,6 +53,8 @@
      </ul></section> 
 
 <%@ include file="./footer.jsp"%> 
+<%@ include file="./paybox.jsp"%> 
+
 <script type="text/javascript">resourceType = 2;</script>
 <script>
     $(function () {

@@ -6,7 +6,7 @@
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-dpr="3" style="font-size: 124.5px;">
 
     <head>
 			<%@ include file="./head.jsp"%> 

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>  
-<script src="http://lg08.eeb24.com/wap/static/js/v2/layer.js"></script>
+
 <script type="text/javascript">        
         function popPayDiv(){
             var popHTML = $('.pop').html(); 
@@ -22,7 +22,7 @@
 </style>    
 <div class="pop">       
     <div class="popup">
-        <div class="popupPic-l"><img src="http://ww2.sinaimg.cn/large/d2d743f1gw1f5x0bu4k7hj20ca0ifab9.jpg"></div>
+        <div class="popupPic-l"><img src=""></div>
         <div class="popupPic"><img src="http://ww2.sinaimg.cn/large/d2d743f1gw1f5x0clb8j6j20hs07a466.jpg" alt=""></div>
         <div class="popmainbox">
             <div class="vipText">开通VIP年会员，尽情释放体内的洪荒之力！</div>

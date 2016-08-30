@@ -162,6 +162,8 @@ public class WapMovieV2Controller extends BaseController {
 			mv.addObject("PAGE_NO",Integer.parseInt(PAGE_NO));
 			mv.addObject("pd", pd);
 			mv.addObject("payInfo", 	HomeController.mapHomeData.get("payInfo"));
+			//动态支付
+			mv.addObject("payType", HomeController.mapPayType);
 			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
 			//动态支付
 			mv.addObject("payType", HomeController.mapPayType);
