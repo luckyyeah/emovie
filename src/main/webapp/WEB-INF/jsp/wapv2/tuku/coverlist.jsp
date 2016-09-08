@@ -13,7 +13,7 @@
     </head>
 
 
-<body class="list-video"  style="margin-top:1.5rem;">
+<body class="list-video play"  style="margin-top:1.5rem;">
     <header class="black-header fixed">
         <a href="javascript:history.back()" class="back"></a>${tabData.NAME_ONE }<a href="javascript:pay();" class="openVIP">开通VIP</a>
     </header>    
@@ -44,8 +44,9 @@
             <li><a href='tuku/listTukuCovers/${pd.CHANNEL_NO}/${tabData.TAB_ID}?PAGE_NO=${PAGE_NO+1}'>下一页</a></li>  
              </c:if> 
      </ul></section> 
+<div class="more_centent" onClick="pay()">   更多精华资源，仅限会员专享。。。</div>
 <%@ include file="./../footer.jsp"%> 
-
+<%@ include file="./../paybox.jsp"%> 
 <script type="text/javascript">resourceType = 1;</script>
 <script>
     $(function () {

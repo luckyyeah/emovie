@@ -34,6 +34,7 @@
 
         	
     </section>
+<div class="more_centent" onClick="pay()">   更多精华资源，仅限会员专享。。。</div>
 <%@ include file="./footer.jsp"%> 
 <%@ include file="./paybox.jsp"%> 
 <script type="text/javascript">resourceType=3;</script>

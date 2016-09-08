@@ -1,4 +1,4 @@
-ï»¿/* public */
+/* public */
 html *{height: 100%;font-family: "microsoft yahei";}
 a { text-decoration: none; }
 .fl {float: left;}
@@ -30,7 +30,7 @@ input[type="submit"],
 input[type="reset"],
 input[type="button"]{-webkit-appearance:none;border-radius:0;padding:0}
 .relative{ position: relative;}
-/*å…¬ç”¨*/
+/*¹«ÓÃ*/
 .logo{ position: absolute;left:0;top:0;height: 1.25rem;line-height: 1.25rem;width: 1.25rem;display: inline-block;}
 
 .openVIP{background:#FF9933;color:#fff;font-size:0.28125rem;display: inline-block;width:1.671875rem;height:0.546875rem; line-height: 0.546875rem;border-radius:0.3125rem;position: absolute;right:0.3125rem;top:0.35rem; text-decoration: none;}
@@ -386,7 +386,7 @@ and (-webkit-min-device-pixel-ratio: 1) {
     .channel .channelBox .orangeBgtxt{font-size:0.3rem;}
 }
 
-/* æ¨ªå± */
+/* ºáÆÁ */
 @media (orientation: landscape) {
     .alipay .alipaySubmit{height: 0.9rem;}
     .play .popup{width:9rem;}
@@ -415,12 +415,12 @@ and (-webkit-min-device-pixel-ratio: 1) {
     .play .and img{width:25%;}
     .play .and .backpaytype{margin-top:0;}
 }
-/* ipadæˆ–å¤§å°ºå¯¸æ™ºèƒ½æ‰‹æœºè®¾å¤‡  (768px)  å±å¹•å°ºå¯¸åœ¨321pxåˆ°1024pxä¹‹é—´ï¼Œä¸”è®¾å¤‡ä¸ºç«–å±çŠ¶æ€  */
+/* ipad»ò´ó³ß´çÖÇÄÜÊÖ»úÉè±¸  (768px)  ÆÁÄ»³ß´çÔÚ321pxµ½1024pxÖ®¼ä£¬ÇÒÉè±¸ÎªÊúÆÁ×´Ì¬  */
 @media only screen and (min-width: 321px) and (max-width: 1024px) and (orientation: portrait) {
     .play video{height:6.25rem;width:100%;}
     .picPlay .picContent .swiper-slide img{max-width:auto;}
 }
-/* ipadç­‰å¹³æ¿è®¾å¤‡ (1024px) å±å¹•å°ºå¯¸åœ¨480pxåˆ°1024pxä¹‹é—´ï¼Œä¸”è®¾å¤‡ä¸ºæ¨ªå±çŠ¶æ€ */
+/* ipadµÈÆ½°åÉè±¸ (1024px) ÆÁÄ»³ß´çÔÚ480pxµ½1024pxÖ®¼ä£¬ÇÒÉè±¸ÎªºáÆÁ×´Ì¬ */
 @media only screen and (min-width: 481px) and (max-width: 1024px) and (orientation: landscape) {
     .play video{height:6.25rem;width:100%;}
     .picPlay .picContent .swiper-slide img{width:auto;}
@@ -467,3 +467,4 @@ and (-webkit-min-device-pixel-ratio: 1) {
 	background: #EA764B;
 	color: #fff;
 }
+.more_centent {height: 1.1875rem;line-height: 1.1875rem;background: #f8f8f8;text-align: center;top:0rem;bottom: 1.25rem;left: 0;width: 100%;z-index: 2;float: left;}

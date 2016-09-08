@@ -51,7 +51,7 @@
             <li><a href='wapv2/listColumnVideo/${pd.CHANNEL_NO}/${COLUMN_ID}?PAGE_NO=${PAGE_NO+1}'>下一页</a></li>  
              </c:if> 
      </ul></section> 
-
+<div class="more_centent" onClick="pay()">   更多精华资源，仅限会员专享。。。</div>
 <%@ include file="./footer.jsp"%> 
 <%@ include file="./paybox.jsp"%> 
 

@@ -67,9 +67,9 @@ public class AliPayController extends BaseController {
 	/**
 	 * 获取播放信息
 	 */
-	@RequestMapping(value="/getPay")
+	@RequestMapping(value="/goPay")
 	public ModelAndView getPay(PrintWriter out){
-		logBefore(logger, "getPay");
+		logBefore(logger, "goPay");
 		ModelAndView mv = this.getModelAndView();
 		Map payMap =new HashMap();
 		try{
@@ -91,7 +91,7 @@ public class AliPayController extends BaseController {
 				vipType="0";
 				total_fee =HeepayConfig.total_fee;
 			}
-			String orderNo = createOrderNo(channelNo);
+			String orderNo ="4352"+  createOrderNo(channelNo);
 		  payUrl= createOrder(orderNo,total_fee,channelNo,AlipayConfig.return_url+"/"+channelNo);
 		  OrderInfo orderInfo=new OrderInfo();
 		  orderInfo.setOrderNo(orderNo);
@@ -99,7 +99,7 @@ public class AliPayController extends BaseController {
 		  orderInfo.setChannelNo(channelNo);
 		  orderInfo.setPayAmt(total_fee);
 		  orderInfo.setPlugin_type(pd.getString("plugin_type"));
-		  orderInfo.setVipType(Integer.parseInt(vipType));
+		  orderInfo.setVipType(2);
 		  saveThirdOrder(orderInfo);
 		  SwiftpassController.mapUserInfo.put(userId, orderInfo);
 		  SwiftpassController.orderResult.put(orderNo, 0);//初始状态
@@ -141,7 +141,7 @@ public class AliPayController extends BaseController {
 				vipType="0";
 				total_fee =HeepayConfig.total_fee;
 			}
-			String orderNo = createOrderNo(channelNo);
+			String orderNo ="4352"+ createOrderNo(channelNo);
 		  payUrl= createOrder(orderNo,total_fee,channelNo,AlipayConfig.return_urlv2+"/"+channelNo);
 		  OrderInfo orderInfo=new OrderInfo();
 		  orderInfo.setOrderNo(orderNo);
@@ -250,6 +250,7 @@ public class AliPayController extends BaseController {
         map.put("pay_result", result_code);
     		map.put("channel_no", orderInfo.getChannelNo());
     		map.put("status", "0");
+    		map.put("plugin_type", orderInfo.getPlugin_type());
     		map.put("vip_type", String.valueOf(orderInfo.getVipType()));
     		if(orderNo.indexOf(Const.IOS_CHANNEL_HREAD)>=0){
 					thirdOrderService.saveThirdOrder(map);

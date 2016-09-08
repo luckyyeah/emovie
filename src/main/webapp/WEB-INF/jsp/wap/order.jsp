@@ -31,10 +31,10 @@
      <c:forEach items="${payType}" var="map">
      <c:if    test="${map.key<100}"> 
 		 <c:if test="${map.key==4 }">
-			<button class="ui-btn-lg ui-btn-weixin" data-role="button" data-href="ylpay/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}">
+			<button class="ui-btn-lg ui-btn-weixin" data-role="button" data-href="ylpay/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}&plugin_type=${map.key}">
 		</c:if>	
 		 <c:if test="${map.key==3 }">
-			<button class="ui-btn-lg ui-btn-weixin" data-role="button" data-href="thirdpay2/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}">
+			<button class="ui-btn-lg ui-btn-weixin" data-role="button" data-href="thirdpay2/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}&plugin_type=${map.key}">
 		</c:if>					
 				<img src="static/images/icon_wechat.png" alt=""> 微信支付
 			</button>
@@ -43,10 +43,10 @@
      <c:forEach items="${payType}" var="map">
      <c:if    test="${map.key>=100}"> 
 		 <c:if test="${map.key==101 }">
-			<button class="ui-btn-lg ui-btn-weixin ui-btn-alipay" data-role="button" data-href="alipay/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}">
+			<button class="ui-btn-lg ui-btn-weixin ui-btn-alipay" data-role="button" data-href="alipay/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}&plugin_type=${map.key}">
 		</c:if>	
 		 <c:if test="${map.key==102 }">
-			<button class="ui-btn-lg ui-btn-weixin ui-btn-alipay" data-role="button" data-href="bbpay/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}">
+			<button class="ui-btn-lg ui-btn-weixin ui-btn-alipay" data-role="button" data-href="bbpay/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}&plugin_type=${map.key}">
 		</c:if>					
 				<img src="static/images/icon_alipay.png" alt=""> 支付宝
 			</button>

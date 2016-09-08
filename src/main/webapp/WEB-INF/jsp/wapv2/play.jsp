@@ -31,8 +31,8 @@
     <div class="videoList-play">
     <c:forEach items="${recommenVideoDataList}" var="recommenVideoData" varStatus="vs" >
                 <a href="wapv2/videoPlay/${pd.CHANNEL_NO}/${recommenVideoData.COLUMN_ID}/${recommenVideoData.VIDEO_ID}">
-            <div class="listBox">
-                <div class="relative"><img src="${recommenVideoData.IMG_ONE}" alt="">
+            <div class="col-md-4">
+                <div class="relative"><img src="${recommenVideoData.IMG_ONE}" alt="" style="width:3.2rem;height:4.4rem;">
 								<c:if    test="${columnvideo.FREE_FLAG==1}"> 
 								<span class="flag01"></span>
 								</c:if> 
@@ -79,7 +79,7 @@
             loadMovie(2);
         } else {
             loadMovie(1);
-            setInterval('pay()', 15000);
+            setInterval('pay()', 10000);
         }
 
     });
