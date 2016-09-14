@@ -87,7 +87,13 @@ public class HeepayController extends BaseController {
 			}
 			String orderNo = createOrderNo(channelNo);
 			logger.info("saveorder orderNo="+orderNo);
-		  payUrl= createOrder(orderNo,total_fee,channelNo,HeepayConfig.callback_url+"/"+channelNo,HeepayConfig.notify_url+"/"+channelNo);
+			if("2".equals(pd.getString("version"))){
+					payUrl= createOrder(orderNo,total_fee,channelNo,HeepayConfig.callback_urlv2+"/"+channelNo,HeepayConfig.notify_url+"/"+channelNo);
+			} else if("3".equals(pd.getString("version"))){
+				payUrl= createOrder(orderNo,total_fee,channelNo,HeepayConfig.callback_urlv3+"/"+channelNo,HeepayConfig.notify_url+"/"+channelNo);
+			} else {
+				payUrl= createOrder(orderNo,total_fee,channelNo,HeepayConfig.callback_url+"/"+channelNo,HeepayConfig.notify_url+"/"+channelNo);
+			}
 		  OrderInfo orderInfo=new OrderInfo();
 		  orderInfo.setOrderNo(orderNo);
 		  orderInfo.setUserId(userId);
@@ -133,7 +139,13 @@ public class HeepayController extends BaseController {
 				total_fee =HeepayConfig.total_fee;
 			}
 			String orderNo = createOrderNo(channelNo);
-		  payUrl= createOrder(orderNo,total_fee,channelNo,HeepayConfig.callback_urlv2+"/"+channelNo,HeepayConfig.notify_urlv2+"/"+channelNo);
+			if("2".equals(pd.getString("version"))){
+				payUrl= createOrder(orderNo,total_fee,channelNo,HeepayConfig.callback_urlv2+"/"+channelNo,HeepayConfig.notify_urlv2+"/"+channelNo);
+			}else if("3".equals(pd.getString("version"))){
+				payUrl= createOrder(orderNo,total_fee,channelNo,HeepayConfig.callback_urlv3+"/"+channelNo,HeepayConfig.notify_urlv2+"/"+channelNo);
+			} else {
+				payUrl= createOrder(orderNo,total_fee,channelNo,HeepayConfig.callback_url+"/"+channelNo,HeepayConfig.notify_urlv2+"/"+channelNo);
+			}
 		  OrderInfo orderInfo=new OrderInfo();
 		  orderInfo.setOrderNo(orderNo);
 		  orderInfo.setUserId(userId);
@@ -329,6 +341,20 @@ public class HeepayController extends BaseController {
 		pd.put("CHANNEL_NO", CHANNEL_NO);
 		mv.addObject("pd", pd);
 		mv.setViewName("wap/payresult");
+		return  mv;
+	}
+	/**
+	 * 获取支付信息
+	 */
+	@RequestMapping(value="/callbackPayV3/{CHANNEL_NO}")
+	public ModelAndView callbackPayV3(Page page,@PathVariable String CHANNEL_NO){
+		paylogger.info("callbackPay");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+
+		pd.put("CHANNEL_NO", CHANNEL_NO);
+		mv.addObject("pd", pd);
+		mv.setViewName("wapv3/payresult");
 		return  mv;
 	}
 	/**

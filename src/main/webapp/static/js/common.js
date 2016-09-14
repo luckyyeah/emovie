@@ -289,7 +289,7 @@ if (/check/i.test(location.pathname)) {
     idx = Math.floor(2 * Math.random()),
     videoimgHeight = $(".videoimg").width() / 1.97;
     debug && console.log(videoimgHeight),
-    $(".videoimg").css("height", videoimgHeight).html('<img src="http://7xrmo6.com1.z0.glb.clouddn.com/"' + img[idx] + '" width="100%">'),
+    $(".videoimg").css("height", videoimgHeight).html('<img src="http://0829img.xyzjtj.com/"' + img[idx] + '" width="100%">'),
     debug && console.log("get paylink:" + getCookie("paylink"));
     var paylink = getCookie("paylink") ? unescape(getCookie("paylink")) : "";
     "" !== paylink ? $(".ui-btn-weixin").attr("href", paylink) : (console.log("paylink=null"), requestPay(apiurl, paytype, uid, proid, site, source, tt, ts)),

@@ -207,7 +207,9 @@
 	<!-- 列表(全部) -->
 	<select id="listVideos" parameterType="pd" resultType="pd">
 		select
+				FLOOR((80000 + RAND() *19999)) AS VIDEO_VIEW_TIMES,
 				a.*
+
 		from 
 				video a
 		where 1=1

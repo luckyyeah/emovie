@@ -10,6 +10,7 @@ public enum PlanTypeEnum {
 	Image(2, "图库"),
 	PC(3, "PC"),
 	Wap(4, "Wap"),
+	WapV3(6, "WapV3"),
 	Tuku(5, "Tuku");
     private int key;
     private String text;

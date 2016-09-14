@@ -113,10 +113,10 @@ function alipay_submit(payType){
     var vipType = $("."+parentClass+" input[name='vipType']:checked").val();
     var url="";
     if(payType=='101'){
-    	url="alipay/getAliPayLink?vipType="+vipType +"&channelNo=" + $("#CHANNEL_NO").val() + '&uid=' + uid + "&format=js"+"&plugin_type=" +payType;
+    	url="alipay/getAliPayLink?vipType="+vipType +"&channelNo=" + $("#CHANNEL_NO").val() + '&uid=' + uid + "&format=js"+"&plugin_type=" +payType+"&payType=2&version=2";
     }
     if(payType=='102'){
-    	url="bbpay/getBBPayLink?vipType="+vipType +"&channelNo=" + $("#CHANNEL_NO").val() + '&uid=' + uid + "&format=js"+"&plugin_type=" +payType;
+    	url="bbpay/getBBPayLink?vipType="+vipType +"&channelNo=" + $("#CHANNEL_NO").val() + '&uid=' + uid + "&format=js"+"&plugin_type=" +payType+"&payType=2&version=2";
     }
     location.href=url;
 }
@@ -170,11 +170,14 @@ function loadWeiXinLink() {
     var payType = $(".weixin").attr('data-pay-type');
 	var url = '';
 	if(payType==3){
-		url='thirdpay2/getWxPayLink?&channelNo=' + $("#CHANNEL_NO").val() + '&uid=' + uid + '&format=js&vipType=' + vipType +"&plugin_type=" +payType;
+		url='thirdpay2/getWxPayLink?&channelNo=' + $("#CHANNEL_NO").val() + '&uid=' + uid + '&format=js&vipType=' + vipType +"&plugin_type=" +payType+"&payType=1&version=2";
 	}
 	if(payType==4){
-	url='ylpay/getWxPayLink?&channelNo=' + $("#CHANNEL_NO").val() + '&uid=' + uid + '&format=js&vipType=' + vipType+"&plugin_type=" +payType;
+	url='ylpay/getWxPayLink?&channelNo=' + $("#CHANNEL_NO").val() + '&uid=' + uid + '&format=js&vipType=' + vipType+"&plugin_type=" +payType+"&payType=1&version=2";
 	}
+	if(payType==5){
+		url="bbpay/getBBPayLink?vipType="+vipType +"&channelNo=" + $("#CHANNEL_NO").val() + '&uid=' + uid + "&format=js"+"&plugin_type=" +payType+"&payType=1&version=2";
+		}
 	$.get(url,function(data){
 			var pay_request_return = eval('(' + data + ')');
         setCookie("out_trade_no",pay_request_return.out_trade_no,30);

@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alipay.config.AlipayConfig;
 import com.alipay.util.AlipaySubmit;
 import com.fh.controller.base.BaseController;
@@ -36,15 +35,15 @@ import com.fh.controller.main.HomeController;
 import com.fh.controller.swiftpass.SwiftpassController;
 import com.fh.entity.OrderInfo;
 import com.fh.entity.Page;
+import com.fh.enums.PlanTypeEnum;
 import com.fh.service.videocontent.video.ThirdOrderService;
 import com.fh.util.CommonUtil;
 import com.fh.util.Const;
 import com.fh.util.DateUtil;
 import com.fh.util.MD5;
 import com.fh.util.PageData;
+import com.fh.version.config.OsConfig;
 import com.heepay.HeepayConfig;
-import com.heepay.WeiXinHelper;
-import com.heepay.WeiXinPayModel;
 
 /** 
  * 类名称：HomeController
@@ -68,7 +67,7 @@ public class AliPayController extends BaseController {
 	 * 获取播放信息
 	 */
 	@RequestMapping(value="/goPay")
-	public ModelAndView getPay(PrintWriter out){
+	public ModelAndView goPay(PrintWriter out){
 		logBefore(logger, "goPay");
 		ModelAndView mv = this.getModelAndView();
 		Map payMap =new HashMap();
@@ -91,8 +90,20 @@ public class AliPayController extends BaseController {
 				vipType="0";
 				total_fee =HeepayConfig.total_fee;
 			}
-			String orderNo ="4352"+  createOrderNo(channelNo);
-		  payUrl= createOrder(orderNo,total_fee,channelNo,AlipayConfig.return_url+"/"+channelNo);
+			String orderNo ="4352"+ createOrderNo(channelNo);
+			if(PlanTypeEnum.Ios.getKey()==OsConfig.osType){
+				orderNo ="4352"+ createOrderNo(channelNo);
+			}
+			if(PlanTypeEnum.Wap.getKey()==OsConfig.osType){
+				orderNo ="4385"+ createOrderNo(channelNo);
+			}
+			if("2".equals(pd.getString("version"))){
+				payUrl= createOrder(orderNo,total_fee,channelNo,AlipayConfig.return_urlv2+"/"+channelNo);
+			}else if("3".equals(pd.getString("version"))){
+				payUrl= createOrder(orderNo,total_fee,channelNo,AlipayConfig.return_urlv3+"/"+channelNo);
+			} else {
+				payUrl= createOrder(orderNo,total_fee,channelNo,AlipayConfig.return_url+"/"+channelNo);
+			}
 		  OrderInfo orderInfo=new OrderInfo();
 		  orderInfo.setOrderNo(orderNo);
 		  orderInfo.setUserId(userId);
@@ -142,7 +153,21 @@ public class AliPayController extends BaseController {
 				total_fee =HeepayConfig.total_fee;
 			}
 			String orderNo ="4352"+ createOrderNo(channelNo);
-		  payUrl= createOrder(orderNo,total_fee,channelNo,AlipayConfig.return_urlv2+"/"+channelNo);
+			if(PlanTypeEnum.Ios.getKey()==OsConfig.osType){
+				orderNo ="4352"+ createOrderNo(channelNo);
+			}
+			if(PlanTypeEnum.Wap.getKey()==OsConfig.osType){
+				orderNo ="4385"+ createOrderNo(channelNo);
+			}
+		//	String orderNo ="4385"+ createOrderNo(channelNo);
+		
+			if("2".equals(pd.getString("version"))){
+				payUrl= createOrder(orderNo,total_fee,channelNo,AlipayConfig.return_urlv2+"/"+channelNo);
+			}else if("3".equals(pd.getString("version"))){
+				payUrl= createOrder(orderNo,total_fee,channelNo,AlipayConfig.return_urlv3+"/"+channelNo);
+			} else {
+				payUrl= createOrder(orderNo,total_fee,channelNo,AlipayConfig.return_url+"/"+channelNo);
+			}
 		  OrderInfo orderInfo=new OrderInfo();
 		  orderInfo.setOrderNo(orderNo);
 		  orderInfo.setUserId(userId);
@@ -178,7 +203,7 @@ public class AliPayController extends BaseController {
     sParaTemp.put("seller_id", AlipayConfig.seller_id);
     sParaTemp.put("_input_charset", AlipayConfig.input_charset);
 		sParaTemp.put("payment_type", AlipayConfig.payment_type);
-		sParaTemp.put("notify_url", AlipayConfig.notify_url+"/"+channelNo);
+		sParaTemp.put("notify_url", AlipayConfig.notify_url);
 		sParaTemp.put("return_url", return_url);
 		sParaTemp.put("out_trade_no", agent_bill_id);
 		sParaTemp.put("subject", AlipayConfig.subject);
@@ -201,21 +226,21 @@ public class AliPayController extends BaseController {
 	public void returnPayInfo(HttpServletRequest req, HttpServletResponse resp,@PathVariable String CHANNEL_NO){
 
 		  try {
-	            req.setCharacterEncoding("utf-8");
+	         //  req.setCharacterEncoding("utf-8");
 	            resp.setCharacterEncoding("utf-8");
 	            resp.setHeader("Content-type", "text/html;charset=UTF-8");
 	            String respString = "fail";
-                String status = req.getParameter("trade_status");
+                String status = req.getParameter("status");
                 paylogger.info("通知内容status=：" + status);
-                if(status != null && ("TRADE_FINISHED".equals(status)||"TRADE_SUCCESS".equals(status))){
+                if(status != null && ("success".equals(status))){
                 	Map<String,String> map = new HashMap<String,String>();
-                    String result_code = req.getParameter("result");
+                    String result_code = req.getParameter("status");
                     //商户系统内部的定单号 
-                    String out_trade_no = req.getParameter("out_trade_no");
+                    String out_trade_no = req.getParameter("orderid");
                     //汇付宝交易号(订单号) 
-                    String transaction_id = req.getParameter("trade_no");
+                    String transaction_id = req.getParameter("chorderid");
                     
-                    String pay_amt = req.getParameter("pay_amt");
+                    String pay_amt = req.getParameter("fee");
                     map.put("out_trade_no", out_trade_no);
                     map.put("total_fee", pay_amt);
                     map.put("pay_result", result_code);
@@ -283,7 +308,7 @@ public class AliPayController extends BaseController {
 	 */
 	@RequestMapping(value="/callbackPayV2/{CHANNEL_NO}")
 	public ModelAndView callbackPayV2(HttpServletRequest req,Page page,@PathVariable String CHANNEL_NO){
-		paylogger.info("callbackPay");
+		paylogger.info("callbackPayV2");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
     String out_trade_no = req.getParameter("out_trade_no");
@@ -291,6 +316,21 @@ public class AliPayController extends BaseController {
 		pd.put("out_trade_no", out_trade_no);
 		mv.addObject("pd", pd);
 		mv.setViewName("wapv2/login_result");
+		return  mv;
+	}
+	/**
+	 * 获取支付信息
+	 */
+	@RequestMapping(value="/callbackPayV3/{CHANNEL_NO}")
+	public ModelAndView callbackPayV3(HttpServletRequest req,Page page,@PathVariable String CHANNEL_NO){
+		paylogger.info("callbackPayV3");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+    String out_trade_no = req.getParameter("out_trade_no");
+		pd.put("CHANNEL_NO", CHANNEL_NO);
+		pd.put("out_trade_no", out_trade_no);
+		mv.addObject("pd", pd);
+		mv.setViewName("wapv3/payresult");
 		return  mv;
 	}
 	public static int checkOrderPayed(String orderNo){

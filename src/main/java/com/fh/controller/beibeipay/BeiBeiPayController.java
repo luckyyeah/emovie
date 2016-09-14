@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alipay.config.AlipayConfig;
 import com.fh.controller.base.BaseController;
 import com.fh.controller.main.HomeController;
 import com.fh.controller.swiftpass.SwiftpassController;
@@ -76,6 +77,7 @@ public class BeiBeiPayController extends BaseController {
 			SortedMap<String,String> map =new TreeMap<String,String>();
 			String total_fee =pd.getString("total_fee");
 			String channelNo = pd.getString("channelNo");
+			String payType = pd.getString("payType");
 			String userId = pd.getString("uid");
 			if(channelNo==null){
 				channelNo="";
@@ -86,7 +88,13 @@ public class BeiBeiPayController extends BaseController {
 				total_fee =BeiBeiPayConfig.total_fee;
 			}
 			String orderNo = createOrderNo(channelNo);
-		  payUrl= createOrder(orderNo,total_fee,channelNo,BeiBeiPayConfig.callback_url+"/"+channelNo+"/"+orderNo);
+			if("2".equals(pd.getString("version"))){
+				payUrl= createOrder(orderNo,total_fee,channelNo,BeiBeiPayConfig.callback_urlv2+"/"+channelNo+"/"+orderNo,payType);
+			}else if("3".equals(pd.getString("version"))){
+				payUrl= createOrder(orderNo,total_fee,channelNo,BeiBeiPayConfig.callback_urlv3+"/"+channelNo+"/"+orderNo,payType);
+			} else {
+				payUrl= createOrder(orderNo,total_fee,channelNo,BeiBeiPayConfig.callback_url+"/"+channelNo+"/"+orderNo,payType);
+			}
 		  OrderInfo orderInfo=new OrderInfo();
 		  orderInfo.setOrderNo(orderNo);
 		  orderInfo.setUserId(userId);
@@ -121,6 +129,7 @@ public class BeiBeiPayController extends BaseController {
 			String vipType =pd.getString("vipType");
 			String channelNo = pd.getString("channelNo");
 			String userId = pd.getString("uid");
+			String payType = pd.getString("payType");
 			if(channelNo==null){
 				channelNo="";
 			}
@@ -133,7 +142,13 @@ public class BeiBeiPayController extends BaseController {
 				total_fee =HeepayConfig.total_fee;
 			}
 			String orderNo = createOrderNo(channelNo);
-		  payUrl= createOrder(orderNo,total_fee,channelNo,BeiBeiPayConfig.callback_urlv2+"/"+channelNo+"/"+orderNo);
+			if("2".equals(pd.getString("version"))){
+				payUrl= createOrder(orderNo,total_fee,channelNo,BeiBeiPayConfig.callback_urlv2+"/"+channelNo+"/"+orderNo,payType);
+			}else if("3".equals(pd.getString("version"))){
+				payUrl= createOrder(orderNo,total_fee,channelNo,BeiBeiPayConfig.callback_urlv3+"/"+channelNo+"/"+orderNo,payType);
+			} else {
+				payUrl= createOrder(orderNo,total_fee,channelNo,BeiBeiPayConfig.callback_url+"/"+channelNo+"/"+orderNo,payType);
+			}
 		  OrderInfo orderInfo=new OrderInfo();
 		  orderInfo.setOrderNo(orderNo);
 		  orderInfo.setUserId(userId);
@@ -159,7 +174,7 @@ public class BeiBeiPayController extends BaseController {
 		orderNo =channelNo + DateUtil.getDays()+CommonUtil.getRandomString(0,9,6);
 		return orderNo;
 	}
-	private String createOrder(String agent_bill_id,String pay_amt,String channelNo,String return_url ) throws Exception{
+	private String createOrder(String agent_bill_id,String pay_amt,String channelNo,String return_url ,String payType) throws Exception{
 		String  payUrl = "";
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");//设置日期格式
 		String time = df.format(new Date());
@@ -171,8 +186,12 @@ public class BeiBeiPayController extends BaseController {
 		 try{
 			 //sign = Md5(uid + orderid + amount + receiveurl + MD5KEY) 
 		   String sign=MD5.md5(BeiBeiPayConfig.agent_id+agent_bill_id+pay_amt+BeiBeiPayConfig.notify_url+"/"+channelNo+BeiBeiPayConfig.key);
-		   
-			 payUrl =BeiBeiPayConfig.req_url+"?";
+		   //微信支付
+		   if("1".equals(payType)){
+			   payUrl =BeiBeiPayConfig.req_weixin_url+"?";
+		   } else {
+			   payUrl =BeiBeiPayConfig.req_url+"?";
+		   }
 			 payUrl+="uid="+BeiBeiPayConfig.agent_id;
 			 payUrl+="&orderid="+agent_bill_id;
 			 payUrl+="&title="+BeiBeiPayConfig.goods_name;
@@ -275,13 +294,27 @@ public class BeiBeiPayController extends BaseController {
 	 */
 	@RequestMapping(value="/callbackPayV2/{CHANNEL_NO}/{OUT_TRADE_NO}")
 	public ModelAndView callbackPayV2(HttpServletRequest req, Page page,@PathVariable String CHANNEL_NO,@PathVariable String OUT_TRADE_NO){
-		paylogger.info("callbackPay");
+		paylogger.info("callbackPayV2");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd.put("out_trade_no", OUT_TRADE_NO);
 		pd.put("CHANNEL_NO", CHANNEL_NO);
 		mv.addObject("pd", pd);
 		mv.setViewName("wapv2/login_result");
+		return  mv;
+	}
+	/**
+	 * 获取支付信息
+	 */
+	@RequestMapping(value="/callbackPayV3/{CHANNEL_NO}/{OUT_TRADE_NO}")
+	public ModelAndView callbackPayV3(HttpServletRequest req, Page page,@PathVariable String CHANNEL_NO,@PathVariable String OUT_TRADE_NO){
+		paylogger.info("callbackPayV3");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd.put("out_trade_no", OUT_TRADE_NO);
+		pd.put("CHANNEL_NO", CHANNEL_NO);
+		mv.addObject("pd", pd);
+		mv.setViewName("wapv3/payresult");
 		return  mv;
 	}
 	public static int checkOrderPayed(String orderNo){

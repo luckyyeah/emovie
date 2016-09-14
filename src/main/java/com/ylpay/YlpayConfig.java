@@ -40,6 +40,17 @@ public class YlpayConfig {
      * 回调url
      */
     public static String callback_url;
+    
+    
+    /**
+     * 回调url
+     */
+    public static String callback_urlv2;
+    
+    /**
+     * 回调url
+     */
+    public static String callback_urlv3;
 
     /**
      * 是否使用手机端微信支付，1=是，微信扫码支付不用传本参数
@@ -88,6 +99,8 @@ public class YlpayConfig {
             req_url = prop.getProperty("req_url").trim();   
             notify_url = prop.getProperty("notify_url").trim(); 
             callback_url = prop.getProperty("callback_url").trim();  
+            callback_urlv2 = prop.getProperty("callback_urlv2").trim();  
+            callback_urlv3 = prop.getProperty("callback_urlv3").trim();  
             is_phone= prop.getProperty("is_phone").trim();  
             is_frame= prop.getProperty("is_frame").trim();  
             total_fee= prop.getProperty("total_fee").trim(); 

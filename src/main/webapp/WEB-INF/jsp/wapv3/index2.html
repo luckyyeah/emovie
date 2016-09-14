@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>h5</title>
+<meta
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;"
+	name="viewport" />
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="Strict-Transport-Security" content="max-age=300" />
+<link rel="stylesheet" type="text/css"
+	href="../index/Tpl/Public/comm/css/frozen.css" media="all">
+<link rel="stylesheet" type="text/css"
+	href="../index/Tpl/Public/sp/css/style.css" media="all">
+<link rel="stylesheet" type="text/css"
+	href="../index/Tpl/Public/sp/css/swiper.min.css" media="all">
+<script src="../index/Tpl/Public/comm/js/swiper.min.js"></script>
+<script src="../index/Tpl/Public/comm/js/zepto.min.js"></script>
+<script src="../index/Tpl/Public/comm/js/frozen.js"></script>
+<script src="../index/Tpl/Public/comm/js/vue.min.js"></script>
+<script src="../index/Tpl/Public/sp/js/ui.js?i=9"></script>
+<script language="javascript" type="text/javascript">
+	if (navigator.userAgent.indexOf("indows") > 0) {
+		window.location.href = "about:blank";
+		alert("请用手机打开");
+	};
+</script>
+<style> /*body,html{overflow: hidden;width: 100%;}*/
+.swiper-container {
+	width: 100%;
+	height: 100%;
+}
+
+.swiper-slide {
+	text-align: center;
+	font-size: 18px;
+	background: #fff;
+	width: 40%;
+	/* Center slide text vertically */
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	-webkit-justify-content: center;
+	justify-content: center;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+}
+
+.swiper-slide:nth-child(2n) {
+	width: 40%;
+}
+
+.swiper-slide:nth-child(3n) {
+	width: 40%;
+}
+
+.swiper-slide {
+	line-height: 1;
+}
+
+.swiper-slide img {
+	width: 90%;
+	padding: 5px 5px 0;
+}
+
+.swiper-slide p {
+	font-size: 12px;
+	color: #333;
+	overflow: hidden;
+	line-height: 1.5;
+	height: 20px;
+}
+</style>
+</head>
+<body style="background-color: #ededed;">
+	<header id="header" class="ui-header ui-header-positive ui-border-b"
+		style="height: 45px; background-image: none;">
+		<ul class="ui-tiled ui-border-t" style="height: 44px;">
+			<li data-href="/Index/index/i/1"
+				style="background-color: #8f48ea; height: 44px;"><a
+				href="http://chjet.sqdgd.com/Index/index/i/1">成片</a></li>
+			<li data-href="/Index/index/i/2"
+				style="background-color: #8f48ea; height: 44px;"><a
+				href="http://chjet.sqdgd.com/Index/index/i/2">宅男</a></li>
+			<li data-href="/Index/index/i/3"
+				style="background-color: #8f48ea; height: 44px;"><a
+				href="http://chjet.sqdgd.com/Index/index/i/3">岛国</a></li>
+			<li data-href="/Index/index/i/4"
+				style="background-color: #8f48ea; height: 44px;"><a
+				href="http://chjet.sqdgd.com/Index/index/i/4">情色</a></li>
+			<li data-href="/Index/index/i/5"
+				style="background-color: #8f48ea; height: 44px;"><a
+				href="http://chjet.sqdgd.com/Index/index/i/5">高潮</a></li>
+			<li data-href="/Index/about"
+				style="background-color: #8f48ea; height: 44px;"><a
+				href="http://chjet.sqdgd.com/Index/about">关于</a></li>
+		</ul>
+	</header>
+	<div
+		style="background-color: white; padding-bottom: 10px; text-align: center; position: relative;">
+		<!--<video src="http://vi.gulu365.com/video/film/20160614sb11.mp4" style="min-height:16rem;" width="100%" height="200"
+           id="video"
+           controls="controls" preload="preload" poster="/resourse/img/20160630wy20.jpg"></video>-->
+		<img src="../resourse/img/20160630wy20.jpg" alt=""
+			style="width: 100%;" id="video"><a
+			href="http://chjet.sqdgd.com/Index/detail?title=%u304A%u6C34%u306E%u7A74%u9053%u30FB%u8EE2%u843D%u3057%u7D9A%u3051%u308B%u5973%u306E%u30AA%u30DE%u30F3%u30B3%u6652%u3057%u4EBA%u751F%uFF01&amp;mp4=144"
+			id="mpv"><img src="../resourse/img/playmp4.png" class="playmp4"
+			id="vdcont"></a>
+		<div class="button01" onclick='location.href="/Index/buy"'>非会员只能试看20秒，成为会员观看完整版</div>
+	</div>
+	<div>
+		<h1 class="pltil" style="height: 40px; line-height: 40px;">
+			<p style="background-image: url('../resourse/img/left.png')"></p>
+			猜你喜欢
+			<p></p>
+		</h1>
+		<h5 class="pltil"
+			style="color: #999; color: #999; padding-bottom: 10px;">
+			今日更新<span id="gxsl">129</span>部高清大片
+		</h5>
+	</div>
+	<div class="swiper-container">
+		<div class="swiper-wrapper">
+			<div class="swiper-slide"
+				onclick="document.getElementById('mpv').href='/Index/detail?title=%u9A19%u3055%u308C%u305F%u5DE8%u4E73%u30B0%u30E9%u30D3%u30A2%u30E2%u30C7%u30EB%uFF5E%u73E0%u7389%u306E&mp4=154';
+                                                document.getElementById('video').src='/resourse/img/20160506x32.jpg'">
+				<div>
+					<img src="../resourse/img/20160506x32.jpg" alt="">
+					<p>すべきだの肉欲</p>
+				</div>
+			</div>
+			<div class="swiper-slide"
+				onclick="document.getElementById('mpv').href='/Index/detail?title=19%u6B73%20%u7D30%u767D%u30AE%u30E3%u30EB%u306E%u521D%u5674%u5C04%uFF5E%u521D%u4E2D%u51FA%u3057&mp4=152';
+document.getElementById('video').src='/resourse/img/20160630kb8.jpg'">
+				<div>
+					<img src="../resourse/img/2016720dr23.jpg" alt="">
+					<p>なった美尻妻</p>
+				</div>
+			</div>
+			<div class="swiper-slide"
+				onclick="document.getElementById('mpv').href='/Index/detail?title=%u7F8E%u5DE8%u4E73%u30AE%u30E3%u30EB%20%u79CB%u5DDD%u307F%u306A%u307F%20%u6C96%u7E04%u30C7%u30FC%u30C8%u30D5%u30A1%u30C3%u30AF%20%u30B9%u30DA%u30B7%u30E3%u30EB&mp4=153';
+document.getElementById('video').src='/resourse/img/20160630kb13.jpg'">
+				<div>
+					<img src="../resourse/img/20160630kb13.jpg" alt="">
+					<p>巨乳で欲求不満な奥</p>
+				</div>
+			</div>
+			<div class="swiper-slide"
+				onclick="document.getElementById('mpv').href='/Index/detail?title=%u53CA%u5DDD%u5948%u592E%20%u6DEB%u4E71%u30E1%u30A4%u30C9%u5948%u592E&mp4=145';
+document.getElementById('video').src='/resourse/img/20160630rq8.jpg'">
+				<div>
+					<img src="../resourse/img/20160630rq8.jpg" alt="">
+					<p>颜正波大羞答答小少女</p>
+				</div>
+			</div>
+			<div class="swiper-slide"
+				onclick="document.getElementById('mpv').href='/Index/detail?title=%u3053%u8ABF%u6559%20%uFF5E%u3044%u3044%u306A%u308A%u7F8E%u719F%u5973%u306E%u7D76%u53EB%uFF5E%20%u6749%u6D66%u308C%u3044%u3089&mp4=141';
+document.getElementById('video').src='/resourse/img/20160630wy02.jpg'">
+				<div>
+					<img src="../resourse/img/20160630wy02.jpg" alt="">
+					<p>美女睡着莫名其妙被强奸</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div
+		style="background-color: white; padding-bottom: 15px; text-align: center;">
+		<div
+			style="height: 50px; line-height: 50px; background-color: #ededed; clear: both;">
+			<span class="lastba"
+				style="float: left; margin-left: 10px; color: #333; font-size: 18px;">最近评论</span><span
+				class="lastba cwhy" onclick='location.href="/Index/buy"'><img
+				src="../resourse/img/hy.png" alt="" class="hyzc">成为会员</span>
+		</div>
+		<div class="plnr">
+			<img src="../resourse/img/20160704tx498.jpg" alt="头像" class="picture">
+			<div class="plun">
+				<h2>wzsjsm</h2>
+				<span><a class="ipt i-g" title="亚洲系列">13秒前</a></span>
+				<div>我日，真的能看啊，艹，以前怎么没发现这个，爽死了</div>
+			</div>
+		</div>
+		<div class="plnr">
+			<img src="../resourse/img/20160704tx499.jpg" alt="头像" class="picture">
+			<div class="plun">
+				<h2>294724</h2>
+				<span><a class="ipt i-g" title="亚洲系列">30秒前</a></span>
+				<div>这个女的屁股好翘啊，水真多受不了了</div>
+			</div>
+		</div>
+		<div class="plnr">
+			<img src="../resourse/img/20160704tx500.jpg" alt="头像" class="picture">
+			<div class="plun">
+				<h2>hlwnds88</h2>
+				<span><a class="ipt i-g" title="亚洲系列">2分钟前</a></span>
+				<div>这个竟然不是骗人的啊，是真的！看了几个顶！！！！！！！和快播差不多，不错不错</div>
+			</div>
+		</div>
+		<div class="plnr">
+			<img src="../resourse/img/20160704tx501.jpg" alt="头像" class="picture">
+			<div class="plun">
+				<h2>287980</h2>
+				<span><a class="ipt i-g" title="亚洲系列">3分钟前</a></span>
+				<div>尼玛呀~害得我又忍不住撸了几次，压根就停不下来啊</div>
+			</div>
+		</div>
+		<div class="plnr">
+			<img src="../resourse/img/20160704tx502.jpg" alt="头像" class="picture">
+			<div class="plun">
+				<h2>qcznan</h2>
+				<span><a class="ipt i-g" title="亚洲系列">3分钟前</a></span>
+				<div>太精彩了哇，看来充值是没白冲，物超所值，在别的地方都看不了。就你们这里有资源，而且质量高。爽！</div>
+			</div>
+		</div>
+		<div class="plnr">
+			<img src="../resourse/img/20160704tx503.jpg" alt="头像" class="picture">
+			<div class="plun">
+				<h2>yydyly8</h2>
+				<span><a class="ipt i-g" title="亚洲系列">4分钟前</a></span>
+				<div>冲田杏梨的胸真是大啊，这个作品我找了好久了，居然在这里发现了</div>
+			</div>
+		</div>
+		<div class="plnr" style="border-bottom: none;">
+			<img src="../resourse/img/20160704tx504.jpg" alt="头像" class="picture">
+			<div class="plun">
+				<h2>1081884</h2>
+				<span><a class="ipt i-g" title="亚洲系列">5分钟前</a></span>
+				<div>果然是高清全集的，红红火火恍恍惚惚哈哈哈哈，找这么久终于找到了，每天都会上来看几部。好怕被老婆知道。</div>
+			</div>
+		</div>
+		<div class="button01" onclick='location.href="/Index/buy"'>成为VIP，分享视频精彩评论</div>
+	</div>
+</body>
+<script>
+	var myDate = new Date();
+	var data1 = myDate.getDate();
+	var str = 121 - data1;
+	document.getElementById("gxsl").innerHTML = str;
+	var swiper = new Swiper('.swiper-container', {
+		pagination : '.swiper-pagination',
+		nextButton : '.swiper-button-next',
+		prevButton : '.swiper-button-prev',
+		slidesPerView : 'auto',
+		paginationClickable : true,
+		spaceBetween : 5,
+		loop : true
+	});
+</script>
+<div style="display: none">
+	<script
+		src="http://s4.cnzz.com/z_stat.php?id=1259865506&web_id=1259865506"
+		language="JavaScript"></script>
+</div>
+</html>

@@ -28,5 +28,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/新罗/alipaySdk-20160809.jar"/>
+	<classpathentry kind="lib" path="C:/新罗/XLSingleSDK_Third.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

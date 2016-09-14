@@ -611,7 +611,7 @@ public class WapMovieV2Controller extends BaseController {
 		return mv;
 	}	
     @RequestMapping(value="/clearCache")
-    public String clearChache(HttpServletRequest request,PrintWriter out) {
+    public String clearCache(HttpServletRequest request,PrintWriter out) {
     	paylogger.info("clearChache start");
     	String acceptjson = "";  
     	Map<String, Object> result = new HashMap<String, Object>();

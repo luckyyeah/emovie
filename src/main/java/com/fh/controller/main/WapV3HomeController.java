@@ -39,8 +39,8 @@ import com.fh.util.PageData;
  * 创建时间：2015-03-21
  */
 @Controller
-@RequestMapping(value="/wap")
-public class WapHomeController extends BaseController {
+@RequestMapping(value="/wapv3")
+public class WapV3HomeController extends BaseController {
 	
 
 	@Resource(name="planService")
@@ -60,65 +60,7 @@ public class WapHomeController extends BaseController {
 	
 	public static Map mapHomeData =new HashMap();
 	public static Map mapPayType =new HashMap();
-	/**
-	 * 列表
-	 */
 	@RequestMapping(value="/index/{CHANNEL_NO}")
-	public ModelAndView listIndex(Page page,@PathVariable String CHANNEL_NO){
-		logBefore(logger, "startindex");
-		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		List<PageData>  columnDataList =new ArrayList<PageData>();
-
-		String columnId= "";
-		try{
-			pd = this.getPageData();
-			pd.put("OS_TYPE", PlanTypeEnum.Wap.getKey());
-			
-			if(WapHomeController.mapPayType.isEmpty()){
-				List<PageData>   payPluginPDList=payPluginService.listPayPluginPD(pd);
-				for(PageData payPluginPD:payPluginPDList){
-					WapHomeController.mapPayType.put(payPluginPD.getString("PLUGIN_TYPE"), payPluginPD.getString("PLUGIN_TYPE"));
-				}
-			}		
-			String showType="";
-			if(mapHomeData.get("columnDataList")==null||mapHomeData.get("columnId")==null){
-				List<PageData>  planList = planService.listAll(pd);
-				//取得方案数据
-				for(PageData plan:planList){
-					//取得版块信息
-					pd.put("PLAN_ID", plan.getString("PLAN_ID"));
-					List<PageData> tabList = tabService.listTabs(pd);
-					for(PageData tab:tabList){
-						//取得栏目信息
-						pd.put("TAB_ID", tab.getString("TAB_ID"));
-						columnDataList=columnService.listColumns(pd);
-						for(PageData column:columnDataList){
-							//取得视频信息
-							pd.put("COLUMN_ID", column.getString("COLUMN_ID"));
-							columnId =column.getString("COLUMN_ID");
-							break;
-							
-						}
-						break;
-					}
-					break;
-				}
-			} else {
-				columnId = (String)mapHomeData.get("columnId");
-				columnDataList =(List<PageData>) mapHomeData.get("columnDataList");
-			}
-
-		} catch(Exception e){
-			logger.error(e.toString(), e);
-		}
-		
-		mapHomeData.put("columnDataList", columnDataList);
-		mapHomeData.put("columnId", columnId);
-		return  new ModelAndView("redirect:/wapmovie/listColumnVideo/" +CHANNEL_NO +"/"+columnId );
-		//return  new ModelAndView("redirect:/wapv2/listColumnVideo/" +CHANNEL_NO +"/"+columnId );
-	}
-	@RequestMapping(value="/v3/index/{CHANNEL_NO}")
 	public ModelAndView listV3Index(Page page,@PathVariable String CHANNEL_NO){
 		logBefore(logger, "startindex");
 		ModelAndView mv = this.getModelAndView();
@@ -130,10 +72,10 @@ public class WapHomeController extends BaseController {
 			pd = this.getPageData();
 			pd.put("OS_TYPE", PlanTypeEnum.WapV3.getKey());
 			
-			if(WapHomeController.mapPayType.isEmpty()){
+			if(WapV3HomeController.mapPayType.isEmpty()){
 				List<PageData>   payPluginPDList=payPluginService.listPayPluginPD(pd);
 				for(PageData payPluginPD:payPluginPDList){
-					WapHomeController.mapPayType.put(payPluginPD.getString("PLUGIN_TYPE"), payPluginPD.getString("PLUGIN_TYPE"));
+					WapV3HomeController.mapPayType.put(payPluginPD.getString("PLUGIN_TYPE"), payPluginPD.getString("PLUGIN_TYPE"));
 				}
 			}		
 			String showType="";
@@ -176,7 +118,10 @@ public class WapHomeController extends BaseController {
 		return  new ModelAndView("redirect:/wapv3/listRecommendVideo/" +CHANNEL_NO +"/"+columnId );
 		//return  new ModelAndView("redirect:/wapv2/listColumnVideo/" +CHANNEL_NO +"/"+columnId );
 	}
-		
+	@RequestMapping(value="/sysb1.mp4")
+	public ModelAndView listV3Index2(Page page){
+		return  new ModelAndView("redirect:http://wwww.baidu.com/" );
+	}
 	
 	/* ===============================权限================================== */
 	public Map<String, String> getHC(){

@@ -93,7 +93,13 @@ public class YLpayController extends BaseController {
 			}
 			YLpayController.pay_amt= total_fee;
 			String orderNo = createOrderNo(channelNo);
-		  payUrl= createOrder(orderNo,total_fee,channelNo,YlpayConfig.notify_url+"/"+channelNo+"/"+orderNo);
+			if("2".equals(pd.getString("version"))){
+				payUrl= createOrder(orderNo,total_fee,channelNo,YlpayConfig.notify_url+"/"+channelNo+"/"+orderNo,YlpayConfig.callback_urlv2+"/"+channelNo);
+			} else if("3".equals(pd.getString("version"))){
+				payUrl= createOrder(orderNo,total_fee,channelNo,YlpayConfig.notify_url+"/"+channelNo+"/"+orderNo,YlpayConfig.callback_urlv3+"/"+channelNo);
+			} else{
+				payUrl= createOrder(orderNo,total_fee,channelNo,YlpayConfig.notify_url+"/"+channelNo+"/"+orderNo,YlpayConfig.callback_url+"/"+channelNo);
+			}
 		  OrderInfo orderInfo=new OrderInfo();
 		  orderInfo.setOrderNo(orderNo);
 		  orderInfo.setUserId(userId);
@@ -138,7 +144,13 @@ public class YLpayController extends BaseController {
 				total_fee =HeepayConfig.total_fee;
 			}
 			String orderNo = createOrderNo(channelNo);
-		  payUrl= createOrder(orderNo,total_fee,channelNo,YlpayConfig.callback_url+"/"+channelNo+"/"+orderNo);
+			if("2".equals(pd.getString("version"))){
+				payUrl= createOrder(orderNo,total_fee,channelNo,YlpayConfig.notify_url+"/"+channelNo+"/"+orderNo,YlpayConfig.callback_urlv2+"/"+channelNo);
+			} else if("3".equals(pd.getString("version"))){
+				payUrl= createOrder(orderNo,total_fee,channelNo,YlpayConfig.notify_url+"/"+channelNo+"/"+orderNo,YlpayConfig.callback_urlv3+"/"+channelNo);
+			} else{
+				payUrl= createOrder(orderNo,total_fee,channelNo,YlpayConfig.notify_url+"/"+channelNo+"/"+orderNo,YlpayConfig.callback_url+"/"+channelNo);
+			}
 		  OrderInfo orderInfo=new OrderInfo();
 		  orderInfo.setOrderNo(orderNo);
 		  orderInfo.setUserId(userId);
@@ -166,7 +178,7 @@ public class YLpayController extends BaseController {
 		orderNo =channelNo + DateUtil.getDays()+CommonUtil.getRandomString(0,9,6);
 		return orderNo;
 	}
-	private String createOrder(String agent_bill_id,String pay_amt,String channelNo,String notifyUrl  ) throws Exception{
+	private String createOrder(String agent_bill_id,String pay_amt,String channelNo,String notifyUrl ,String return_url ) throws Exception{
 		String  payUrl = "";
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");//设置日期格式
 		String time = df.format(new Date());
@@ -189,7 +201,7 @@ public class YLpayController extends BaseController {
 				.append(YlpayConfig.goods_name)
 				.append(notifyUrl)
 				.append("0")
-				.append("0")
+				.append(return_url)
 				.append("zsyh")
 				.append("1")
 				.append(YlpayConfig.key);
@@ -205,7 +217,7 @@ public class YLpayController extends BaseController {
         		 new StringPart("p7_Pdesc", YlpayConfig.goods_name),
         		 new StringPart("p8_Url", notifyUrl),
         		 new StringPart("p9_SAF", "0"),
-        		 new StringPart("pa_MP", "0"),
+        		 new StringPart("pa_MP", return_url),
         		 new StringPart("pd_FrpId", "zsyh"),
         		 new StringPart("pr_NeedResponse", "1"),
         		 new StringPart("Sjt_UserName", "1"),
@@ -328,7 +340,7 @@ public class YLpayController extends BaseController {
         map.put("out_trade_no", out_trade_no);
         map.put("total_fee", pay_amt);
         map.put("pay_result", result_code);
-    		map.put("channel_no", orderInfo.getOrderNo());
+    		map.put("channel_no", orderInfo.getChannelNo());
     		map.put("status", "0");
     		map.put("plugin_type", orderInfo.getPlugin_type());
     		map.put("vip_type", String.valueOf(orderInfo.getVipType()));
@@ -347,7 +359,7 @@ public class YLpayController extends BaseController {
 	 * 获取支付信息
 	 */
 	@RequestMapping(value="/callbackPay/{CHANNEL_NO}")
-	public ModelAndView videoDetail(Page page,@PathVariable String CHANNEL_NO){
+	public ModelAndView callbackPay(Page page,@PathVariable String CHANNEL_NO){
 		paylogger.info("callbackPay");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
@@ -357,7 +369,35 @@ public class YLpayController extends BaseController {
 		mv.setViewName("wap/payresult");
 		return  mv;
 	}
+	/**
+	 * 获取支付信息
+	 */
+	@RequestMapping(value="/callbackPayV2/{CHANNEL_NO}")
+	public ModelAndView callbackPayV2(Page page,@PathVariable String CHANNEL_NO){
+		paylogger.info("callbackPayV2");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
 
+		pd.put("CHANNEL_NO", CHANNEL_NO);
+		pd.put("out_trade_no", "");
+		mv.addObject("pd", pd);
+		mv.setViewName("wapv2/login_result");
+		return  mv;
+	}
+	/**
+	 * 获取支付信息
+	 */
+	@RequestMapping(value="/callbackPayV3/{CHANNEL_NO}")
+	public ModelAndView callbackPayV3(Page page,@PathVariable String CHANNEL_NO){
+		paylogger.info("callbackPay");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+
+		pd.put("CHANNEL_NO", CHANNEL_NO);
+		mv.addObject("pd", pd);
+		mv.setViewName("wapv3/payresult");
+		return  mv;
+	}
 	public static String checkOrderPayed(String orderNo){
 
 		String param = "Sjt_TransID="+orderNo;

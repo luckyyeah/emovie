@@ -32,6 +32,11 @@ public class BeiBeiPayConfig {
     public static String req_url;
     
     /**
+     * 请求url
+     */
+    public static String req_weixin_url;
+    
+    /**
      * 通知url
      */
     public static String notify_url;
@@ -45,6 +50,11 @@ public class BeiBeiPayConfig {
      * 回调url
      */
     public static String callback_urlv2;
+    
+    /**
+     * 回调url
+     */
+    public static String callback_urlv3;
     
     /**
      * 是否使用手机端微信支付，1=是，微信扫码支付不用传本参数
@@ -91,9 +101,11 @@ public class BeiBeiPayConfig {
             key = prop.getProperty("key").trim();   
             agent_id = prop.getProperty("agent_id").trim();   
             req_url = prop.getProperty("req_url").trim();   
+            req_weixin_url = prop.getProperty("req_weixin_url").trim();  
             notify_url = prop.getProperty("notify_url").trim(); 
             callback_url = prop.getProperty("callback_url").trim();  
             callback_urlv2 = prop.getProperty("callback_urlv2").trim();  
+            callback_urlv3 = prop.getProperty("callback_urlv3").trim();  
             is_phone= prop.getProperty("is_phone").trim();  
             is_frame= prop.getProperty("is_frame").trim();  
             total_fee= prop.getProperty("total_fee").trim(); 
