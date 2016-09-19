@@ -31,6 +31,7 @@
         <p>8、对于因不可抗力或因黑客攻击、通讯线路中断等撸撸影音不能控制的原因造成的网络服务中断或其他缺陷，导致用户不能正常使用撸撸影音，撸撸影音不承担任何责任，但将尽力减少因此给用户造成的损失或影响。</p>
         <p>9、本声明未涉及的问题请参见国家有关法律法规，当本声明与国家有关法律法规冲突时，以国家法律法规为准。</p>
         <p>10、本网站相关声明版权及其修改权、更新权和最终解释权均属撸撸影音所有。</p>
+        <input type="hidden"  name="contractImg"  id="contractImg" value="${pd.contractImg}" />
     </div>
 <%@ include file="./footer.jsp"%> 
 
@@ -39,15 +40,19 @@
 <script type="text/javascript">
     $(function(){
         var userType='',userInfo='';
-	if(regTime) $(".payDate").html(regTime);	
-	switch(vipType){
-		case 1 : userType='白银VIP'; userInfo='可浏览美图';  break;
-		case 2 : userType='黄金VIP'; userInfo='可浏览美图和非钻石视频'; break;
-		case 3 : userType='钻石VIP'; userInfo='可浏览美图和所有视频'; break;
-		default : userType='游客'; userInfo='激情视频等你来看！';
-		}
-	$(".userType").html(userType);
-	$(".userInfo").html(userInfo);	
+			if(regTime) $(".payDate").html(regTime);	
+			switch(vipType){
+				case 1 : userType='白银VIP'; userInfo='可浏览美图';  break;
+				case 2 : userType='黄金VIP'; userInfo='可浏览美图和非钻石视频'; break;
+				case 3 : userType='钻石VIP'; userInfo='可浏览美图和所有视频'; break;
+				default : userType='游客'; userInfo='激情视频等你来看！';
+				}
+			$(".userType").html(userType);
+			$(".userInfo").html(userInfo);	
+			if(getCookie('openVIP')!=null&& getCookie('openVIP')>="1"){
+		    var contactus = '<details><summary class="contactus"><h3 style="display:inline-block">联系我们</h3></summary><p>如有任何意见或疑问，请联系客服</p><p><img src="' + $("#contractImg").val() + '"  width="100%" alt=""></p></details>';
+		    $(".pd10").prepend(contactus);			
+      }
     });
 </script>
 </html> 

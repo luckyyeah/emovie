@@ -35,6 +35,7 @@ import com.fh.entity.ClientComment;
 import com.fh.entity.OrderInfo;
 import com.fh.entity.Page;
 import com.fh.entity.PayData;
+import com.fh.enums.ColumnDataTypeEnum;
 import com.fh.service.videocontent.column.ColumnService;
 import com.fh.service.videocontent.comment.ClientCommentService;
 import com.fh.service.videocontent.plan.PlanService;
@@ -600,7 +601,11 @@ public class WapMovieV2Controller extends BaseController {
 	
 		try {
 			pd.put("CHANNEL_NO", CHANNEL_NO);
-
+			pd.put("DATA_TYPE", ColumnDataTypeEnum.AbaoutType.getKey());
+			List<PageData> columnList = columnService.listColumns(pd);
+			if(columnList !=null){
+				pd.put("contractImg", columnList.get(0).get("IMG_ONE"));
+			}
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

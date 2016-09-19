@@ -118,10 +118,7 @@ public class WapV3HomeController extends BaseController {
 		return  new ModelAndView("redirect:/wapv3/listRecommendVideo/" +CHANNEL_NO +"/"+columnId );
 		//return  new ModelAndView("redirect:/wapv2/listColumnVideo/" +CHANNEL_NO +"/"+columnId );
 	}
-	@RequestMapping(value="/sysb1.mp4")
-	public ModelAndView listV3Index2(Page page){
-		return  new ModelAndView("redirect:http://wwww.baidu.com/" );
-	}
+
 	
 	/* ===============================权限================================== */
 	public Map<String, String> getHC(){

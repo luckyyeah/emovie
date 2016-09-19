@@ -466,7 +466,6 @@ details.contactus summary::-webkit-details-marker {
     display: inline-block;
     width: 30%;
     height: 1px;
-    background-image: url("/resourse/img/right.png");
     background-size: 100% 100%;
     position: relative;
     bottom: 6px;

@@ -5,5 +5,5 @@
 						content="width=device-width,initial-scale=1,shrink-to-fit=no">
 					<meta name="format-detection" content="telephone=no">
 					<title>成人快播电影</title>
-					<link rel="stylesheet" href="static/css/frozen.min.css">
+					<link rel="stylesheet" href="http://lg08.eeb24.com/wap/static/css/frozen.min.css">
 					<link rel="stylesheet" href="http://lg08.eeb24.com/wap/static/css/style.min.css">

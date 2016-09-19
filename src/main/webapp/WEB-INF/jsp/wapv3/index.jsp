@@ -170,7 +170,7 @@
 		<div class="button01" onclick='javascript:goToPay()'>成为VIP，分享视频精彩评论</div>
 	</div>
 	<%@ include file="./footer.jsp"%> 
-	<script src="static/js/v3/swiper.min.js"></script>
+	<script src="http://lg08.eeb24.com/wap/static/js/v3/swiper.min.js"></script>
 <script>
  	var myDate = new Date();
 	var data1 = myDate.getDate();
@@ -188,4 +188,8 @@
 </script>
 
 </body>
+<div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259746926'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1259746926%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script></div>
+	<script type="text/javascript">
+	setCookie("COLUMN_ID", "", "d999");
+	</script>
 </html>

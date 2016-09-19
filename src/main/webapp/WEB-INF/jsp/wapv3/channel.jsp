@@ -77,5 +77,8 @@
 		</ul>
 	</section>
 	<%@ include file="./footer.jsp"%> 
+	<script type="text/javascript">
+	setCookie("COLUMN_ID", "${pd.COLUMN_ID}", "d999");
+	</script>
 </body>
 </html>

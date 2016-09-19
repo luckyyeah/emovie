@@ -247,7 +247,7 @@ public class AliPayController extends BaseController {
                 		map.put("channel_no", CHANNEL_NO);
                 		map.put("transaction_id", transaction_id);
                 		map.put("status", String.valueOf(1));
-                		if(CHANNEL_NO.indexOf(Const.IOS_CHANNEL_HREAD)>=0){
+                		if(out_trade_no.indexOf(Const.IOS_CHANNEL_HREAD)>=0){
                 			thirdOrderService.edit(map);
                 		} else {
                 			thirdOrderService.editAndroid(map);

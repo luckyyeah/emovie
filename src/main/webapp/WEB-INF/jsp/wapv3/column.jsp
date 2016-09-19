@@ -11,4 +11,5 @@
 		</ul>
 	</header>	    
 	<input type="hidden" name="COLUMN_NO" id="COLUMN_NO" value="${pd.COLUMN_NO}"  />
+	<input type="hidden" name="COLUMN_ID" id="COLUMN_ID" value="${pd.COLUMN_ID}"  />
 

@@ -32,10 +32,11 @@
 	var sbnum	= "6";
 </script>
 
-	<script src="static/js/v3/zepto.min.js"></script>
-	<script src="static/js/v3/frozen.js"></script>
-	<script src="static/js/v3/vue.min.js"></script>
-	<script src="static/js/v3/common.min.js"></script>
+	<script src="http://lg08.eeb24.com/wap/static/js/v3/zepto.min.js"></script>
+	<script src="http://lg08.eeb24.com/wap/static/js/v3/frozen.js"></script>
+	<script src="http://lg08.eeb24.com/wap/static/js/v3/vue.min.js"></script>
+	<script src="http://lg08.eeb24.com/wap/static/js/v3/common.min.js"></script>
+
 	<script>
  function Brower(){
         var instance = {};
@@ -140,3 +141,4 @@ function goToPay(){
 	window.location.href ="<%=basePath%>wapv3/checkPay?CHANNEL_NO=${pd.CHANNEL_NO}";
 }
 </script>
+
