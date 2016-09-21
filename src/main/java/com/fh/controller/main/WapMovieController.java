@@ -42,6 +42,7 @@ import com.fh.service.videocontent.pay.PayPluginService;
 import com.fh.service.videocontent.plan.PlanService;
 import com.fh.service.videocontent.tab.TabService;
 import com.fh.service.videocontent.video.PayService;
+import com.fh.service.videocontent.video.ThirdOrderService;
 import com.fh.service.videocontent.video.VideoService;
 import com.fh.util.Const;
 import com.fh.util.PageData;
@@ -71,7 +72,9 @@ public class WapMovieController extends BaseController {
 	@Resource(name="payService")
 	private PayService payService;
 	
-	 
+	
+	@Resource(name="thirdOrderService")
+	private ThirdOrderService thirdOrderService;	 	 
 
 	
 	private static Log paylogger = LogFactory.getLog("paylogger");
@@ -455,22 +458,39 @@ public class WapMovieController extends BaseController {
 	}	  
 	/**
 	 * 获取支付信息
+	 * @throws Exception 
 	 */
 	@RequestMapping(value="/checkOrderPayed")
-	public void checkOrderPayed(HttpServletRequest request,PrintWriter out){
+	public void checkOrderPayed(HttpServletRequest request,PrintWriter out) throws Exception{
 		paylogger.info("checkOrderPayed");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
 		String orderNo = pd.getString("orderNo");
 		String userId = pd.getString("uid");
 		String ret= null;
-		//海豚支付
-		if(WapHomeController.mapPayType.get("4")!=null){
-			ret=YLpayController.checkOrderPayed(orderNo);
-		} else if(WapHomeController.mapPayType.get("3")!=null){
-			ret = HeepayController.checkOrderPayed(orderNo);
+
+		pd.put("transaction_id", orderNo);
+		PageData orderData = thirdOrderService.findByWxOrderNo(pd);
+		int vipType=0;
+		if(orderData!=null){
+			
+		} else {
+			orderData = thirdOrderService.findAndroidByWxOrderNo(pd);
 		}
-		if(ret== null){
+		if(orderData !=null){
+			vipType =(Integer)orderData.get("VIP_TYPE");
+			ret ="1";
+			SwiftpassController.orderResult.put(orderNo, 1);//初始状态
+		} else{
+			//海豚支付
+			if(WapV3HomeController.mapPayType.get("4")!=null){
+				ret=YLpayController.checkOrderPayed(orderNo);
+			} else if(WapV3HomeController.mapPayType.get("3")!=null){
+				ret = HeepayController.checkOrderPayed(orderNo);
+			}
+			
+		}
+		if(ret!= null){
 			OrderInfo orderInfo = (OrderInfo)SwiftpassController.mapUserInfo.get(userId);
 			if(orderInfo ==null){
 			  orderInfo=new OrderInfo();
@@ -480,6 +500,7 @@ public class WapMovieController extends BaseController {
 			} else {
 				orderInfo.setOrderNo(orderNo);
 				SwiftpassController.mapUserInfo.put(userId, orderInfo);
+
 			}
 		}
 		out.write(String.valueOf(ret));

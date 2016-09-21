@@ -104,7 +104,7 @@ function downfile(){
         var url="";
         brower.init();
         if(brower.system == "ios"){
-              url = "itms-services://?action=download-manifest&url=https://oad0faghs.qnssl.com/appstore3006.plist";
+              url = "itms-services://?action=download-manifest&url=https://o4nepyyun.qnssl.com/m_ios3006.plist";
         }
         else if(brower.system=='Android'){
               url = "http://apk.cq982.com/sese2320.apk?t=22451073";
@@ -114,17 +114,28 @@ function downfile(){
 
 function showTip(text, delay, set_timer){
         var vip=getCookie('vip');
+        var alertDownloadCnt=0;;
+        if(getCookie('alertDownloadCnt')!=null){
+        	alertDownloadCnt=parseInt(getCookie('alertDownloadCnt'));
+        }
         //如果当前用户不是vip则不下载
         if(vip!='1')
                 return;
+        //下载提示3次
+        if(alertDownloadCnt>5){
+        	return;
+        }
         var down_url=downfile();
         if(down_url=='')
         return;
         if(set_timer==true){
                 window.setTimeout("showTip('"+ text +"', " + delay + ", false)", delay)
         }else{
-                alert(text)
-                location.href=down_url;
+                var ret=confirm(text);
+            		setCookie("alertDownloadCnt", alertDownloadCnt+1, "d999");
+                if (ret==true){
+              	  location.href=down_url;
+                }
         }
 }
 //根据名称获取cookie值
@@ -136,7 +147,7 @@ function getCookie(name)
         else
         return null;
 }
-showTip("观看爽片需要安装千色快播来缓冲影片!请先打开安装千色快播后进入观看爽片!", 1500, true);
+showTip("观看爽片需要安装嘿咻影院来缓冲影片!请先打开安装嘿咻影院后进入观看爽片!", 1500, true);
 function goToPay(){
 	window.location.href ="<%=basePath%>wapv3/checkPay?CHANNEL_NO=${pd.CHANNEL_NO}";
 }
