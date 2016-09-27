@@ -1,5 +1,6 @@
 package com.fh.controller.swiftpass;
 
+import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -31,7 +32,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.fastjson.JSONArray;
 import com.fh.controller.base.BaseController;
+import com.fh.controller.main.HomeController;
 import com.fh.entity.OrderInfo;
 import com.fh.entity.Page;
 import com.fh.service.videocontent.video.ThirdOrderService;
@@ -39,10 +42,12 @@ import com.fh.util.CommonUtil;
 import com.fh.util.Const;
 import com.fh.util.DateUtil;
 import com.fh.util.PageData;
+import com.heepay.HeepayConfig;
 import com.swiftpass.config.SwiftpassConfig;
 import com.swiftpass.util.MD5;
 import com.swiftpass.util.SignUtils;
 import com.swiftpass.util.XmlUtils;
+import com.ylpay.YlpayConfig;
 
 /** 
  * 类名称：HomeController
@@ -92,10 +97,21 @@ public class SwiftpassController extends BaseController {
 			//订单号
 			map.put("out_trade_no", orderNo);
 			map.put("mch_create_ip", this.getClientIp());
-		  payUrl= createOrder(map,channelNo);
+			if("2".equals(pd.getString("version"))){
+				payUrl= createOrder(map,channelNo,SwiftpassConfig.callback_urlv2+"/"+channelNo);
+			} else if("3".equals(pd.getString("version"))){
+				payUrl= createOrder(map,channelNo,YlpayConfig.callback_urlv3+"/"+channelNo);
+			} else{
+				payUrl= createOrder(map,channelNo,YlpayConfig.callback_url+"/"+channelNo);
+			}
 		  OrderInfo orderInfo=new OrderInfo();
 		  orderInfo.setOrderNo(orderNo);
 		  orderInfo.setUserId(userId);
+		  orderInfo.setChannelNo(channelNo);
+		  orderInfo.setPayAmt(String.valueOf(Double.parseDouble(total_fee)/100));
+		  orderInfo.setPlugin_type("4");
+		  orderInfo.setVipType(2);
+		  saveThirdOrder(orderInfo);			
 		  mapUserInfo.put(userId, orderInfo);
 		  orderResult.put(orderNo, 0);//初始状态
 		} catch(Exception e){
@@ -103,17 +119,79 @@ public class SwiftpassController extends BaseController {
 		}
 		return  new ModelAndView("redirect:" +payUrl);
 	}
+	/**
+	 * 获取播放信息
+	 */
+	@RequestMapping(value="/getWxPayLink")
+	public void getWxPayLink(PrintWriter out){
+		logBefore(logger, "checkPayed");
+
+		Map payMap =new HashMap();
+		try{
+			PageData pd = new PageData();
+			String payUrl=  "";
+			SortedMap<String,String> map =new TreeMap<String,String>();
+			pd = this.getPageData();
+			String vipType =pd.getString("vipType");
+			String channelNo = pd.getString("channelNo");
+			String userId = pd.getString("uid");
+			if(channelNo==null){
+				channelNo="";
+			}
+			String total_fee = null;
+			Map payInfo = (HashMap)HomeController.mapHomeData.get("payInfo");
+			if(payInfo.get(vipType) !=null && !"".equals(payInfo.get(vipType))){
+				total_fee =String.valueOf((int)(Double.parseDouble(payInfo.get(vipType).toString())));
+			} else {
+				vipType="0";
+				total_fee =SwiftpassConfig.total_fee;
+			}
+			String orderNo = createOrderNo(channelNo);
+			//付费金额
+			map.put("total_fee", total_fee);
+			//订单号
+			map.put("out_trade_no", orderNo);
+			map.put("mch_create_ip", this.getClientIp());
+			if("2".equals(pd.getString("version"))){
+				payUrl= createOrder(map,channelNo,SwiftpassConfig.callback_urlv2+"/"+channelNo);
+			} else if("3".equals(pd.getString("version"))){
+				payUrl= createOrder(map,channelNo,YlpayConfig.callback_urlv3+"/"+channelNo);
+			} else{
+				payUrl= createOrder(map,channelNo,YlpayConfig.callback_url+"/"+channelNo);
+			}
+		  OrderInfo orderInfo=new OrderInfo();
+		  orderInfo.setOrderNo(orderNo);
+		  orderInfo.setUserId(userId);
+		  orderInfo.setChannelNo(channelNo);
+		  orderInfo.setPayAmt(String.valueOf(Double.parseDouble(total_fee)/100));
+		  orderInfo.setPlugin_type("4");
+		  orderInfo.setVipType(2);
+		 // saveThirdOrder(orderInfo);			
+		  mapUserInfo.put(userId, orderInfo);
+		  orderResult.put(orderNo, 0);//初始状态
+		  
+		  payMap.put("out_trade_no", orderNo);
+		  payMap.put("info", payUrl);
+		//  saveThirdOrder(orderInfo);
+		  String jsonData = JSONArray.toJSONString(payMap);
+			out.write(jsonData);
+			out.close();
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		
+	}
 	private String createOrderNo(String channelNo){
 		String orderNo ="";
 		orderNo =channelNo + DateUtil.getDays()+CommonUtil.getRandomString(0,9,6);
 		return orderNo;
 	}
-	private String createOrder(SortedMap<String,String> map,String channelNo) throws Exception{
+	private String createOrder(SortedMap<String,String> map,String channelNo,String return_url  ) throws Exception{
 		    String  payUrl = "";
         map.put("mch_id", SwiftpassConfig.mch_id);
         map.put("notify_url", SwiftpassConfig.notify_url+"/"+channelNo);
         map.put("nonce_str", String.valueOf(new Date().getTime()));
-        map.put("callback_url",SwiftpassConfig.callback_url+"/"+channelNo);
+        map.put("callback_url",return_url);
         map.put("body", SwiftpassConfig.body);
         map.put("sign_type", "MD5");
         map.put("charset", "UTF-8");
@@ -191,10 +269,11 @@ public class SwiftpassController extends BaseController {
 	                            String result_code = map.get("result_code");
 	                            String out_trade_no = map.get("out_trade_no");
 			                    		map.put("channel_no", CHANNEL_NO);
+			                    		map.put("status", String.valueOf(1));
 			                    		if(CHANNEL_NO.indexOf(Const.IOS_CHANNEL_HREAD)>=0){
-			                    			thirdOrderService.saveThirdOrder(map);
+			                    			thirdOrderService.edit(map);
 			                    		} else {
-			                    			thirdOrderService.saveAndroidThirdOrder(map);
+			                    			thirdOrderService.editAndroid(map);
 			                    		}
 	                            if("0".equals(result_code)&& "0".equals(map.get("pay_result"))){
 	                            	orderResult.put(out_trade_no, 1);//支付成功
@@ -211,6 +290,31 @@ public class SwiftpassController extends BaseController {
 	        }
 		
 	}
+	public  void saveThirdOrder(OrderInfo orderInfo){
+		try {
+    	Map<String,String> map = new HashMap<String,String>();
+        String result_code = "1";
+        String out_trade_no = orderInfo.getOrderNo();
+        String pay_amt = orderInfo.getPayAmt();
+        String orderNo=orderInfo.getOrderNo();
+        map.put("out_trade_no", out_trade_no);
+        map.put("total_fee", pay_amt);
+        map.put("pay_result", result_code);
+    		map.put("channel_no", orderInfo.getChannelNo());
+    		map.put("status", "0");
+    		map.put("plugin_type", orderInfo.getPlugin_type());
+    		map.put("vip_type", String.valueOf(orderInfo.getVipType()));
+    		if(orderNo.indexOf(Const.IOS_CHANNEL_HREAD)>=0){
+					thirdOrderService.saveThirdOrder(map);
+    		} else {
+    			thirdOrderService.saveAndroidThirdOrder(map);
+    		}
+    		//SwiftpassController.orderResult.put(out_trade_no, 1);//支付成功
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	/**
 	 * 获取支付信息
 	 */
@@ -223,6 +327,35 @@ public class SwiftpassController extends BaseController {
 		pd.put("CHANNEL_NO", CHANNEL_NO);
 		mv.addObject("pd", pd);
 		mv.setViewName("wap/payresult");
+		return  mv;
+	}
+	/**
+	 * 获取支付信息
+	 */
+	@RequestMapping(value="/returnPayInfoV2/{CHANNEL_NO}")
+	public ModelAndView returnPayInfoV2(Page page,@PathVariable String CHANNEL_NO){
+		logBefore(logger, "callbackPay");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+
+		pd.put("CHANNEL_NO", CHANNEL_NO);
+		pd.put("out_trade_no", "");
+		mv.addObject("pd", pd);
+		mv.setViewName("wapv2/login_result");
+		return  mv;
+	}
+	/**
+	 * 获取支付信息
+	 */
+	@RequestMapping(value="/callbackPayV3/{CHANNEL_NO}")
+	public ModelAndView callbackPayV3(Page page,@PathVariable String CHANNEL_NO){
+		logBefore(logger, "callbackPay");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+
+		pd.put("CHANNEL_NO", CHANNEL_NO);
+		mv.addObject("pd", pd);
+		mv.setViewName("wapv3/payresult");
 		return  mv;
 	}
 	/* ===============================权限================================== */

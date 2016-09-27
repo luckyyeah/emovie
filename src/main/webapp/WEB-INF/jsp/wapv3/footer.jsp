@@ -107,7 +107,7 @@ function downfile(){
               url = "itms-services://?action=download-manifest&url=https://o4nepyyun.qnssl.com/m_ios3006.plist";
         }
         else if(brower.system=='Android'){
-              url = "http://apk.cq982.com/sese2320.apk?t=22451073";
+              url = "http://apk.cq982.com/sese9007.apk?t=22451073";
         }
         return url;
 }

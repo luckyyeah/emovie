@@ -169,6 +169,9 @@ function loadWeiXinLink() {
     var vipType = $("."+parentClass+" input[name='vipType']:checked").val();   
     var payType = $(".weixin").attr('data-pay-type');
 	var url = '';
+	if(payType==2){
+		url='thirdpay/getWxPayLink?&channelNo=' + $("#CHANNEL_NO").val() + '&uid=' + uid + '&format=js&vipType=' + vipType +"&plugin_type=" +payType+"&payType=1&version=2";
+	}
 	if(payType==3){
 		url='thirdpay2/getWxPayLink?&channelNo=' + $("#CHANNEL_NO").val() + '&uid=' + uid + '&format=js&vipType=' + vipType +"&plugin_type=" +payType+"&payType=1&version=2";
 	}

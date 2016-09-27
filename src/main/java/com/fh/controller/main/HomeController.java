@@ -71,8 +71,8 @@ public class HomeController extends BaseController {
 	public ModelAndView listIndex(Page page,@PathVariable String CHANNEL_NO){
 		logBefore(logger, "startindex");
 		//订单同步
-		OrderSynchronize orderSynchronize=new OrderSynchronize();
-		orderSynchronize.startOrderSyn();
+/*		OrderSynchronize orderSynchronize=new OrderSynchronize();
+		orderSynchronize.startOrderSyn();*/
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		List<PageData>  columnDataList =new ArrayList<PageData>();

@@ -40,6 +40,17 @@ public class SwiftpassConfig {
      * 回调url
      */
     public static String callback_url;
+    
+    
+    /**
+     * 回调url
+     */
+    public static String callback_urlv2;
+    
+    /**
+     * 回调url
+     */
+    public static String callback_urlv3;
 
     /**
      * 支付页名称body
@@ -59,6 +70,8 @@ public class SwiftpassConfig {
             req_url = prop.getProperty("req_url").trim();   
             notify_url = prop.getProperty("notify_url").trim(); 
             callback_url = prop.getProperty("callback_url").trim();  
+            callback_urlv2 = prop.getProperty("callback_urlv2").trim();  
+            callback_urlv3 = prop.getProperty("callback_urlv3").trim();              
             body= prop.getProperty("body").trim();  
             total_fee= prop.getProperty("total_fee").trim();  
         } catch (IOException e) {   
