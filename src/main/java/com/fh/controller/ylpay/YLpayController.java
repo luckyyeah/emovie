@@ -105,7 +105,7 @@ public class YLpayController extends BaseController {
 		  orderInfo.setUserId(userId);
 		  orderInfo.setChannelNo(channelNo);
 		  orderInfo.setPayAmt(total_fee);
-		  orderInfo.setPlugin_type("4");
+		  orderInfo.setPlugin_type(pd.getString("plugin_type"));
 		  orderInfo.setVipType(2);
 		  saveThirdOrder(orderInfo);
 		  SwiftpassController.mapUserInfo.put(userId, orderInfo);

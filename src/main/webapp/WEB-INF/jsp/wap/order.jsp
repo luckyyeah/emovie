@@ -31,7 +31,7 @@
      <c:forEach items="${payType}" var="map">
      <c:if    test="${map.key<100}"> 
 		 <c:if test="${map.key==2 }">
-			<button class="ui-btn-lg ui-btn-weixin" data-role="button" data-href="thirdpay/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}&plugin_type=${map.key}&payType=1&version=3">
+			<button class="ui-btn-lg ui-btn-weixin" data-role="button" data-href="thirdpay/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}&plugin_type=${map.key}&payType=1&version=1">
 		</c:if>	      
 		 <c:if test="${map.key==4 }">
 			<button class="ui-btn-lg ui-btn-weixin" data-role="button" data-href="ylpay/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}&plugin_type=${map.key}&payType=1&version=1">

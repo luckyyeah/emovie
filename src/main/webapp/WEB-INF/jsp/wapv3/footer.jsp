@@ -151,5 +151,6 @@ showTip("观看爽片需要安装嘿咻影院来缓冲影片!请先打开安装�
 function goToPay(){
 	window.location.href ="<%=basePath%>wapv3/checkPay?CHANNEL_NO=${pd.CHANNEL_NO}";
 }
+
 </script>
 

@@ -100,16 +100,16 @@ public class SwiftpassController extends BaseController {
 			if("2".equals(pd.getString("version"))){
 				payUrl= createOrder(map,channelNo,SwiftpassConfig.callback_urlv2+"/"+channelNo);
 			} else if("3".equals(pd.getString("version"))){
-				payUrl= createOrder(map,channelNo,YlpayConfig.callback_urlv3+"/"+channelNo);
+				payUrl= createOrder(map,channelNo,SwiftpassConfig.callback_urlv3+"/"+channelNo);
 			} else{
-				payUrl= createOrder(map,channelNo,YlpayConfig.callback_url+"/"+channelNo);
+				payUrl= createOrder(map,channelNo,SwiftpassConfig.callback_url+"/"+channelNo);
 			}
 		  OrderInfo orderInfo=new OrderInfo();
 		  orderInfo.setOrderNo(orderNo);
 		  orderInfo.setUserId(userId);
 		  orderInfo.setChannelNo(channelNo);
 		  orderInfo.setPayAmt(String.valueOf(Double.parseDouble(total_fee)/100));
-		  orderInfo.setPlugin_type("4");
+		  orderInfo.setPlugin_type(pd.getString("plugin_type"));
 		  orderInfo.setVipType(2);
 		  saveThirdOrder(orderInfo);			
 		  mapUserInfo.put(userId, orderInfo);
@@ -141,7 +141,7 @@ public class SwiftpassController extends BaseController {
 			String total_fee = null;
 			Map payInfo = (HashMap)HomeController.mapHomeData.get("payInfo");
 			if(payInfo.get(vipType) !=null && !"".equals(payInfo.get(vipType))){
-				total_fee =String.valueOf((int)(Double.parseDouble(payInfo.get(vipType).toString())));
+				total_fee =String.valueOf((int)(Double.parseDouble(payInfo.get(vipType).toString())*100));
 			} else {
 				vipType="0";
 				total_fee =SwiftpassConfig.total_fee;
@@ -155,17 +155,17 @@ public class SwiftpassController extends BaseController {
 			if("2".equals(pd.getString("version"))){
 				payUrl= createOrder(map,channelNo,SwiftpassConfig.callback_urlv2+"/"+channelNo);
 			} else if("3".equals(pd.getString("version"))){
-				payUrl= createOrder(map,channelNo,YlpayConfig.callback_urlv3+"/"+channelNo);
+				payUrl= createOrder(map,channelNo,SwiftpassConfig.callback_urlv3+"/"+channelNo);
 			} else{
-				payUrl= createOrder(map,channelNo,YlpayConfig.callback_url+"/"+channelNo);
+				payUrl= createOrder(map,channelNo,SwiftpassConfig.callback_url+"/"+channelNo);
 			}
 		  OrderInfo orderInfo=new OrderInfo();
 		  orderInfo.setOrderNo(orderNo);
 		  orderInfo.setUserId(userId);
 		  orderInfo.setChannelNo(channelNo);
 		  orderInfo.setPayAmt(String.valueOf(Double.parseDouble(total_fee)/100));
-		  orderInfo.setPlugin_type("4");
-		  orderInfo.setVipType(2);
+		  orderInfo.setPlugin_type(pd.getString("plugin_type"));
+		  orderInfo.setVipType(Integer.parseInt(vipType));
 		 // saveThirdOrder(orderInfo);			
 		  mapUserInfo.put(userId, orderInfo);
 		  orderResult.put(orderNo, 0);//初始状态
@@ -332,8 +332,8 @@ public class SwiftpassController extends BaseController {
 	/**
 	 * 获取支付信息
 	 */
-	@RequestMapping(value="/returnPayInfoV2/{CHANNEL_NO}")
-	public ModelAndView returnPayInfoV2(Page page,@PathVariable String CHANNEL_NO){
+	@RequestMapping(value="/callbackPayV2/{CHANNEL_NO}")
+	public ModelAndView callbackPayV2(Page page,@PathVariable String CHANNEL_NO){
 		logBefore(logger, "callbackPay");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
