@@ -258,7 +258,7 @@ public class SwiftpassController extends BaseController {
 	            if(resString != null && !"".equals(resString)){
 	                Map<String,String> map = XmlUtils.toMap(resString.getBytes(), "utf-8");
 	                String res = XmlUtils.toXml(map);
-	                System.out.println("通知内容：" + res);
+	               // System.out.println("通知内容：" + res);
 	                if(map.containsKey("sign")){
 	                    if(!SignUtils.checkParam(map, SwiftpassConfig.key)){
 	                        res = "验证签名不通过";

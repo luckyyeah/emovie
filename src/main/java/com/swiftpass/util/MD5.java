@@ -28,7 +28,7 @@ public class MD5 {
      */
     public static String sign(String text, String key, String input_charset) {
     	text = text + key;
-    	System.out.println(text);
+    	//System.out.println(text);
         return DigestUtils.md5Hex(getContentBytes(text, input_charset));
     }
     
