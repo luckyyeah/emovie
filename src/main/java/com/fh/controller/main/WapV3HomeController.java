@@ -62,7 +62,7 @@ public class WapV3HomeController extends BaseController {
 	public static Map mapPayType =new HashMap();
 	@RequestMapping(value="/index/{CHANNEL_NO}")
 	public ModelAndView listV3Index(Page page,@PathVariable String CHANNEL_NO){
-		logBefore(logger, "startindex");
+		//logBefore(logger, "startindex");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		List<PageData>  columnDataList =new ArrayList<PageData>();
@@ -115,7 +115,7 @@ public class WapV3HomeController extends BaseController {
 		
 		mapHomeData.put("columnDataList", columnDataList);
 		mapHomeData.put("columnId", columnId);
-		return  new ModelAndView("redirect:/wapv3/listRecommendVideo/" +CHANNEL_NO +"/"+columnId );
+		return  new ModelAndView("redirect:http://0913.enbozm.com:8090/emovie/wapv3/listRecommendVideo/" +CHANNEL_NO +"/"+columnId );
 		//return  new ModelAndView("redirect:/wapv2/listColumnVideo/" +CHANNEL_NO +"/"+columnId );
 	}
 

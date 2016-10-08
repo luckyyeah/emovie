@@ -87,7 +87,7 @@ public class WapMovieController extends BaseController {
 	 */
 	@RequestMapping(value="/listColumnVideo/{CHANNEL_NO}/{COLUMN_ID}")
 	public ModelAndView listColumnVideo(Page page,@PathVariable("COLUMN_ID") String COLUMN_ID,@PathVariable String CHANNEL_NO,@RequestParam(value="PAGE_NO",required=false) String PAGE_NO,@RequestParam(required=false) String COLUMN_NO){
-		logBefore(logger, "startindex");
+		//logBefore(logger, "startindex");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 
@@ -164,7 +164,7 @@ public class WapMovieController extends BaseController {
 	 */
 	@RequestMapping(value="/videoDetail/{COLUMN_ID}/{VIDEO_ID}")
 	public ModelAndView videoDetail(Page page,@PathVariable("COLUMN_ID") String COLUMN_ID,@PathVariable("VIDEO_ID") String VIDEO_ID){
-		logBefore(logger, "startindex");
+		//logBefore(logger, "startindex");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		List<PageData>  columnDataList =new ArrayList<PageData>();
@@ -208,7 +208,7 @@ public class WapMovieController extends BaseController {
 	 */
 	@RequestMapping(value="/videoPlay/{CHANNEL_NO}/{VIDEO_ID}")
 	public ModelAndView videoPlay(Page page,@PathVariable String CHANNEL_NO,@PathVariable("VIDEO_ID") String VIDEO_ID){
-		logBefore(logger, "startindex");
+		//logBefore(logger, "startindex");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 

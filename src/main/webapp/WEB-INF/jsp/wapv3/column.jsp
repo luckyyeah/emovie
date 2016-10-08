@@ -7,7 +7,7 @@
 			${column.NAME_ONE}</li>	
 			</c:if>
 		 </c:forEach>
-			<li data-href="wapv3/about/${pd.CHANNEL_NO}">关于</li>
+			<li data-href="wapv3/about/${pd.CHANNEL_NO}">我的</li>
 		</ul>
 	</header>	    
 	<input type="hidden" name="COLUMN_NO" id="COLUMN_NO" value="${pd.COLUMN_NO}"  />

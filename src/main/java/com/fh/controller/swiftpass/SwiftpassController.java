@@ -252,8 +252,8 @@ public class SwiftpassController extends BaseController {
 	            resp.setCharacterEncoding("utf-8");
 	            resp.setHeader("Content-type", "text/html;charset=UTF-8");
 	            String resString = XmlUtils.parseRequst(req);
-	            System.out.println("通知内容：" + resString);
-	            paylogger.info("通知内容：" + resString);
+	           // System.out.println("通知内容：" + resString);
+	           // paylogger.info("通知内容：" + resString);
 	            String respString = "fail";
 	            if(resString != null && !"".equals(resString)){
 	                Map<String,String> map = XmlUtils.toMap(resString.getBytes(), "utf-8");

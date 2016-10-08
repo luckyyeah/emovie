@@ -69,7 +69,7 @@ public class HomeController extends BaseController {
 	 */
 	@RequestMapping(value="/index/{CHANNEL_NO}")
 	public ModelAndView listIndex(Page page,@PathVariable String CHANNEL_NO){
-		logBefore(logger, "startindex");
+	//	logBefore(logger, "startindex");
 		//订单同步
 /*		OrderSynchronize orderSynchronize=new OrderSynchronize();
 		orderSynchronize.startOrderSyn();*/

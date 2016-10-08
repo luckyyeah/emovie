@@ -86,7 +86,7 @@ public class WapMovieV3Controller extends BaseController {
 	 */
 	@RequestMapping(value="/listRecommendVideo/{CHANNEL_NO}/{COLUMN_ID}")
 	public ModelAndView listRecommendVideo(Page page,@PathVariable("COLUMN_ID") String COLUMN_ID,@PathVariable String CHANNEL_NO,@RequestParam(value="PAGE_NO",required=false) String PAGE_NO,@RequestParam(required=false) String COLUMN_NO){
-		logBefore(logger, "startindex");
+	//	logBefore(logger, "startindex");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 
@@ -167,7 +167,7 @@ public class WapMovieV3Controller extends BaseController {
 	 */
 	@RequestMapping(value="/listColumnVideo/{CHANNEL_NO}/{COLUMN_ID}")
 	public ModelAndView listColumnVideo(Page page,@PathVariable("COLUMN_ID") String COLUMN_ID,@PathVariable String CHANNEL_NO,@RequestParam(value="PAGE_NO",required=false) String PAGE_NO,@RequestParam(required=false) String COLUMN_NO){
-		logBefore(logger, "startindex");
+		//logBefore(logger, "startindex");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 
@@ -244,7 +244,7 @@ public class WapMovieV3Controller extends BaseController {
 	 */
 	@RequestMapping(value="/videoDetail/{COLUMN_ID}/{VIDEO_ID}")
 	public ModelAndView videoDetail(Page page,@PathVariable("COLUMN_ID") String COLUMN_ID,@PathVariable("VIDEO_ID") String VIDEO_ID){
-		logBefore(logger, "startindex");
+		//logBefore(logger, "startindex");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		List<PageData>  columnDataList =new ArrayList<PageData>();
@@ -288,7 +288,7 @@ public class WapMovieV3Controller extends BaseController {
 	 */
 	@RequestMapping(value="/videoPlay/{CHANNEL_NO}/{VIDEO_ID}")
 	public ModelAndView videoPlay(Page page,@PathVariable String CHANNEL_NO,@PathVariable("VIDEO_ID") String VIDEO_ID){
-		logBefore(logger, "startindex");
+		//logBefore(logger, "startindex");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 
@@ -432,7 +432,7 @@ public class WapMovieV3Controller extends BaseController {
 	 */
 	@RequestMapping(value="/checkPayed")
 	public void checkPayed(PrintWriter out){
-		logBefore(logger, "checkPayed");
+		//logBefore(logger, "checkPayed");
 		PageData pd = new PageData();
 		String checkRet = "-1";
 		try{
@@ -447,14 +447,14 @@ public class WapMovieV3Controller extends BaseController {
 			logger.info("orderNo="+orderNo );
 			if(orderInfo !=null && orderNo !=null){
 				Integer orderStatus = (Integer)SwiftpassController.orderResult.get(orderNo);
-				logger.info("orderStatus="+orderStatus );
+				//logger.info("orderStatus="+orderStatus );
 				if((orderStatus !=null) && (orderStatus==1)){
 					checkRet="0";
 				} else {
 					
 				}
 			}
-			logger.info("userId="+userId +"|checkRet="+checkRet);
+		//	logger.info("userId="+userId +"|checkRet="+checkRet);
 			out.write(checkRet);
 			out.close();
 		} catch(Exception e){
@@ -550,12 +550,12 @@ public class WapMovieV3Controller extends BaseController {
 		String ret= null;
 
 		pd.put("transaction_id", orderNo);
-		PageData orderData = thirdOrderService.findByWxOrderNo(pd);
+		PageData orderData = thirdOrderService.findAndroidByWxOrderNo(pd);
 		int vipType=0;
 		if(orderData!=null){
 			
 		} else {
-			orderData = thirdOrderService.findAndroidByWxOrderNo(pd);
+			orderData = thirdOrderService.findByWxOrderNo(pd);
 		}
 		if(orderData !=null){
 			vipType =(Integer)orderData.get("VIP_TYPE");
@@ -599,6 +599,7 @@ public class WapMovieV3Controller extends BaseController {
     	WapMovieV3Controller.tryVideoDataList =null;
         String jsonData = JSONArray.toJSONString(result);
         WapV3HomeController.mapPayType = new HashMap();
+        WapV3HomeController.mapHomeData = new HashMap();
 		out.write(jsonData);
 		out.close();
         paylogger.info("clearChache end");

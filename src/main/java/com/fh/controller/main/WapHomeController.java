@@ -65,7 +65,7 @@ public class WapHomeController extends BaseController {
 	 */
 	@RequestMapping(value="/index/{CHANNEL_NO}")
 	public ModelAndView listIndex(Page page,@PathVariable String CHANNEL_NO){
-		logBefore(logger, "startindex");
+		//logBefore(logger, "startindex");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		List<PageData>  columnDataList =new ArrayList<PageData>();
@@ -120,7 +120,7 @@ public class WapHomeController extends BaseController {
 	}
 	@RequestMapping(value="/v3/index/{CHANNEL_NO}")
 	public ModelAndView listV3Index(Page page,@PathVariable String CHANNEL_NO){
-		logBefore(logger, "startindex");
+		//logBefore(logger, "startindex");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		List<PageData>  columnDataList =new ArrayList<PageData>();

@@ -70,7 +70,7 @@ public class BaseController {
 	
 	public static void logBefore(Logger logger, String interfaceName){
 		logger.info("");
-		logger.info("start");
+		//logger.info("start");
 		logger.info(interfaceName);
 	}
 	

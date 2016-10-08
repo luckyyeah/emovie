@@ -8,10 +8,15 @@
 <!DOCTYPE html>
 <html lang="en"  data-dpr="3" style="font-size: 124.5px;">
 
-    <head>
+<head>
 			<%@ include file="./head.jsp"%> 
-    </head>
 
+<script language="javascript" type="text/javascript">
+	if (navigator.userAgent.indexOf("indows") > 0) {
+		window.location.href = "about:blank";
+		alert("请用手机打开");
+	};
+</script>
 
 
 </head>

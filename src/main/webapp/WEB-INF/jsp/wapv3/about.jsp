@@ -15,6 +15,8 @@
 		<a class="ui-btn-lg ui-btn-weixin" href="wapv3/login/${pd.CHANNEL_NO}" >自助激活</a>
 	<section class="ui-panel" id="movite_content">
 		<div class="about">
+			<h3>收藏指南</h3>
+			<img alt="" src="http://0829img.xyzjtj.com/tuku/shoucang.jpg" style="width:100%;" />
 			<h3>免责声明</h3>
 			<p>1、一切移动客户端用户在下载并浏览夜夜快播时均被视为已经仔细阅读本条款并完全同意。凡以任何方式登陆本站，或直接、间接使用本站资料者，均被视为自愿接受本网站相关声明和用户服务协议的约束。</p>
 			<p>2、夜夜快播转载的内容并不代表夜夜快播之意见及观点，也不意味着本站赞同其观点或证实其内容的真实性。</p>

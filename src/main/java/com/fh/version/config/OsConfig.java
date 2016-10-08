@@ -27,7 +27,7 @@ public class OsConfig {
     /**
      * IOS os
      */
-    private static String OS_IOS_DB="rdsk8sjiuu87b5821a35o.mysql.rds.aliyuncs.com";
+    private static String OS_IOS_DB="rdsg818dzgn21033h322o.mysql.rds.aliyuncs.com";
 
     private static String OS_WAP_DB="rdsk8sjiuu87b5821a35o.mysql.rds.aliyuncs.com";
     
@@ -41,7 +41,7 @@ public class OsConfig {
         InputStream in = OsConfig.class.getResourceAsStream("/dbconfig.properties");   
         try {   
             prop.load(in);   
-            DB_URl = prop.getProperty("urlEx").trim();   
+            DB_URl = prop.getProperty("urlEx2").trim();   
             if(DB_URl.indexOf(OS_IOS_DB)>0){
             	osType=PlanTypeEnum.Ios.getKey();
             }

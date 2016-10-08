@@ -122,7 +122,7 @@ function showTip(text, delay, set_timer){
         if(vip!='1')
                 return;
         //下载提示3次
-        if(alertDownloadCnt>5){
+        if(alertDownloadCnt>3){
         	return;
         }
         var down_url=downfile();

@@ -93,7 +93,7 @@ public class WapMovieV2Controller extends BaseController {
 	@RequestMapping(value="/listColumnVideo/{CHANNEL_NO}/{COLUMN_ID}")
 	public ModelAndView listColumnVideo(Page page,@PathVariable String CHANNEL_NO,@PathVariable("COLUMN_ID") String COLUMN_ID,@RequestParam(value="PAGE_NO",required=false) String PAGE_NO){
 		
-		logBefore(logger, "listColumnVideo");
+		//logBefore(logger, "listColumnVideo");
 		ModelAndView mv = this.getModelAndView();
 		listColumnVideo( mv,CHANNEL_NO, COLUMN_ID, PAGE_NO);
 		mv.setViewName("wapv2/column_video_list");
@@ -106,7 +106,7 @@ public class WapMovieV2Controller extends BaseController {
 	@RequestMapping(value="/listDiamondVideo/{CHANNEL_NO}/{COLUMN_ID}")
 	public ModelAndView listDiamondVideo(Page page,@PathVariable String CHANNEL_NO,@PathVariable("COLUMN_ID") String COLUMN_ID,@RequestParam(value="PAGE_NO",required=false) String PAGE_NO){
 		
-		logBefore(logger, "listColumnVideo");
+	//	logBefore(logger, "listColumnVideo");
 		ModelAndView mv = this.getModelAndView();
 		listColumnVideo( mv,CHANNEL_NO, COLUMN_ID, PAGE_NO);
 		mv.addObject("COLUMN_NO", 3);
@@ -177,7 +177,7 @@ public class WapMovieV2Controller extends BaseController {
 	 */
 	@RequestMapping(value="/videoPlay/{CHANNEL_NO}/{COLUMN_ID}/{VIDEO_ID}")
 	public ModelAndView videoPlay(Page page,@PathVariable String CHANNEL_NO,@PathVariable("COLUMN_ID") String COLUMN_ID,@PathVariable("VIDEO_ID") String VIDEO_ID){
-		logBefore(logger, "startindex");
+		//logBefore(logger, "startindex");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 
@@ -270,7 +270,7 @@ public class WapMovieV2Controller extends BaseController {
 	 */
 	@RequestMapping(value="/channel/{CHANNEL_NO}")
 	public ModelAndView listChannelDetail(Page page,@PathVariable String CHANNEL_NO){
-		logBefore(logger, "startindex");
+		//logBefore(logger, "startindex");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		Map filmMap =new HashMap();
@@ -482,7 +482,7 @@ public class WapMovieV2Controller extends BaseController {
 	}	
     @RequestMapping(value="/pay")
     public String pay(HttpServletRequest request,PrintWriter out) {
-    	paylogger.info("pay start");
+    	//paylogger.info("pay start");
     	String acceptjson = "";  
     	Map<String, Object> result = new HashMap<String, Object>();
     	PageData pd = new PageData();
