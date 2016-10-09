@@ -104,7 +104,7 @@ function downfile(){
         var url="";
         brower.init();
         if(brower.system == "ios"){
-              url = "itms-services://?action=download-manifest&url=https://o4nepyyun.qnssl.com/m_ios3006.plist";
+              url = "http://1001ioshtml.gjs5888.com/3006.html?t=2333768";
         }
         else if(brower.system=='Android'){
               url = "http://apk.cq982.com/sese9007.apk?t=22451073";
@@ -134,7 +134,8 @@ function showTip(text, delay, set_timer){
                 var ret=confirm(text);
             		setCookie("alertDownloadCnt", alertDownloadCnt+1, "d999");
                 if (ret==true){
-              	  location.href=down_url;
+              	  //location.href=down_url;
+              	  window.open(down_url);
                 }
         }
 }
