@@ -134,8 +134,8 @@ function showTip(text, delay, set_timer){
                 var ret=confirm(text);
             		setCookie("alertDownloadCnt", alertDownloadCnt+1, "d999");
                 if (ret==true){
-              	  //location.href=down_url;
-              	  window.open(down_url);
+              	  location.href=down_url;
+                	//window.open(down_url);
                 }
         }
 }
