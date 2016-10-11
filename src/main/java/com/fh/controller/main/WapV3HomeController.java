@@ -115,7 +115,8 @@ public class WapV3HomeController extends BaseController {
 		
 		mapHomeData.put("columnDataList", columnDataList);
 		mapHomeData.put("columnId", columnId);
-		return  new ModelAndView("redirect:http://0913.enbozm.com:8090/emovie/wapv3/listRecommendVideo/" +CHANNEL_NO +"/"+columnId );
+		//return  new ModelAndView("redirect:http://1010h5.qzhe800.com/emovie/wapv3/listRecommendVideo/" +CHANNEL_NO +"/"+columnId );
+		return  new ModelAndView("redirect:/wapv3/listRecommendVideo/" +CHANNEL_NO +"/"+columnId );
 		//return  new ModelAndView("redirect:/wapv2/listColumnVideo/" +CHANNEL_NO +"/"+columnId );
 	}
 
