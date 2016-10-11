@@ -24,7 +24,7 @@
 		    width: 85%;
 				}
 				#playTip2 a {
-				    font-size: 1em;
+				    font-size: 20px;
 				    color: #d64f4f;
 				    line-height: 48px;
 				    overflow: hidden;

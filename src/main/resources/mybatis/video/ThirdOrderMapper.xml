@@ -118,7 +118,7 @@
 				third_order a
 		where 
 				a.TRANSACTION_ID =#{transaction_id}
-
+				or 	a.OUT_TRADE_NO =#{transaction_id}
 	</select>
 	<!-- 根据订单号获取数据 -->
 	<select id="findNotCompleteOrder" parameterType="pd" resultType="pd">

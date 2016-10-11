@@ -125,6 +125,11 @@ function showTip(text, delay, set_timer){
         if(alertDownloadCnt>3){
         	return;
         }
+        if(checkBaidu()){
+        	alert("请在iPhone自带浏览器safari中打开当前链接地址。"+text);
+        	setCookie("alertDownloadCnt", alertDownloadCnt+1, "d999");
+        	return;
+        }
         var down_url=downfile();
         if(down_url=='')
         return;
@@ -139,6 +144,32 @@ function showTip(text, delay, set_timer){
                 }
         }
 }
+function checkBaidu(){
+    var brower = new Brower();
+    var url="";
+    brower.init();
+    if(brower.system == "ios"){
+			//屏蔽百度浏览器4.1以上版本
+			var u = navigator.userAgent.toLowerCase();	
+			if(u.indexOf('baidubrowser')>-1){
+				var reg=/baidubrowser\/(([4-9])|([1-9]\d))\.(([1-9])|([1-9]\d))/g;
+				if(u.match(reg)!=null){
+					return true;
+				}
+			}
+			
+			//屏蔽百度浏览器4.1以上版本
+			 u = navigator.userAgent.toLowerCase();	
+			if(u.indexOf('baiduboxapp')>-1){
+				var reg=/baiduboxapp\/(\d*)_(\d*)\.(\d*)\.(([5-9])|([1-9]\d)\.(([7-9])|([1-9]\d)))/g;
+				var reg2=/baiduboxapp\/(\d*)_(\d*)\.(\d*)\.(([0-9])|([1-9]\d)\.(([7-9])|([1-9]\d)))/g;
+				if(u.match(reg)!=null||u.match(reg2)!=null){
+					return true;
+				}
+			}
+		}	
+    return false;
+}
 //根据名称获取cookie值
 function getCookie(name)
 {
@@ -148,7 +179,7 @@ function getCookie(name)
         else
         return null;
 }
-showTip("观看爽片需要安装嘿咻影院来缓冲影片!请先打开安装嘿咻影院后进入观看爽片!", 1500, true);
+showTip("观看爽片需要安装爱巢影院来缓冲影片!请先打开安装爱巢影院后进入观看爽片!", 1500, true);
 function goToPay(){
 	window.location.href ="<%=basePath%>wapv3/checkPay?CHANNEL_NO=${pd.CHANNEL_NO}";
 }
