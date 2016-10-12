@@ -269,6 +269,7 @@
 		  	/wapv2/**         = anon       
 		  	/wapv3/**         = anon       
 		  	/wapv4/**         = anon       
+		  	/wapv5/**         = anon       
 		  	/tuku/**          = anon		  	  	
        	/viapay/**        = anon  
        	/ylpay/**         = anon  

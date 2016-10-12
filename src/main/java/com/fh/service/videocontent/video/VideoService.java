@@ -89,6 +89,12 @@ public class VideoService {
 	/*
 	*列表(条件部分)
 	*/
+	public List<PageData> listTryVideos(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("VideoMapper.listTryVideos", pd);
+	}	
+	/*
+	*列表(条件部分)
+	*/
 	public List<PageData> listVideosByPage(PageData pd)throws Exception{
 		return (List<PageData>)dao.findForList("VideoMapper.listVideosByPage", pd);
 	}	

@@ -12,6 +12,7 @@ public enum PlanTypeEnum {
 	Wap(4, "Wap"),
 	WapV3(6, "WapV3"),
 	WapNewV3(7, "WapNewV3"),
+	WapV5(8, "WapV5"),
 	Tuku(5, "Tuku");
     private int key;
     private String text;

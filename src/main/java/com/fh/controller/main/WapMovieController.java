@@ -280,7 +280,8 @@ public class WapMovieController extends BaseController {
 			//取得试播数据
 			pd.put("DATA_TYPE", VideoDataTypeEnum.TryDataType.getKey());
 			if(WapMovieController.tryVideoDataList ==null || WapMovieController.tryVideoDataList.size()==0){
-				WapMovieController.tryVideoDataList = videoService.listVideos(pd);
+				pd.put("OS_TYPE", PlanTypeEnum.Wap.getKey());
+				WapMovieController.tryVideoDataList = videoService.listTryVideos(pd);
 			}
 			pd.put("VIDEO_ID", VIDEO_ID);
 			PageData videoData = videoService.findById(pd);

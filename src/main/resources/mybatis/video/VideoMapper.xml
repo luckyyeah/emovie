@@ -225,6 +225,34 @@
 		ORDER BY a.POWER,a.UPDATE_TIME DESC			
 	</select>	
 	<!-- 列表(全部) -->
+	<select id="listTryVideos" parameterType="pd" resultType="pd">
+		select
+				FLOOR((80000 + RAND() *19999)) AS VIDEO_VIEW_TIMES,
+				a.*
+
+		from 
+				video a
+		inner join tab_column b
+		on a.COLUMN_ID =b.COLUMN_ID
+		inner join tab c
+		on b.TAB_ID =c.TAB_ID
+		inner join plan d
+		on c.PLAN_ID =d.PLAN_ID
+		and OS_TYPE=#{OS_TYPE} 
+				
+		where 1=1
+		<if test="column_id != null and column_id != ''">
+			and a.COLUMN_ID = #{column_id} 
+		</if>
+		<if test="COLUMN_ID != null and COLUMN_ID != ''">
+			and a.COLUMN_ID = #{COLUMN_ID} 
+		</if>		
+		<if test="DATA_TYPE != null and DATA_TYPE != ''">
+			and a.DATA_TYPE = #{DATA_TYPE} 
+		</if>			
+		ORDER BY a.POWER,a.UPDATE_TIME DESC			
+	</select>		
+	<!-- 列表(全部) -->
 	<select id="listRecommendVideos" parameterType="pd" resultType="pd">
 		select
 				a.*,

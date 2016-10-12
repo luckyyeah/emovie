@@ -53,8 +53,8 @@ import com.fh.util.Tools;
  * 创建时间：2015-03-21
  */
 @Controller
-@RequestMapping(value="/wapv3")
-public class WapMovieV3Controller extends BaseController {
+@RequestMapping(value="/wapv5")
+public class WapMovieV5Controller extends BaseController {
 	
 
 	@Resource(name="planService")
@@ -147,9 +147,9 @@ public class WapMovieV3Controller extends BaseController {
 				pageNoList.add(String.valueOf(i));
 			}*/
 			pd.put("COLUMN_NO", COLUMN_NO);
-			mv.setViewName("wapv3/index");
+			mv.setViewName("wapv5/index");
 			mv.addObject("bannerDataList", bannerDataList);
-			mv.addObject("columnDataList", WapV3HomeController.mapHomeData.get("columnDataList"));
+			mv.addObject("columnDataList", WapV5HomeController.mapHomeData.get("columnDataList"));
 			mv.addObject("columnData", columnData);
 			mv.addObject("videoDataList", videoDataList);
 			mv.addObject("recommendDataList", recommendDataList);
@@ -225,9 +225,9 @@ public class WapMovieV3Controller extends BaseController {
 				pageNoList.add(String.valueOf(i));
 			}*/
 			pd.put("COLUMN_NO", COLUMN_NO);
-			mv.setViewName("wapv3/channel");
+			mv.setViewName("wapv5/channel");
 			mv.addObject("bannerDataList", bannerDataList);
-			mv.addObject("columnDataList", WapV3HomeController.mapHomeData.get("columnDataList"));
+			mv.addObject("columnDataList", WapV5HomeController.mapHomeData.get("columnDataList"));
 			mv.addObject("columnData", columnData);
 			mv.addObject("videoDataList", videoDataList);
 		//	mv.addObject("pageNoList", pageNoList);
@@ -307,7 +307,7 @@ public class WapMovieV3Controller extends BaseController {
 			}
 			pd.put("CHANNEL_NO", CHANNEL_NO);
 			pd.put("playData", playData);
-			mv.setViewName("wapv3/video_play");
+			mv.setViewName("wapv5/video_play");
 			mv.addObject("pd", pd);
 			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
 		} catch(Exception e){
@@ -359,9 +359,9 @@ public class WapMovieV3Controller extends BaseController {
 			}
 			//取得试播数据
 			pd.put("DATA_TYPE", VideoDataTypeEnum.TryDataType.getKey());
-			if(WapMovieV3Controller.tryVideoDataList ==null || WapMovieV3Controller.tryVideoDataList.size()==0){
-				pd.put("OS_TYPE", PlanTypeEnum.WapV3.getKey());
-				WapMovieV3Controller.tryVideoDataList = videoService.listTryVideos(pd);
+			if(WapMovieV5Controller.tryVideoDataList ==null || WapMovieV5Controller.tryVideoDataList.size()==0){
+				pd.put("OS_TYPE", PlanTypeEnum.WapV5.getKey());
+				WapMovieV5Controller.tryVideoDataList = videoService.listTryVideos(pd);
 			}
 			pd.put("VIDEO_ID", VIDEO_ID);
 			PageData videoData = videoService.findById(pd);
@@ -370,10 +370,10 @@ public class WapMovieV3Controller extends BaseController {
 			if(videoData !=null){
 				if(SHOW_TYPE==1){
 					playData = 	playData.replaceAll("VIDEO_IMG", videoData.getString("IMG_ONE"));
-					if(tryTimes <WapMovieV3Controller.tryVideoDataList.size()){
-						videoData = WapMovieV3Controller.tryVideoDataList.get(tryTimes);
-					} else	if(0 <WapMovieV3Controller.tryVideoDataList.size()){ 
-						videoData = WapMovieV3Controller.tryVideoDataList.get(0);
+					if(tryTimes <WapMovieV5Controller.tryVideoDataList.size()){
+						videoData = WapMovieV5Controller.tryVideoDataList.get(tryTimes);
+					} else	if(0 <WapMovieV5Controller.tryVideoDataList.size()){ 
+						videoData = WapMovieV5Controller.tryVideoDataList.get(0);
 					}
 					playData = 	playData.replaceAll("VIDEO_URL", videoData.getString("VIDEO_URL"));
 					
@@ -418,10 +418,10 @@ public class WapMovieV3Controller extends BaseController {
 			if(pd.getString("CHANNEL_NO") ==null){
 				pd.put("CHANNEL_NO", channelNo);
 			}
-			mv.setViewName("wapv3/order");
+			mv.setViewName("wapv5/order");
 			mv.addObject("pd", pd);
 			mv.addObject("payInfo", payInfo);
-			mv.addObject("payType",WapV3HomeController.mapPayType);
+			mv.addObject("payType",WapV5HomeController.mapPayType);
 			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
 		} catch(Exception e){
 			logger.error(e.toString(), e);
@@ -511,8 +511,8 @@ public class WapMovieV3Controller extends BaseController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		mv.setViewName("wapv3/about");
-		mv.addObject("columnDataList", WapV3HomeController.mapHomeData.get("columnDataList"));
+		mv.setViewName("wapv5/about");
+		mv.addObject("columnDataList", WapV5HomeController.mapHomeData.get("columnDataList"));
 		mv.addObject("pd", pd);
 		return mv;
 	}	
@@ -533,7 +533,7 @@ public class WapMovieV3Controller extends BaseController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		mv.setViewName("wapv3/login");
+		mv.setViewName("wapv5/login");
 		mv.addObject("pd", pd);
 		return mv;
 	}	  
@@ -564,9 +564,9 @@ public class WapMovieV3Controller extends BaseController {
 			SwiftpassController.orderResult.put(orderNo, 1);//初始状态
 		} else{
 			//海豚支付
-			if(WapV3HomeController.mapPayType.get("4")!=null){
+			if(WapV5HomeController.mapPayType.get("4")!=null){
 				ret=YLpayController.checkOrderPayed(orderNo);
-			} else if(WapV3HomeController.mapPayType.get("3")!=null){
+			} else if(WapV5HomeController.mapPayType.get("3")!=null){
 				ret = HeepayController.checkOrderPayed(orderNo);
 			}
 			
@@ -596,11 +596,11 @@ public class WapMovieV3Controller extends BaseController {
     	PageData pd = new PageData();
     	pd = this.getPageData();
     	result.put("result", "success");
-    	WapMovieV3Controller.mapColumnData =new HashMap();
-    	WapMovieV3Controller.tryVideoDataList =null;
+    	WapMovieV5Controller.mapColumnData =new HashMap();
+    	WapMovieV5Controller.tryVideoDataList =null;
         String jsonData = JSONArray.toJSONString(result);
-        WapV3HomeController.mapPayType = new HashMap();
-        WapV3HomeController.mapHomeData = new HashMap();
+        WapV5HomeController.mapPayType = new HashMap();
+        WapV5HomeController.mapHomeData = new HashMap();
 		out.write(jsonData);
 		out.close();
         paylogger.info("clearChache end");
@@ -617,7 +617,7 @@ public class WapMovieV3Controller extends BaseController {
 
 		pd.put("CHANNEL_NO", CHANNEL_NO);
 		mv.addObject("pd", pd);
-		mv.setViewName("wapv3/payresult");
+		mv.setViewName("wapv5/payresult");
 		return  mv;
 	}
 	/* ===============================权限================================== */
