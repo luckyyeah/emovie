@@ -197,6 +197,8 @@ public class SwiftpassController extends BaseController {
         map.put("charset", "UTF-8");
         map.put("service", "pay.weixin.wappay");
         map.put("version", "1.0");
+        map.put("mch_create_ip", this.getClientIp());
+       // map.put("mch_create_ip", "220.184.228.242");
         Map<String,String> params = SignUtils.paraFilter(map);
         StringBuilder buf = new StringBuilder((params.size() +1) * 10);
         SignUtils.buildPayParams(buf,params,false);
