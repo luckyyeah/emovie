@@ -16,5 +16,18 @@
 
 		ORDER BY  A.PLUGIN_TYPE
 	</select>		
-
+		<!-- 列表(渠道关联方案) -->
+	<select id="listPayPluginPDByChannelNo" parameterType="pd" resultType="pd">
+		SELECT
+			A.*	
+		FROM 
+				pay_plugin A,
+				pay_link_channel B,
+				channel C
+		WHERE 
+		A.PAY_PLUGIN_ID = B.PAY_PLUGIN_ID
+		AND B.CHANNEL_ID = C.CHANNEL_ID
+		AND CHANNEL_NO=#{CHANNEL_NO}
+		ORDER BY A.POWER,A.PLUGIN_TYPE
+	</select>
 </mapper>

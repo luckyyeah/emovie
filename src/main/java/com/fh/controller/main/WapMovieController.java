@@ -484,9 +484,9 @@ public class WapMovieController extends BaseController {
 			SwiftpassController.orderResult.put(orderNo, 1);//初始状态
 		} else{
 			//海豚支付
-			if(WapV3HomeController.mapPayType.get("4")!=null){
+			if(WapHomeController.mapPayType.get("4")!=null){
 				ret=YLpayController.checkOrderPayed(orderNo);
-			} else if(WapV3HomeController.mapPayType.get("3")!=null){
+			} else if(WapHomeController.mapPayType.get("3")!=null){
 				ret = HeepayController.checkOrderPayed(orderNo);
 			}
 			

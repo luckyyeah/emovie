@@ -59,7 +59,10 @@ public class WapV3HomeController extends BaseController {
 	private PayPluginService payPluginService;
 	
 	public static Map mapHomeData =new HashMap();
-	public static Map mapPayType =new HashMap();
+	public static Map mapChannelPayType =new HashMap();
+	public static Map mapDefaultPayType =new HashMap();
+	public static Map mapPayInfo =new HashMap();
+	
 	@RequestMapping(value="/index/{CHANNEL_NO}")
 	public ModelAndView listV3Index(Page page,@PathVariable String CHANNEL_NO){
 		//logBefore(logger, "startindex");
@@ -71,16 +74,59 @@ public class WapV3HomeController extends BaseController {
 		try{
 			pd = this.getPageData();
 			pd.put("OS_TYPE", PlanTypeEnum.WapV3.getKey());
-			
-			if(WapV3HomeController.mapPayType.isEmpty()){
-				List<PageData>   payPluginPDList=payPluginService.listPayPluginPD(pd);
-				for(PageData payPluginPD:payPluginPDList){
-					WapV3HomeController.mapPayType.put(payPluginPD.getString("PLUGIN_TYPE"), payPluginPD.getString("PLUGIN_TYPE"));
+			pd.put("CHANNEL_NO", CHANNEL_NO);
+			List<PageData>  planList =new ArrayList<PageData>();
+			//方案ID
+			String planId= "";
+			if(mapHomeData.get("PLAN"+CHANNEL_NO)==null){
+				planList= planService.listPlanLinkChannelByChannelId(pd);
+				if(planList==null || planList.size()<=0){
+					 planList = planService.listAll(pd);
+					 if(planList!=null && planList.size()>=0){
+						 //保存渠道方案信息
+						 mapHomeData.put("PLAN"+CHANNEL_NO, planList);
+						 planId = planList.get(0).getString("PLAN_ID");
+						 mapHomeData.put("PLANID"+CHANNEL_NO, planId);
+					 }
+				} else {
+					  mapHomeData.put("PLAN"+CHANNEL_NO, planList);
+					  planId = planList.get(0).getString("PLAN_ID");
+					  mapHomeData.put("PLANID"+CHANNEL_NO, planId);
 				}
-			}		
+				 //取得价格
+			  	pd.put("PLAN_ID", planId);
+					PageData  appInfo =planService.getAppInfo(pd);
+					Map payInfo =new HashMap();
+					payInfo.put("price", appInfo.get("PRICE"));
+					payInfo.put("monthPrice", appInfo.get("MONTH_PRICE"));
+					payInfo.put("yearPrice", appInfo.get("YEAR_PRICE"));
+					mapPayInfo.put(planId, payInfo);
+					//支付插件
+					if(WapV3HomeController.mapChannelPayType.get(CHANNEL_NO)==null){
+						List<PageData>   payPluginPDList=payPluginService.listPayPluginPDByChannelNo(pd);
+						Map mapPayType =new HashMap();
+						for(PageData payPluginPD:payPluginPDList){
+							mapPayType.put(payPluginPD.getString("PLUGIN_TYPE"), payPluginPD.getString("PLUGIN_TYPE"));
+						}
+						if(payPluginPDList==null|| payPluginPDList.size()<=0){
+							payPluginPDList=payPluginService.listPayPluginPD(pd);
+							for(PageData payPluginPD:payPluginPDList){
+								mapPayType.put(payPluginPD.getString("PLUGIN_TYPE"), payPluginPD.getString("PLUGIN_TYPE"));
+							}
+						}
+						WapV3HomeController.mapChannelPayType.put(CHANNEL_NO, mapPayType);
+						if(mapDefaultPayType.isEmpty()){
+							mapDefaultPayType = mapPayType;
+						}
+					}	
+			} else {
+				planList = (List<PageData> )mapHomeData.get("PLAN"+CHANNEL_NO);
+				planId = planList.get(0).getString("PLAN_ID");
+			}
+	
 			String showType="";
-			if(mapHomeData.get("columnDataList")==null||mapHomeData.get("columnId")==null){
-				List<PageData>  planList = planService.listAll(pd);
+			if(mapHomeData.get("columnDataList"+planId)==null||mapHomeData.get("columnId"+planId)==null){
+				//List<PageData>  planList = planService.listAll(pd);
 				//取得方案数据
 				for(PageData plan:planList){
 					//取得版块信息
@@ -105,16 +151,16 @@ public class WapV3HomeController extends BaseController {
 					break;
 				}
 			} else {
-				columnId = (String)mapHomeData.get("columnId");
-				columnDataList =(List<PageData>) mapHomeData.get("columnDataList");
+				columnId = (String)mapHomeData.get("columnId"+planId);
+				columnDataList =(List<PageData>) mapHomeData.get("columnDataList"+planId);
 			}
-
+			mapHomeData.put("columnDataList"+planId, columnDataList);
+			mapHomeData.put("columnId"+planId, columnId);
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
 		
-		mapHomeData.put("columnDataList", columnDataList);
-		mapHomeData.put("columnId", columnId);
+
 		//return  new ModelAndView("redirect:http://1010h5.qzhe800.com/emovie/wapv3/listRecommendVideo/" +CHANNEL_NO +"/"+columnId );
 		return  new ModelAndView("redirect:/wapv3/listRecommendVideo/" +CHANNEL_NO +"/"+columnId );
 		//return  new ModelAndView("redirect:/wapv2/listColumnVideo/" +CHANNEL_NO +"/"+columnId );

@@ -39,7 +39,7 @@
                 activeBtn.html("请填写订单号");
                 return false;
             } else {
-								var url = "<%=basePath%>wapv5/checkOrderPayed?orderNo=" + orderNo +"&uid="+getCookie("uid")+ "&tm="+new Date().getTime();
+								var url = "<%=basePath%>wapv5/checkOrderPayed?CHANNEL_NO=${pd.CHANNEL_NO}&orderNo=" + orderNo +"&uid="+getCookie("uid")+ "&tm="+new Date().getTime();
 								$.get(url,function(data){
 									if(data=="1"){
 										 activeBtn.html("登录成功，页面正在跳转");

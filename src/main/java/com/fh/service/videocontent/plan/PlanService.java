@@ -70,6 +70,12 @@ public class PlanService {
 		return (List<PageData>)dao.findForList("PlanMapper.listPlanByChannelId", pd);
 	}
 	/*
+	*列表(渠道关联方案)
+	*/
+	public List<PageData> listPlanLinkChannelByChannelId(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("PlanMapper.listPlanLinkChannelByChannelId", pd);
+	}
+	/*
 	* 通过id获取数据
 	*/
 	public PageData findById(PageData pd)throws Exception{

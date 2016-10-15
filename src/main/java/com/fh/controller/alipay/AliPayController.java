@@ -108,7 +108,7 @@ public class AliPayController extends BaseController {
 		  orderInfo.setOrderNo(orderNo);
 		  orderInfo.setUserId(userId);
 		  orderInfo.setChannelNo(channelNo);
-		  orderInfo.setPayAmt(total_fee);
+		  orderInfo.setPayAmt(String.valueOf(Double.parseDouble(total_fee)));
 		  orderInfo.setPlugin_type(pd.getString("plugin_type"));
 		  orderInfo.setVipType(2);
 		  saveThirdOrder(orderInfo);

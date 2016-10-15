@@ -400,6 +400,7 @@ public class WapMovieV4Controller extends BaseController {
 		try{
 			pd = this.getPageData();
 			pd.put("OS_TYPE", PlanTypeEnum.WapV3.getKey());
+			String CHANNEL_NO = pd.getString("CHANNEL_NO");
 			List<PageData>  planList = planService.listAll(pd);
 			Map payInfo =new HashMap();
 			//取得方案数据
@@ -417,10 +418,11 @@ public class WapMovieV4Controller extends BaseController {
 			if(pd.getString("CHANNEL_NO") ==null){
 				pd.put("CHANNEL_NO", channelNo);
 			}
+			Map mapPayType = (Map)WapV3HomeController.mapChannelPayType.get(CHANNEL_NO);
 			mv.setViewName("wapv3/order");
 			mv.addObject("pd", pd);
 			mv.addObject("payInfo", payInfo);
-			mv.addObject("payType",WapV3HomeController.mapPayType);
+			mv.addObject("payType",mapPayType);
 			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
 		} catch(Exception e){
 			logger.error(e.toString(), e);
@@ -547,6 +549,7 @@ public class WapMovieV4Controller extends BaseController {
 		PageData pd = this.getPageData();
 		String orderNo = pd.getString("orderNo");
 		String userId = pd.getString("uid");
+		String CHANNEL_NO = pd.getString("CHANNEL_NO");
 		String ret= null;
 
 		pd.put("transaction_id", orderNo);
@@ -563,10 +566,13 @@ public class WapMovieV4Controller extends BaseController {
 			SwiftpassController.orderResult.put(orderNo, 1);//初始状态
 		} else{
 			//海豚支付
-			if(WapV3HomeController.mapPayType.get("4")!=null){
-				ret=YLpayController.checkOrderPayed(orderNo);
-			} else if(WapV3HomeController.mapPayType.get("3")!=null){
-				ret = HeepayController.checkOrderPayed(orderNo);
+			Map mapPayType = (Map)WapV3HomeController.mapChannelPayType.get(CHANNEL_NO);
+			if(mapPayType!=null){
+				if(mapPayType.get("4")!=null){
+					ret=YLpayController.checkOrderPayed(orderNo);
+				} else if(mapPayType.get("3")!=null){
+					ret = HeepayController.checkOrderPayed(orderNo);
+				}
 			}
 			
 		}
@@ -598,7 +604,7 @@ public class WapMovieV4Controller extends BaseController {
     	WapMovieV4Controller.mapColumnData =new HashMap();
     	WapMovieV4Controller.tryVideoDataList =null;
         String jsonData = JSONArray.toJSONString(result);
-        WapV3HomeController.mapPayType = new HashMap();
+        WapV3HomeController.mapChannelPayType = new HashMap();
 		out.write(jsonData);
 		out.close();
         paylogger.info("clearChache end");

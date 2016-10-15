@@ -24,6 +24,11 @@ public class PayPluginService {
 	public List<PageData> listPayPluginPD(PageData pd)throws Exception{
 		return (List<PageData>)dao.findForList("PayPluginMapper.listPayPluginPD", pd);
 	}
-	
+	/*
+	*列表(支付关联渠道)
+	*/
+	public List<PageData> listPayPluginPDByChannelNo(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("PayPluginMapper.listPayPluginPDByChannelNo", pd);
+	}
 }
 
