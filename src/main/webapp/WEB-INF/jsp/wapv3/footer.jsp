@@ -35,7 +35,7 @@
 	<script src="http://lg08.eeb24.com/wap/static/js/v3/zepto.min.js"></script>
 	<script src="http://lg08.eeb24.com/wap/static/js/v3/frozen.js"></script>
 	<script src="http://lg08.eeb24.com/wap/static/js/v3/vue.min.js"></script>
-	<script src="http://lg08.eeb24.com/wap/static/js/v3/common.js"></script>
+	<script src="http://lg08.eeb24.com/wap/static/js/v3/common.min.js"></script>
 
 	<script>
  function Brower(){
