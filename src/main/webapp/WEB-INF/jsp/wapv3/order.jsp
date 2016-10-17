@@ -27,6 +27,50 @@ h3, h4 {
 .ui-btn-wrap {
     padding: 0px 10px;
 }
+  <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+    .swiper-container {
+            width: 100%;
+            height: 200px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: #f0f0f0;
+        }
+
+        .swiper-slide {
+            /*text-align: left;*/
+            /*font-size: 18px;*/
+            /*background: #fff;*/
+            background-color: #f0f0f0;
+            color: gray;
+
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            /*-webkit-box-pack: center;*/
+            /*-ms-flex-pack: center;*/
+            /*-webkit-justify-content: center;*/
+            /*justify-content: center;*/
+            /*-webkit-box-align: center;*/
+            /*-ms-flex-align: center;*/
+            /*-webkit-align-items: center;*/
+            /*align-items: center;*/
+        }
+
+        .swiper-slide span {
+            color: #fd6b8f;
+            margin-right: 3px;
+        }
+
+
+
 		</style>
 </head>
 <body>
@@ -85,24 +129,178 @@ h3, h4 {
 			</button>
 			</c:if>			
 			</c:forEach>			
-			<a class="ui-btn-lg ui-btn-weixin" href="wapv3/index/${pd.CHANNEL_NO}" >支付完成</a>
 		</div>
 		<div style="display: none">
 			<a href="thirdpay2/goPay?total_fee=${payInfo.price}" id="payUrl"></a>
 		</div>
 	</div>
-	<style>
+		<div class="hjzs">
+            <div class="swiper-container swiper-container-vertical swiper-container-android">
+                <div class="swiper-wrapper" style="transition: 3000ms; transform: translate3d(0px, -1464.43px, 0px);">
+                    <div class="swiper-slide stop-swiping swiper-slide-duplicate" data-swiper-slide-index="0" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[缘份]</span>成为了终生VIP会员。4星好评
+                    </div>
+                    <div class="swiper-slide stop-swiping swiper-slide-duplicate" data-swiper-slide-index="1" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[兵王]</span>成为了包年VIP会员。5星好评
+                    </div>
+                    <div class="swiper-slide stop-swiping swiper-slide-duplicate" data-swiper-slide-index="2" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[what ever]</span>成为了包年VIP会员。3星中评
+                    </div>
+                    <div class="swiper-slide stop-swiping swiper-slide-duplicate" data-swiper-slide-index="3" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[霓虹灯下的声影]</span>成为了终生VIP会员。5星好评
+                    </div>
+                    <div class="swiper-slide stop-swiping swiper-slide-duplicate" data-swiper-slide-index="4" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[阳光总在风雨后]</span>成为了包年VIP会员。5星好评
+                    </div>
+                    <div class="swiper-slide stop-swiping swiper-slide-duplicate" data-swiper-slide-index="5" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[山药不是药]</span>成为了包年VIP会员。5星好评
+                    </div>
+                    <div class="swiper-slide stop-swiping swiper-slide-duplicate" data-swiper-slide-index="6" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[少平]</span>成为了终生VIP会员。4星好评
+                    </div>
+                    <div class="swiper-slide stop-swiping swiper-slide-duplicate" data-swiper-slide-index="7" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[葬雪]</span>成为了包年VIP会员。5星好评
+                    </div>
+                    <div class="swiper-slide stop-swiping swiper-slide-duplicate" data-swiper-slide-index="8" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[勿忘心安]</span>成为了包年VIP会员。5星好评
+                    </div>
+                    <div class="swiper-slide stop-swiping swiper-slide-duplicate" data-swiper-slide-index="9" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[幽冥舰]</span>成为了包年VIP会员。5星好评
+                    </div>
+                    <div class="swiper-slide stop-swiping swiper-slide-duplicate" data-swiper-slide-index="10" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[青年老文]</span>成为了季度VIP会员。4星好评
+                    </div>
+                    <div class="swiper-slide stop-swiping swiper-slide-duplicate" data-swiper-slide-index="11" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[孤僻]</span>成为了终生VIP会员。4星好评
+                    </div>
+                    <div class="swiper-slide stop-swiping swiper-slide-duplicate" data-swiper-slide-index="12" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[唯郁]</span>成为了包年VIP会员。4星好评
+                    </div>
+                    <div class="swiper-slide stop-swiping swiper-slide-duplicate" data-swiper-slide-index="13" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[笑_漾在唇边]</span>成为了包年VIP会员。4星好评
+                    </div>
+                    <div class="swiper-slide stop-swiping swiper-slide-duplicate" data-swiper-slide-index="14" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[颜彦]</span>成为了包年VIP会员。3星中评
+                    </div>
+                    <div class="swiper-slide stop-swiping swiper-slide-duplicate" data-swiper-slide-index="15" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[缘定今生]</span>成为了终生VIP会员。5星好评
+                    </div>
+                    <div class="swiper-slide stop-swiping swiper-slide-duplicate" data-swiper-slide-index="16" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[【~寻找未来 ~】]</span>成为了终生VIP会员。5星好评
+                    </div>
+                    <div class="swiper-slide stop-swiping swiper-slide-duplicate" data-swiper-slide-index="17" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[找老婆]</span>成为了包年VIP会员。3星中评
+                    </div>
+                    <div class="swiper-slide stop-swiping swiper-slide-duplicate" data-swiper-slide-index="18" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[曹辉]</span>成为了终生VIP会员。5星好评
+                    </div>
+                    <div class="swiper-slide stop-swiping swiper-slide-duplicate" data-swiper-slide-index="19" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[东仔]</span>成为了包年VIP会员。4星好评
+                    </div>
+                    <div class="swiper-slide stop-swiping swiper-slide-duplicate" data-swiper-slide-index="20" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[宗洒洒]</span>成为了终生VIP会员。4星好评
+                    </div>
+                    <div class="swiper-slide stop-swiping swiper-slide-duplicate" data-swiper-slide-index="21" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[黎cs]</span>成为了终生VIP会员。3星中评
+                    </div>
+                    <div class="swiper-slide stop-swiping" data-swiper-slide-index="0" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[缘份]</span>成为了包年VIP会员。4星好评
+                    </div>
+                    <div class="swiper-slide stop-swiping" data-swiper-slide-index="1" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[兵王]</span>成为了终生VIP会员。5星好评
+                    </div>
+                    <div class="swiper-slide stop-swiping" data-swiper-slide-index="2" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[what ever]</span>成为了包年VIP会员。3星中评
+                    </div>
+                    <div class="swiper-slide stop-swiping" data-swiper-slide-index="3" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[霓虹灯下的声影]</span>成为了终生VIP会员。5星好评
+                    </div>
+                    <div class="swiper-slide stop-swiping" data-swiper-slide-index="4" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[阳光总在风雨后]</span>成为了终生VIP会员。5星好评
+                    </div>
+                    <div class="swiper-slide stop-swiping" data-swiper-slide-index="5" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[山药不是药]</span>成为了包年VIP会员。5星好评
+                    </div>
+                    <div class="swiper-slide stop-swiping" data-swiper-slide-index="6" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[少平]</span>成为了终生VIP会员。4星好评
+                    </div>
+                    <div class="swiper-slide stop-swiping" data-swiper-slide-index="7" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[葬雪]</span>成为了终生VIP会员。5星好评
+                    </div>
+                    <div class="swiper-slide stop-swiping" data-swiper-slide-index="8" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[勿忘心安]</span>成为了终生VIP会员。5星好评
+                    </div>
+                    <div class="swiper-slide stop-swiping" data-swiper-slide-index="9" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[幽冥舰]</span>成为了终生VIP会员。5星好评
+                    </div>
+                    <div class="swiper-slide stop-swiping" data-swiper-slide-index="10" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[青年老文]</span>成为了终生VIP会员。4星好评
+                    </div>
+                    <div class="swiper-slide stop-swiping" data-swiper-slide-index="11" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[孤僻]</span>成为了终生VIP会员。4星好评
+                    </div>
+                    <div class="swiper-slide stop-swiping" data-swiper-slide-index="12" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[唯郁]</span>成为了终生VIP会员。4星好评
+                    </div>
+                    <div class="swiper-slide stop-swiping" data-swiper-slide-index="13" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[笑_漾在唇边]</span>成为了终生VIP会员。4星好评
+                    </div>
+                    <div class="swiper-slide stop-swiping" data-swiper-slide-index="14" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[颜彦]</span>成为了终生VIP会员。3星中评
+                    </div>
+                    <div class="swiper-slide stop-swiping" data-swiper-slide-index="15" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[缘定今生]</span>成为了终生VIP会员。5星好评
+                    </div>
+                    <div class="swiper-slide stop-swiping" data-swiper-slide-index="16" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[【~寻找未来 ~】]</span>成为了终生VIP会员。5星好评
+                    </div>
+                    <div class="swiper-slide stop-swiping" data-swiper-slide-index="17" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[找老婆]</span>成为了终生VIP会员。3星中评
+                    </div>
+                    <div class="swiper-slide stop-swiping" data-swiper-slide-index="17" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[好B啊]</span>成为了终生VIP会员。4星中评
+                    </div>
+                    <div class="swiper-slide stop-swiping" data-swiper-slide-index="17" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[缘来是你]</span>成为了终生VIP会员。5星中评
+                    </div>
+                    <div class="swiper-slide stop-swiping" data-swiper-slide-index="17" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[今夜会回来]</span>成为了终生VIP会员。5星中评
+                    </div>
+                    <div class="swiper-slide stop-swiping" data-swiper-slide-index="17" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[水中花]</span>成为了终生VIP会员。3星中评
+                    </div>
+                    <div class="swiper-slide stop-swiping" data-swiper-slide-index="17" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[物是人非]</span>成为了终生VIP会员。4星中评
+                    </div>
+                    <div class="swiper-slide stop-swiping" data-swiper-slide-index="17" style="height: 27.7143px; margin-bottom: 1px;">
+                        <span>[~灯火阑珊处]</span>成为了终生VIP会员。5星中评
+                    </div>
+                </div>
+            </div>
+        </div>	
+ 		<script src="http://lg08.eeb24.com/wap/static/js/v3/swiper.min.js"></script>
+<script type="text/javascript">
+        var isweixin = false;
+ 
+     var swiper = new Swiper('.swiper-container', {
+            slidesPerView:7,
+            direction: 'vertical',
+            speed: 3000,
+            autoplay: 1,
+            loop: true,
+            loopedSlides: 100,
+            noSwiping: true,
+            noSwipingClass: 'stop-swiping',
+            spaceBetween: 1
+        });
+    </script>       
+		<style type="text/css">
 .iframediv {
 	position: absolute;
 	top: 45px;
 	left: 0;
 }
 
-.scan {
-	background: url(http://5jrs.com/361/img/loading.gif) no-repeat center
-		25%;
-	background-size: 120px 120px;
-}
 
 .ui-icon-close-page {
 	position: absolute;
