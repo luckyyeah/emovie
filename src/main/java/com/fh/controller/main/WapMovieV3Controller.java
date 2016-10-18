@@ -31,6 +31,7 @@ import com.fh.controller.base.BaseController;
 import com.fh.controller.heepay.HeepayController;
 import com.fh.controller.swiftpass.SwiftpassController;
 import com.fh.controller.ylpay.YLpayController;
+import com.fh.entity.ClientComment;
 import com.fh.entity.OrderInfo;
 import com.fh.entity.Page;
 import com.fh.entity.PayData;
@@ -38,12 +39,14 @@ import com.fh.enums.ColumnDataTypeEnum;
 import com.fh.enums.PlanTypeEnum;
 import com.fh.enums.VideoDataTypeEnum;
 import com.fh.service.videocontent.column.ColumnService;
+import com.fh.service.videocontent.comment.ClientCommentService;
 import com.fh.service.videocontent.pay.PayPluginService;
 import com.fh.service.videocontent.plan.PlanService;
 import com.fh.service.videocontent.tab.TabService;
 import com.fh.service.videocontent.video.PayService;
 import com.fh.service.videocontent.video.ThirdOrderService;
 import com.fh.service.videocontent.video.VideoService;
+import com.fh.util.CommonUtil;
 import com.fh.util.Const;
 import com.fh.util.PageData;
 import com.fh.util.Tools;
@@ -74,6 +77,9 @@ public class WapMovieV3Controller extends BaseController {
 	
 	@Resource(name="thirdOrderService")
 	private ThirdOrderService thirdOrderService;	 
+	
+	@Resource(name="clientCommentService")
+	private ClientCommentService clientCommentService;
 
 	
 	private static Log paylogger = LogFactory.getLog("paylogger");
@@ -133,18 +139,28 @@ public class WapMovieV3Controller extends BaseController {
 				columnData = (PageData)mapColumnData.get(COLUMN_ID+"column");
 				videoList = (List<PageData> )mapColumnData.get(COLUMN_ID);
 			}
-			for(PageData videoData:videoList){
-				
-				if(ColumnDataTypeEnum.BannerType.getKey()==(Integer)videoData.get("DATA_TYPE")){
-					bannerDataList.add(videoData);
+			if(mapColumnData.get("bannerDataList"+COLUMN_ID)==null || mapColumnData.get("videoDataList"+COLUMN_ID)==null || mapColumnData.get("recommendDataList"+COLUMN_ID)==null){
+				for(PageData videoData:videoList){
+					
+					if(ColumnDataTypeEnum.BannerType.getKey()==(Integer)videoData.get("DATA_TYPE")){
+						bannerDataList.add(videoData);
+					}
+					if(ColumnDataTypeEnum.VideoDataType.getKey()==(Integer)videoData.get("DATA_TYPE")){
+						videoDataList.add(videoData);
+					}
+					if(ColumnDataTypeEnum.RecommendDataType.getKey()==(Integer)videoData.get("DATA_TYPE")){
+						recommendDataList.add(videoData);
+					}
 				}
-				if(ColumnDataTypeEnum.VideoDataType.getKey()==(Integer)videoData.get("DATA_TYPE")){
-					videoDataList.add(videoData);
-				}
-				if(ColumnDataTypeEnum.RecommendDataType.getKey()==(Integer)videoData.get("DATA_TYPE")){
-					recommendDataList.add(videoData);
-				}
+				mapColumnData.put("bannerDataList"+COLUMN_ID,bannerDataList);
+				mapColumnData.put("videoDataList"+COLUMN_ID,videoDataList);
+				mapColumnData.put("recommendDataList"+COLUMN_ID,recommendDataList);
+			} else {
+				bannerDataList= (List)mapColumnData.get("bannerDataList"+COLUMN_ID);
+				videoDataList= (List)mapColumnData.get("videoDataList"+COLUMN_ID);
+				recommendDataList= (List)mapColumnData.get("recommendDataList"+COLUMN_ID);
 			}
+
 			page.setPd(pd);
 /*			List <String> pageNoList = new ArrayList<String>();
 			for(int i=1;i<=pageCnt;i++){
@@ -216,20 +232,23 @@ public class WapMovieV3Controller extends BaseController {
 				columnData = (PageData)mapColumnData.get(COLUMN_ID+"column");
 				videoList = (List<PageData> )mapColumnData.get(COLUMN_ID);
 			}
-			for(PageData videoData:videoList){
-				
-				if(videoData.get("DATA_TYPE")!=null && ColumnDataTypeEnum.BannerType.getKey()==(Integer)videoData.get("DATA_TYPE")){
-					bannerDataList.add(videoData);
+			if(mapColumnData.get("bannerDataList"+COLUMN_ID)==null || mapColumnData.get("videoDataList"+COLUMN_ID)==null || mapColumnData.get("recommendDataList"+COLUMN_ID)==null){
+				for(PageData videoData:videoList){
+					
+					if(videoData.get("DATA_TYPE")!=null && ColumnDataTypeEnum.BannerType.getKey()==(Integer)videoData.get("DATA_TYPE")){
+						bannerDataList.add(videoData);
+					}
+					if(videoData.get("DATA_TYPE")!=null &&  ColumnDataTypeEnum.VideoDataType.getKey()==(Integer)videoData.get("DATA_TYPE")){
+						videoDataList.add(videoData);
+					}
 				}
-				if(videoData.get("DATA_TYPE")!=null &&  ColumnDataTypeEnum.VideoDataType.getKey()==(Integer)videoData.get("DATA_TYPE")){
-					videoDataList.add(videoData);
-				}
-			}
+			mapColumnData.put("bannerDataList"+COLUMN_ID,bannerDataList);
+			mapColumnData.put("videoDataList"+COLUMN_ID,bannerDataList);
+		} else {
+			bannerDataList= (List)mapColumnData.get("bannerDataList"+COLUMN_ID);
+			videoDataList= (List)mapColumnData.get("bannerDataList"+COLUMN_ID);
+		}
 			page.setPd(pd);
-/*			List <String> pageNoList = new ArrayList<String>();
-			for(int i=1;i<=pageCnt;i++){
-				pageNoList.add(String.valueOf(i));
-			}*/
 			pd.put("COLUMN_NO", COLUMN_NO);
 			mv.setViewName("wapv3/channel");
 			mv.addObject("bannerDataList", bannerDataList);
@@ -275,9 +294,64 @@ public class WapMovieV3Controller extends BaseController {
 					playData = 	 videoData.getString("VIDEO_URL_TWO");
 				}
 			}
+			String columnId= null;
+			if(videoData!=null){
+				columnId = videoData.getString("COLUMN_ID");
+			}
+			pd.put("COLUMN_ID", columnId);
+			pd.put("RECOMMEND_FLAG", Const.RECOMMEND_FLAG);
+			List<PageData>  recommendDataList =new ArrayList<PageData>();
+
+			if(mapVideoData.get("recommendVideo"+columnId)==null){
+				recommendDataList = videoService.listRecommendVideosV3(pd);
+				mapVideoData.put("recommendVideo"+columnId, recommendDataList);
+			} else {
+				recommendDataList =  (List<PageData>)mapVideoData.get("recommendVideo"+columnId);
+			}
+			//用户评价
+			List<PageData>  clientCommentList= new ArrayList<PageData>();
+			if(mapColumnData.get("clientCommentList")==null){
+			  clientCommentList=clientCommentService.listClientComment(pd);
+			  mapColumnData.put("clientCommentList", clientCommentList);
+			} else {
+				clientCommentList = (ArrayList<PageData>)mapColumnData.get("clientCommentList");
+			}
+			List<ClientComment>  clientCommentDataList= new ArrayList<ClientComment>();
+			if(mapColumnData.get("clientCommentList"+VIDEO_ID)==null){
+		    try { 
+		    	pd.put("CLIENT_COMMENT_CNT", Const.CLIENT_COMMENT_CNT);
+	
+		    	int commentTime =0;
+		    	for(int i=0;i<10;i++){
+		    		//随机取评价
+		    		int randIndex = CommonUtil.getRandomInt(1, clientCommentList.size()-1);
+		    		PageData clientComment =clientCommentList.get(randIndex);
+		    		ClientComment clientCommentData =new ClientComment();
+		    		clientCommentData.setClientId(clientComment.getString("CLIENT_NAME"));
+		    		//产生1-9的随机数时间
+		    		commentTime+=CommonUtil.getRandomInt(8, 100);
+		    		clientCommentData.setCommentTime(commentTime);
+		    		clientCommentData.setClientComment(clientComment.getString("CLIENT_COMMENT"));
+		    		clientCommentData.setClientIconUrl(clientComment.getString("CLIENT_ICON_URL"));
+		    		clientCommentData.setPreCol1(clientComment.getString("PRE_COL1"));
+		    		clientCommentData.setPreCol2(clientComment.getString("PRE_COL2"));
+		    		clientCommentData.setPreCol3(clientComment.getString("PRE_COL3"));
+		    		clientCommentDataList.add(clientCommentData);
+		    	}
+		    }
+		    catch(Exception ex) {
+		    	logger.error(ex);
+		    }
+		    mapColumnData.put("clientCommentList"+VIDEO_ID, clientCommentDataList);
+			} else {
+				clientCommentDataList = (List)mapColumnData.get("clientCommentList"+VIDEO_ID);
+			}
 			pd.put("CHANNEL_NO", CHANNEL_NO);
 			pd.put("playData", playData);
 			mv.setViewName("wapv3/video_play");
+			mv.addObject("clientCommentDataList", 	clientCommentDataList);
+			mv.addObject("recommendDataList", 	recommendDataList);
+			mv.addObject("videoData", 	videoData);
 			mv.addObject("pd", pd);
 			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
 		} catch(Exception e){
@@ -329,11 +403,13 @@ public class WapMovieV3Controller extends BaseController {
 			}
 			//取得试播数据
 			pd.put("DATA_TYPE", VideoDataTypeEnum.TryDataType.getKey());
+			pd.put("VIDEO_ID", VIDEO_ID);
 			if(WapMovieV3Controller.tryVideoDataList ==null || WapMovieV3Controller.tryVideoDataList.size()==0){
 				pd.put("OS_TYPE", PlanTypeEnum.WapV3.getKey());
+				
 				WapMovieV3Controller.tryVideoDataList = videoService.listTryVideos(pd);
 			}
-			pd.put("VIDEO_ID", VIDEO_ID);
+
 			PageData videoData =new PageData();
 			if(mapVideoData.get(VIDEO_ID)==null){
 				videoData= videoService.findById(pd);
@@ -593,6 +669,7 @@ public class WapMovieV3Controller extends BaseController {
     	result.put("result", "success");
     	WapMovieV3Controller.mapColumnData =new HashMap();
     	WapMovieV3Controller.tryVideoDataList =null;
+    	WapMovieV3Controller.mapVideoData =new HashMap();
         String jsonData = JSONArray.toJSONString(result);
         WapV3HomeController.mapChannelPayType = new HashMap();
         WapV3HomeController.mapHomeData = new HashMap();

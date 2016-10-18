@@ -238,9 +238,24 @@
 		on b.TAB_ID =c.TAB_ID
 		inner join plan d
 		on c.PLAN_ID =d.PLAN_ID
-		and OS_TYPE=#{OS_TYPE} 
-				
+		and d.OS_TYPE=#{OS_TYPE} 
 		where 1=1
+		AND  d.PLAN_ID IN (SELECT 
+    d.PLAN_ID
+    from 
+				video a
+		inner join tab_column b
+		on a.COLUMN_ID =b.COLUMN_ID
+		inner join tab c
+		on b.TAB_ID =c.TAB_ID
+		inner join plan d
+		on c.PLAN_ID =d.PLAN_ID
+    WHERE 
+     1=1
+ 		<if test="VIDEO_ID != null and VIDEO_ID != ''">
+			and a.VIDEO_ID =#{VIDEO_ID}
+		</if>	    
+     )
 		<if test="column_id != null and column_id != ''">
 			and a.COLUMN_ID = #{column_id} 
 		</if>
@@ -278,6 +293,32 @@
 		</if>					
 		ORDER BY RANDSORT		
 		LIMIT 0,3
+	</select>		
+	<!-- 列表(全部) -->
+	<select id="listRecommendVideosV3" parameterType="pd" resultType="pd">
+		select
+				a.*,
+				 RAND() as RANDSORT
+		from 
+				video a
+		where 1=1
+
+		<if test="COLUMN_ID != null and COLUMN_ID != ''">
+			and a.COLUMN_ID = #{COLUMN_ID} 
+		</if>		
+		<if test="VIP_FLAG != null and VIP_FLAG != ''">
+			and a.VIP_FLAG = #{VIP_FLAG} 
+		</if>	
+		<if test="COMPETITIVE_FLAG != null and COMPETITIVE_FLAG != ''">
+			and a.COMPETITIVE_FLAG = #{COMPETITIVE_FLAG} 
+		</if>	
+		<if test="RECOMMEND_FLAG != null and RECOMMEND_FLAG != ''">
+			and a.RECOMMEND_FLAG = #{RECOMMEND_FLAG} 
+		</if>		
+		<if test="DATA_TYPE != null and DATA_TYPE != ''">
+			and a.DATA_TYPE = #{DATA_TYPE} 
+		</if>					
+		ORDER BY RANDSORT		
 	</select>		
 	<!-- 列表(全部) -->
 	<select id="listInvalidVideo" parameterType="pd" resultType="pd">

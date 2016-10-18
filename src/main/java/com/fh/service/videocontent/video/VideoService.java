@@ -113,6 +113,12 @@ public class VideoService {
 	/*
 	*列表(条件部分)
 	*/
+	public List<PageData> listRecommendVideosV3(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("VideoMapper.listRecommendVideosV3", pd);
+	}	
+	/*
+	*列表(条件部分)
+	*/
 	public List<PageData> listInvalidVideo(PageData pd)throws Exception{
 		return (List<PageData>)dao.findForList("VideoMapper.listInvalidVideo", pd);
 	}	
