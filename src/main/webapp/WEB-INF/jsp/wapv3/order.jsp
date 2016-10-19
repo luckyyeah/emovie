@@ -82,7 +82,7 @@ h3, h4 {
 	<div id="checkdesk">
 		<div class="info">
 			<h4>
-				资费：<em class="ui-txt-red">${payInfo.price}元/终身会员</em>
+				 资费：<em class="ui-txt-red"><B>${payInfo.price}元/终身会员</B>(<s>原价：${payInfo.price*2}元</s>)</em>
 			</h4>
 			<p class="ui-txt-red">（只需支付一次，享受所有影片观看权限！）</p>
 			<p>
@@ -105,7 +105,7 @@ h3, h4 {
 		 <c:if test="${map.key==5 }">
 			<button class="ui-btn-lg ui-btn-weixin" data-role="button" data-href="bbpay/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}&plugin_type=${map.key}&payType=1&version=3">
 		</c:if>							
-				<img src="static/images/icon_wechat.png" alt=""> 微信支付
+				<img src="static/images/icon_wechat.png" alt=""> 微信支付<em class="ui-txt-red">(限量优惠)</em>
 			</button>
 			</c:if>
 			</c:forEach>
@@ -117,7 +117,7 @@ h3, h4 {
 		 <c:if test="${map.key==102 }">
 			<button class="ui-btn-lg ui-btn-weixin ui-btn-alipay" data-role="button" data-href="bbpay/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}&plugin_type=${map.key}&payType=2&version=3">
 		</c:if>					
-				<img src="static/images/icon_alipay.png" alt=""> 支付宝
+				<img src="static/images/icon_alipay.png" alt=""> 支付宝<em class="ui-txt-red">(限量优惠)</em>
 			</button>
 			</c:if>			
 			</c:forEach>			
@@ -300,12 +300,18 @@ h3, h4 {
 	top: 0;
 }
 .ui-btn-alipay {
-    background-color: #44b549;
-    border-color: #44b549;
+    background-color: #1fbaf3;
+    border-color: #1fbaf3;
     background-image: -webkit-gradient(linear,left top,left bottom,color-stop(.5,#1fbaf3),to(#18b4ed));
     color: #fff;
     background-clip: padding-box;
     margin-bottom: 20px;
+}
+.ui-btn-alipay:not(.disabled):not(:disabled):active, .ui-btn-alipay.active {
+    background: #1fbaf3;
+    border-color: #1fbaf3;
+    color: rgba(255, 255, 255, 0.5);
+    background-clip: padding-box
 }
 </style>
 

@@ -35,7 +35,7 @@
 }
 
 .ui-slider-indicators li.current:before {
-	background-color: #ff6537;
+	background-color: #12b7f5;
 	left: 0px;
 	top: 0px;
 	width: 7px;
@@ -55,7 +55,7 @@
 	<section class="ui-panel">
 		<h2 class="ui-arrowlink"
 			onclick="javascript:goToPay();"
-			style="color: #ff6537; font-weight: 200; height: 44px;">
+			style="color: #12b7f5; font-weight: 200; height: 44px;">
 			<img src="static/images/Bitmap.png" alt=""
 				style="width: 20%; position: relative; top: 6px; margin-right: 6px;">
 			精品推荐 <span class="ui-panel-subtitle"><img

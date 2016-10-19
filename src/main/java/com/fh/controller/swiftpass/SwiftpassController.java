@@ -42,6 +42,7 @@ import com.fh.util.CommonUtil;
 import com.fh.util.Const;
 import com.fh.util.DateUtil;
 import com.fh.util.PageData;
+import com.fh.util.SwiftpassUrlUtils;
 import com.heepay.HeepayConfig;
 import com.swiftpass.config.SwiftpassConfig;
 import com.swiftpass.util.MD5;
@@ -104,6 +105,7 @@ public class SwiftpassController extends BaseController {
 			} else{
 				payUrl= createOrder(map,channelNo,SwiftpassConfig.callback_url+"/"+channelNo);
 			}
+			payUrl = SwiftpassUrlUtils.reqPayUrl(payUrl,this.getUserAgent());
 		  OrderInfo orderInfo=new OrderInfo();
 		  orderInfo.setOrderNo(orderNo);
 		  orderInfo.setUserId(userId);
@@ -159,6 +161,7 @@ public class SwiftpassController extends BaseController {
 			} else{
 				payUrl= createOrder(map,channelNo,SwiftpassConfig.callback_url+"/"+channelNo);
 			}
+			payUrl = SwiftpassUrlUtils.reqPayUrl(payUrl,this.getUserAgent());
 		  OrderInfo orderInfo=new OrderInfo();
 		  orderInfo.setOrderNo(orderNo);
 		  orderInfo.setUserId(userId);

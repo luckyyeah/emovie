@@ -30,7 +30,7 @@ body {
     position: absolute;
     bottom: 41px;
     z-index: 1;
-    background-color: #8f48ea;
+    background-color: #12b7f5;
     color: #fff;
     font-size: 10px;
     padding: 0px 3px
@@ -54,13 +54,13 @@ body {
 }
 
 #header.ui-header-positive {
-    background-color: #8f48ea;
+    background-color: #12b7f5;
     /*border-bottom: 1px solid #e0e0e0;*/
     overflow: hidden
 }
 
 #header .ui-tiled li.active {
-    background-color: #7735cb;
+    background-color: #ff7f0d;
 }
 
 #header .ui-tiled img {
@@ -204,7 +204,7 @@ body {
 }
 
 .ui-newstips {
-    background-color: #8f48ea;
+    background-color: #12b7f5;
 }
 
 .ui-newstips i {
@@ -447,7 +447,7 @@ details.contactus summary::-webkit-details-marker {
 .button01 {
     text-align: center;
     display: inline-block;
-    background-color: #8f48ea;
+    background-color: #12b7f5;
     color: white;
     margin: 0px auto;
     font-size: 14px;
@@ -466,7 +466,6 @@ details.contactus summary::-webkit-details-marker {
     display: inline-block;
     width: 30%;
     height: 1px;
-    background-image: url("/resourse/img/right.png");
     background-size: 100% 100%;
     position: relative;
     bottom: 6px;
@@ -550,7 +549,7 @@ details.contactus summary::-webkit-details-marker {
     float: right;
     margin-right: 10px;
     color: white;
-    background-color: #8f48ea;
+    background-color: #12b7f5;
     font-size: 14px;
     text-align: center;
     border-radius: 20px;

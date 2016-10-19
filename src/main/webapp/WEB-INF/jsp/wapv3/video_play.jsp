@@ -16,6 +16,7 @@
 	};
 </script>
 <style> /*body,html{overflow: hidden;width: 100%;}*/
+html{width: 100%;}
 .swiper-container {
 	width: 100%;
 	height: 100%;
@@ -120,7 +121,7 @@ padding-top: 5px;
 			<span class="lastba"
 				style="float: left; margin-left: 10px; color: #333; font-size: 18px;">最近评论</span><span
 				class="lastba cwhy" onclick='javascript:goToPay();'><img
-				src="http://0829img.xyzjtj.com/tuku/hy.png" alt="" class="hyzc">成为会员</span>
+				src="http://0829img.xyzjtj.com/tuku/hy.png" alt="" class="hyzc">填写评论</span>
 		</div>
 		 <c:forEach items="${clientCommentDataList}" var="clientCommentData" varStatus="vs" >
 		<div class="plnr">

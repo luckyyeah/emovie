@@ -234,7 +234,7 @@ function() {
         }
         return ! 1
     }), 1 > ispay) {
-        var novipfooter = '	<div id="novipfooter" style="text-align: center; font-size: 16px; border: 1px solid #8f48ea; width: 80%; margin: auto; height: 30px; line-height: 30px; border-radius: 30px; font-weight: 200; color: #8f48ea;" class="topay paytip" >点击成为VIP查看更多</div>';
+        var novipfooter = '	<div id="novipfooter" style="text-align: center; font-size: 16px; border: 1px solid #12b7f5; width: 80%; margin: auto; height: 30px; line-height: 30px; border-radius: 30px; font-weight: 200; color: #12b7f5;" class="topay paytip" >点击成为VIP查看更多</div>';
         $(function() {
             $("body").append(novipfooter),
             $("#novipfooter").on("click",
@@ -246,7 +246,7 @@ function() {
     }
 }
 if (/play/i.test(location.pathname)) if ($("#playerwrap").css({
-    width: $(window).width() + "px"
+	width: "100%"
 }), 1 > ispay) {
 	 var CHANNEL_NO =$("#CHANNEL_NO").val();
    // $("#playTip").html('非会员只能试看20秒，<a href="wapv3/checkPay?CHANNEL_NO='+CHANNEL_NO+'">成为会员</a>观看全部');
