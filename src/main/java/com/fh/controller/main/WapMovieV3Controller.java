@@ -84,7 +84,7 @@ public class WapMovieV3Controller extends BaseController {
 	
 	private static Log paylogger = LogFactory.getLog("paylogger");
 	
-	public static List<PageData> tryVideoDataList =null;
+	
 	
 	public static Map mapColumnData =new HashMap();
 	
@@ -401,15 +401,6 @@ public class WapMovieV3Controller extends BaseController {
 			}catch(Exception ex){
 				
 			}
-			//取得试播数据
-			pd.put("DATA_TYPE", VideoDataTypeEnum.TryDataType.getKey());
-			pd.put("VIDEO_ID", VIDEO_ID);
-			if(WapMovieV3Controller.tryVideoDataList ==null || WapMovieV3Controller.tryVideoDataList.size()==0){
-				pd.put("OS_TYPE", PlanTypeEnum.WapV3.getKey());
-				
-				WapMovieV3Controller.tryVideoDataList = videoService.listTryVideos(pd);
-			}
-
 			PageData videoData =new PageData();
 			if(mapVideoData.get(VIDEO_ID)==null){
 				videoData= videoService.findById(pd);
@@ -417,15 +408,27 @@ public class WapMovieV3Controller extends BaseController {
 			} else {
 				videoData = (PageData)mapVideoData.get(VIDEO_ID);
 			}
+			//取得试播数据
+			pd.put("DATA_TYPE", VideoDataTypeEnum.TryDataType.getKey());
+			pd.put("VIDEO_ID", VIDEO_ID);
+			
+			List<PageData> tryVideoDataList =new ArrayList<PageData> ();
+			if(tryVideoDataList ==null || tryVideoDataList.size()==0){
+				pd.put("OS_TYPE", PlanTypeEnum.WapV3.getKey());
+				tryVideoDataList = videoService.listTryVideos(pd);
+				mapVideoData.put("tryVideoDataList"+videoData.getString("COLUMN_ID"), tryVideoDataList);
+			} else {
+				tryVideoDataList=(List<PageData>)mapVideoData.get("tryVideoDataList"+videoData.getString("COLUMN_ID"));
+			}
 			
 			String playData =  Tools.readTxtFile(Const.WAPPLAY);
 			if(videoData !=null){
 				if(SHOW_TYPE==1){
 					playData = 	playData.replaceAll("VIDEO_IMG", videoData.getString("IMG_ONE"));
-					if(tryTimes <WapMovieV3Controller.tryVideoDataList.size()){
-						videoData = WapMovieV3Controller.tryVideoDataList.get(tryTimes);
-					} else	if(0 <WapMovieV3Controller.tryVideoDataList.size()){ 
-						videoData = WapMovieV3Controller.tryVideoDataList.get(0);
+					if(tryTimes <tryVideoDataList.size()){
+						videoData = tryVideoDataList.get(tryTimes);
+					} else	if(0 <tryVideoDataList.size()){ 
+						videoData = tryVideoDataList.get(0);
 					}
 					playData = 	playData.replaceAll("VIDEO_URL", videoData.getString("VIDEO_URL"));
 					
@@ -668,7 +671,7 @@ public class WapMovieV3Controller extends BaseController {
     	pd = this.getPageData();
     	result.put("result", "success");
     	WapMovieV3Controller.mapColumnData =new HashMap();
-    	WapMovieV3Controller.tryVideoDataList =null;
+    	//WapMovieV3Controller.tryVideoDataList =null;
     	WapMovieV3Controller.mapVideoData =new HashMap();
         String jsonData = JSONArray.toJSONString(result);
         WapV3HomeController.mapChannelPayType = new HashMap();
