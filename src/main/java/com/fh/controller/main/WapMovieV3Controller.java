@@ -518,7 +518,10 @@ public class WapMovieV3Controller extends BaseController {
 				Integer orderStatus = (Integer)SwiftpassController.orderResult.get(orderNo);
 				//logger.info("orderStatus="+orderStatus );
 				if((orderStatus !=null) && (orderStatus==1)){
-					checkRet="0";
+					checkRet=orderInfo.getPlugin_type();
+					if(checkRet==null){
+						checkRet="0";
+					}
 				} else {
 					
 				}
@@ -573,8 +576,9 @@ public class WapMovieV3Controller extends BaseController {
 			pd.put("CHANNEL_NO", CHANNEL_NO);
 			pd.put("DATA_TYPE", ColumnDataTypeEnum.AbaoutType.getKey());
 			List<PageData> columnList = columnService.listColumns(pd);
-			if(columnList !=null){
-				pd.put("contractImg", columnList.get(0).get("IMG_ONE"));
+			if(columnList !=null && columnList.size()>=2){
+				pd.put("wxContractImg", columnList.get(0).get("IMG_ONE"));
+				pd.put("aliContractImg", columnList.get(1).get("IMG_ONE"));
 			}
 			
 		} catch (Exception e) {
@@ -651,6 +655,9 @@ public class WapMovieV3Controller extends BaseController {
 			  orderInfo=new OrderInfo();
 			  orderInfo.setOrderNo(orderNo);
 			  orderInfo.setUserId(userId);
+			  if(orderData!=null){
+				  orderInfo.setPlugin_type(orderData.getString("PLUGIN_TYPE"));
+			  }
 			  SwiftpassController.mapUserInfo.put(userId, orderInfo);
 			} else {
 				orderInfo.setOrderNo(orderNo);

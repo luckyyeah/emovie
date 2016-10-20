@@ -109,7 +109,7 @@
 			<span class="lastba"
 				style="float: left; margin-left: 10px; color: #333; font-size: 18px;">最近评论</span><span
 				class="lastba cwhy" onclick='javascript:goToPay();'><img
-				src="http://0829img.xyzjtj.com/tuku/hy.png" alt="" class="hyzc">成为会员</span>
+				src="http://0829img.xyzjtj.com/tuku/hy.png" alt="" class="hyzc">填写评论</span>
 		</div>
 		<div class="plnr">
 			<img src="http://0829img.xyzjtj.com/tuku/20160829icon_156.jpg" alt="头像" class="picture">

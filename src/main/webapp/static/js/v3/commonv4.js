@@ -108,8 +108,9 @@ function checkPay() {
     	data: {uid:chkUid}, 
     	async : false,
     	success : function(data){
-    		if(data=="0"){
+    		if(data!="-1"){
     			setCookie("ispay", 1, "d7");
+    			setCookie("payType", data, "d7");
     			vippop();
     			isPay=0;
     		} 

@@ -40,7 +40,8 @@
 			</p>
 		</div>
 	</section>
-	 <input type="hidden"  name="contractImg"  id="contractImg" value="${pd.contractImg}" />
+	 <input type="hidden"  name="wxContractImg"  id="wxContractImg" value="${pd.wxContractImg}" />
+	 <input type="hidden"  name="aliContractImg"  id="aliContractImg" value="${pd.aliContractImg}" />
 	<%@ include file="./footer.jsp"%> 
 </body>
 </html>

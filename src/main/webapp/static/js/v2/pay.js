@@ -181,6 +181,9 @@ function loadWeiXinLink() {
 	if(payType==5){
 		url="bbpay/getBBPayLink?vipType="+vipType +"&channelNo=" + $("#CHANNEL_NO").val() + '&uid=' + uid + "&format=js"+"&plugin_type=" +payType+"&payType=1&version=2";
 		}
+	if(payType==6){
+		url='thirdpayyr/getWxPayLink?&channelNo=' + $("#CHANNEL_NO").val() + '&uid=' + uid + '&format=js&vipType=' + vipType +"&plugin_type=" +payType+"&payType=1&version=2";
+	}
 	$.get(url,function(data){
 			var pay_request_return = eval('(' + data + ')');
         setCookie("out_trade_no",pay_request_return.out_trade_no,30);
@@ -234,8 +237,9 @@ function checkPay() {
     	async : false,
     	success : function(data){
     		if(data){
-    			setCookie("openVIP", data, 30);
-
+    			var dataObj= eval(data)
+    			setCookie("openVIP", dataObj.openVIP, 30);
+    			setCookie("payType", dataObj.openVIP, d7);
     		} 
     	}
     	});

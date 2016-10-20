@@ -9,13 +9,16 @@ function vippop() {
     ispay = _ispay = 2,
     setCookie("ispay", _ispay, "d7"),
     setCookie("trymp4", "", "d7"),
+    setCookie("vip", "1", "d7"),
     i.on("dialog:action",
     function(i) {
-        0 === i.index && (window.location.href = "wap/index/"+$("#CHANNEL_NO").val())
+        0 === i.index && (window.location.href = "wapv3/index/"+$("#CHANNEL_NO").val())
     })
 }
 function gopay() {
     "undefined" != typeof player && player.remove();
+    $("#videoImage").css('display','block');
+    $("#vdcont").css('display','block');
     var i = $.dialog({
         title: "温馨提示",
         content: "非会员只能试看20秒视频哦~",
@@ -24,12 +27,12 @@ function gopay() {
     i.on("dialog:action",
     function(i) {
     		var CHANNEL_NO =$("#CHANNEL_NO").val();
-         window.location.href = "wapmovie/checkPay?CHANNEL_NO="+CHANNEL_NO
+         window.location.href = "wapv3/checkPay?CHANNEL_NO="+CHANNEL_NO
     })
 }
 function showPayError() {
 	 var CHANNEL_NO =$("#CHANNEL_NO").val();
-	window.location.href ="wapmovie/checkPay?CHANNEL_NO="+CHANNEL_NO;
+	window.location.href ="wapv3/checkPay?CHANNEL_NO="+CHANNEL_NO;
 /*    var i = $.dialog({
         title: "温馨提示",
         content: "本次充值失败，请确认支付信息是否正确！",
@@ -37,7 +40,7 @@ function showPayError() {
     });
     i.on("dialog:action",
     function(i) {
-    	window.location.href ="wapmovie/checkPay";
+    	window.location.href ="wapv3/checkPay";
     })*/
 }
 function getNo() {
@@ -101,7 +104,7 @@ function checkPay() {
 		var chkUid = getCookie("uid");
     $.ajax({
     	type : "post",
-    	url : "wapmovie/checkPayed",
+    	url : "wapv3/checkPayed",
     	data: {uid:chkUid}, 
     	async : false,
     	success : function(data){
@@ -174,14 +177,23 @@ function() {
     $(this).data("href") && (location.href = $(this).data("href"))
 }), $("#return").on("click",
 function() {
-    window.location.href = "wap/index/"+$("#CHANNEL_NO").val()
+	  if(getCookie("COLUMN_ID")==null || getCookie("COLUMN_ID")==""){
+		  window.location.href = "wapv3/index/"+$("#CHANNEL_NO").val()
+	  } else {
+		  window.location.href = "wapv3/listColumnVideo/"+$("#CHANNEL_NO").val()+"/"+getCookie("COLUMN_ID")
+	  }
 }), !/(check|about|play)/i.test(location.pathname)) {
-    var slider = new fz.Scroll(".ui-slider", {
-        role: "slider",
-        indicator: !0,
-        autoplay: !0,
-        interval: 3e3
-    });
+    var slider;
+    try{
+	    slider= new fz.Scroll(".ui-slider", {
+	        role: "slider",
+	        indicator: !0,
+	        autoplay: !0,
+	        interval: 3e3
+	    });
+    }catch( ex){
+    	
+    }
 /*    var tab = new fz.Scroll('#header', {
         role: 'tab',
         autoplay: true,
@@ -205,12 +217,12 @@ function() {
     	location.href=tabContent.attributes["data-href"].value+"?COLUMN_NO="+channelNo;
     });*/    
     
-    if ($("#slider li, #vlist li").on("click",
+    if ($("#slider li, #vlist li , #recommendVideo, #vdcont").on("click",
     function() {
     		var type =1;
         var i = $(this).data("vid"),
         t = $(this).children("h4").html();       
-        if ("" !== iftry || ispay > 0) window.location.href = "wapmovie/videoPlay/"+$("#CHANNEL_NO").val() +"/"+i;
+        if ("" !== iftry || ispay > 0) window.location.href = "wapv3/videoPlay/"+$("#CHANNEL_NO").val() +"/"+i;
         else {
             var e = '<div id="paybox"class="ui-dialog"><div class="ui-dialog-cnt"><a class="ui-icon-close-page"data-role="button"></a><div class="info"><h4>试看结束,充值VIP观看更多高清爽片</h4><p class="ui-txt-red">（只需支付一次，享受所有影片观看权限！）</p><p>VIP注意事项：<br>1.未满18岁用户，禁止购买观看。<br>2.一次性支付，享有所有影片观看权限。<br><div class="payBtn"><a class="paybtn weixin"data-role="button">确定</a></div></div></div></div>';
             $("body").append(e);
@@ -218,33 +230,32 @@ function() {
             o.on("dialog:action",
             function(i) {
             	 var CHANNEL_NO =$("#CHANNEL_NO").val();
-                1 == i.index && (window.location.href = "wapmovie/checkPay?CHANNEL_NO="+CHANNEL_NO)
+                1 == i.index && (window.location.href = "wapv3/checkPay?CHANNEL_NO="+CHANNEL_NO)
             })
         }
         return ! 1
     }), 1 > ispay) {
-        var novipfooter = '<div id="novipfooter" style="text-align:center; font-size:16px;">更多精华资源，仅限会员专享。。。</div>';
+        var novipfooter = '	<div id="novipfooter" style="text-align: center; font-size: 16px; border: 1px solid #12b7f5; width: 80%; margin: auto; height: 30px; line-height: 30px; border-radius: 30px; font-weight: 200; color: #12b7f5;" class="topay paytip" >点击成为VIP查看更多</div>';
         $(function() {
             $("body").append(novipfooter),
             $("#novipfooter").on("click",
             function() {
             	  var CHANNEL_NO =$("#CHANNEL_NO").val();
-                window.location.href = "wapmovie/checkPay?CHANNEL_NO="+CHANNEL_NO
+                window.location.href = "wapv3/checkPay?CHANNEL_NO="+CHANNEL_NO
             })
         })
     }
 }
 if (/play/i.test(location.pathname)) if ($("#playerwrap").css({
-    width: $(window).width() + "px",
-    height: $(window).height() - 300 + "px"
+	width: "100%"
 }), 1 > ispay) {
 	 var CHANNEL_NO =$("#CHANNEL_NO").val();
-    $("#playTip").html('非会员只能试看20秒，<a href="wapmovie/checkPay?CHANNEL_NO='+CHANNEL_NO+'">成为会员</a>观看全部'),
-    $("#playTip2").html('<a href="wapmovie/checkPay?CHANNEL_NO='+CHANNEL_NO+'"><i class="ui-icon-star"></i>立即成为会员获得更多福利<i class="ui-icon-arrow"></i></a>');
+   // $("#playTip").html('非会员只能试看20秒，<a href="wapv3/checkPay?CHANNEL_NO='+CHANNEL_NO+'">成为会员</a>观看全部');
+   // $("#playTip2").html('<a href="wapv3/checkPay?CHANNEL_NO='+CHANNEL_NO+'"><i class="ui-icon-star"></i>立即成为会员获得更多福利<i class="ui-icon-arrow"></i></a>');
     var trymp4 = decodeURI(getCookie("trymp4")).split("|"),
     idx = Math.floor(Math.random() * trymp4.length);
     var videoId = $("#videoId").val();
-    var url = "wapmovie/getPlayInfo/" +videoId +"/1";
+    var url = "wapv3/getPlayInfo/" +videoId +"/1";
     var trymp4times=getCookie("trymp4times");
     if (trymp4times ==null){
     	trymp4times = 0;
@@ -275,7 +286,7 @@ if (/play/i.test(location.pathname)) if ($("#playerwrap").css({
     $("#playTip").html("您正在观看会员专享视频，请耐心等待缓冲"),
     $("#playTip2").hide();
     var videoId = $("#videoId").val();
-    var url = "wapmovie/getPlayInfo/" +videoId +"/2";
+    var url = "wapv3/getPlayInfo/" +videoId +"/2";
     $.ajax({
     	type : "post",
     	url : url,

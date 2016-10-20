@@ -91,7 +91,7 @@ public class SwiftpassYrController extends BaseController {
 			} else {
 				total_fee =SwiftpassConfigYr.total_fee;
 			}
-			String orderNo = "smch0001_"+createOrderNo(channelNo);
+			String orderNo = "s88_"+createOrderNo(channelNo);
 			//付费金额
 			map.put("total_fee", total_fee);
 			//订单号
@@ -147,7 +147,7 @@ public class SwiftpassYrController extends BaseController {
 				vipType="0";
 				total_fee =SwiftpassConfigYr.total_fee;
 			}
-			String orderNo = createOrderNo(channelNo);
+			String orderNo ="s88_" + createOrderNo(channelNo);
 			//付费金额
 			map.put("total_fee", total_fee);
 			//订单号

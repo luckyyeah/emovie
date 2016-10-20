@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.fh.controller.base.BaseController;
 import com.fh.controller.heepay.HeepayController;
@@ -438,6 +439,7 @@ public class WapMovieV2Controller extends BaseController {
 		logBefore(logger, "checkPayed");
 		PageData pd = new PageData();
 		int vipType = 0;
+		int payType = 0;
 		try{
 			pd = this.getPageData();
 			String orderNo = pd.getString("out_trade_no");
@@ -449,6 +451,8 @@ public class WapMovieV2Controller extends BaseController {
 			}
 			if(orderData !=null){
 				vipType =(Integer)orderData.get("VIP_TYPE");
+				payType =(Integer)orderData.get("PLUGIN_TYPE");
+				
 			}
 			//漏单是付费通服务器上检查
 			if(orderData==null || (Integer)orderData.get("STATUS")==0){
@@ -473,7 +477,11 @@ public class WapMovieV2Controller extends BaseController {
 				session.setAttribute("vipType", vipType);
 			}
 			logger.info("out_trade_no="+orderNo +"|vipType="+vipType);
-			out.write(String.valueOf(vipType));
+			Map map =new HashMap();
+			map.put("vipType", vipType);
+			map.put("payType", payType);
+			 String jsonData = JSONArray.toJSONString(map);
+			out.write(jsonData);
 			out.close();
 		} catch(Exception e){
 			logger.error(e.toString(), e);
@@ -603,8 +611,9 @@ public class WapMovieV2Controller extends BaseController {
 			pd.put("CHANNEL_NO", CHANNEL_NO);
 			pd.put("DATA_TYPE", ColumnDataTypeEnum.AbaoutType.getKey());
 			List<PageData> columnList = columnService.listColumns(pd);
-			if(columnList !=null){
-				pd.put("contractImg", columnList.get(0).get("IMG_ONE"));
+			if(columnList !=null && columnList.size()>=2){
+				pd.put("wxContractImg", columnList.get(0).get("IMG_ONE"));
+				pd.put("aliContractImg", columnList.get(1).get("IMG_ONE"));
 			}
 			
 		} catch (Exception e) {
