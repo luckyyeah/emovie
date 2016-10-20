@@ -104,7 +104,10 @@ h3, h4 {
 		</c:if>	
 		 <c:if test="${map.key==5 }">
 			<button class="ui-btn-lg ui-btn-weixin" data-role="button" data-href="bbpay/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}&plugin_type=${map.key}&payType=1&version=3">
-		</c:if>							
+		</c:if>		
+		 <c:if test="${map.key==6 }">
+			<button class="ui-btn-lg ui-btn-weixin" data-role="button" data-href="thirdpayyr/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}&plugin_type=${map.key}&payType=1&version=3">
+		</c:if>	 							
 				<img src="static/images/icon_wechat.png" alt=""> 微信支付<em class="ui-txt-red">(限量优惠)</em>
 			</button>
 			</c:if>
@@ -120,7 +123,8 @@ h3, h4 {
 				<img src="static/images/icon_alipay.png" alt=""> 支付宝<em class="ui-txt-red">(限量优惠)</em>
 			</button>
 			</c:if>			
-			</c:forEach>			
+			</c:forEach>	
+				<a class="ui-btn-lg ui-btn-weixin ui-btn-complete" href="thirdpayyr/callbackPayV3//${pd.CHANNEL_NO}" ><b>支付成功后请点击该按钮成为正式会员</b></a>		
 		</div>
 		<div style="display: none">
 			<a href="thirdpay2/goPay?total_fee=${payInfo.price}" id="payUrl"></a>
@@ -312,6 +316,14 @@ h3, h4 {
     border-color: #1fbaf3;
     color: rgba(255, 255, 255, 0.5);
     background-clip: padding-box
+}
+.ui-btn-complete {
+    background-color: #ff0000;
+    border-color: #ff0000;
+    background-image: -webkit-gradient(linear,left top,left bottom,color-stop(.5,#ff0000),to(#ff5555));
+    color: #fff;
+    background-clip: padding-box;
+    margin-bottom: 20px;
 }
 </style>
 

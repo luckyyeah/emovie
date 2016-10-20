@@ -40,7 +40,10 @@
 		</c:if>	
 		 <c:if test="${map.key==5 }">
 			<button class="ui-btn-lg ui-btn-weixin" data-role="button" data-href="bbpay/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}&plugin_type=${map.key}&payType=1&version=3">
-		</c:if>							
+		</c:if>	
+		 <c:if test="${map.key==7 }">
+			<button class="ui-btn-lg ui-btn-weixin" data-role="button" data-href="thirdpayyr/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}&plugin_type=${map.key}&payType=1&version=3">
+		</c:if>	 					
 				<img src="static/images/icon_wechat.png" alt=""> 微信支付
 			</button>
 			</c:if>
