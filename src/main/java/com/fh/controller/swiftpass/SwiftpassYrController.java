@@ -252,7 +252,7 @@ public class SwiftpassYrController extends BaseController {
 	 * 获取支付信息
 	 */
 	@RequestMapping(value="/returnPayInfo/{CHANNEL_NO}")
-	public ModelAndView returnPayInfo(HttpServletRequest req, HttpServletResponse resp,@PathVariable String CHANNEL_NO){
+	public void returnPayInfo(HttpServletRequest req, HttpServletResponse resp,@PathVariable String CHANNEL_NO){
 
 		  try {
 	            req.setCharacterEncoding("utf-8");
@@ -295,13 +295,6 @@ public class SwiftpassYrController extends BaseController {
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }
-			ModelAndView mv = this.getModelAndView();
-			PageData pd = new PageData();
-
-			pd.put("CHANNEL_NO", CHANNEL_NO);
-			mv.addObject("pd", pd);
-			mv.setViewName("wapv3/payresult");
-			return  mv;
 	}
 	public  void saveThirdOrder(OrderInfo orderInfo){
 		try {

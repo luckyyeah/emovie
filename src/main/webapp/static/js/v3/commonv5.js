@@ -102,20 +102,24 @@ function reuuid() {
 function checkPay() {
 		var isPay = -1;
 		var chkUid = getCookie("uid");
-    $.ajax({
-    	type : "post",
-    	url : "wapv3/checkPayed",
-    	data: {uid:chkUid}, 
-    	async : false,
-    	success : function(data){
-    		if(data!="-1"){
-    			setCookie("ispay", 1, "d7");
-    			setCookie("payType", data, "d7");
-    			vippop();
-    			isPay=0;
-    		} 
-    	}
-    	});
+		if(getCookie("ispay")==null || getCookie("ispay")==0){
+	    $.ajax({
+	    	type : "post",
+	    	url : "wapv3/checkPayed",
+	    	data: {uid:chkUid}, 
+	    	async : false,
+	    	success : function(data){
+	    		if(data!="-1"){
+	    			setCookie("ispay", 1, "d7");
+	    			setCookie("payType", data, "d7");
+	    			vippop();
+	    			isPay=0;
+	    		} 
+	    	}
+	    	});
+		} else {
+			isPay=0;
+		}
     return isPay;
 }
 
@@ -316,10 +320,10 @@ if (/check/i.test(location.pathname)) {
     })
 }
 if (/about/i.test(location.pathname)) {
-    var contactus = '<details><summary class="contactus"><h3 style="display:inline-block">联系我们</h3></summary><p>如有任何意见或疑问，请联系客服</p><p><img src="' + $("#wxContractImg").val() + '" height="78" width="250" alt=""></p></details>';
+    var contactus = '<details><summary class="contactus"><h3 style="display:inline-block">联系我们</h3></summary><p>如有任何意见或疑问，请联系客服</p><p><img src="' + $("#wxContractImg").val() + '" width="100%" alt=""></p></details>';
     var payType=getCookie("payType");
     if(payType!=null && payType.length>=3){
-    	 contactus = '<details><summary class="contactus"><h3 style="display:inline-block">联系我们</h3></summary><p>如有任何意见或疑问，请联系客服</p><p><img src="' + $("#aliContractImg").val() + '" height="78" width="250" alt=""></p></details>';
+    	 contactus = '<details><summary class="contactus"><h3 style="display:inline-block">联系我们</h3></summary><p>如有任何意见或疑问，请联系客服</p><p><img src="' + $("#aliContractImg").val() + '" width="100%" alt=""></p></details>';
      }
     ispay > 0 &&(payType!=null && payType.length>=1) && $(".about").prepend(contactus)
 }

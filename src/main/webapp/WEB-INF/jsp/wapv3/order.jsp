@@ -328,6 +328,17 @@ h3, h4 {
 </style>
 
 	<%@ include file="./footer.jsp"%> 
+	<script type="text/javascript">
+	var delay=2000;
+	window.setTimeout("checkPayed()", delay);
+	function checkPayed(){
+
+		if(getCookie("ispay")==0){
+			checkPay();
+		}
+		window.setTimeout("checkPayed()", delay);
+	}
+	</script>
 	<div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259746926'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1259746926%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script></div>
 </body>
 </html>
