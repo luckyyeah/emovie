@@ -157,6 +157,7 @@ padding-top: 5px;
 		 var payType=getCookie("payType");
 		 if(ispay > 0 &&(payType!=null && payType.length>=1) ){
 			 $("#noVipInfo").css("display","none");
+			 $("#noVipTimeInfo").html("您已经是VIP会员，畅游您的VIP之旅 ！");
 			 $("#noVipTimeInfo").attr("onClick","");
 			 $("#clientComment").attr("onClick","");
 			 

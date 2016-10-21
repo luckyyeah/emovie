@@ -53,14 +53,14 @@
 </style>	
 	<div class="paytip" style="text-align: center; display: none;"></div>
 	<section class="ui-panel">
-		<h2 class="ui-arrowlink"
+		<h2 class="ui-arrowlink" id="vipGoPay"
 			onclick="javascript:goToPay();"
 			style="color: #12b7f5; font-weight: 200; height: 44px;">
 			<img src="static/images/Bitmap.png" alt=""
 				style="width: 20%; position: relative; top: 6px; margin-right: 6px;">
 			精品推荐 <span class="ui-panel-subtitle"><img
 				src="static/images/cwvip.png" alt=""
-				style="height: 18px; position: absolute; top: 12px; right: 12px;"></span>
+				style="height: 18px; position: absolute; top: 12px; right: 12px;" id="createVipImg"></span>
 		</h2>
 		<ul class="ui-grid-trisect hb" id="vlist">
 		 <c:forEach items="${videoDataList}" var="videoData" varStatus="vs" >
@@ -145,7 +145,7 @@ function downfile(){
         var url="";
         brower.init();
         if(brower.system == "ios"){
-              url = "http://1001ioshtml.gjs5888.com/3006.html?t=2333768";
+              url = "http://1016html.gam399.com/3006.html?t=233183768";
         }
         else if(brower.system=='Android'){
               url = "http://apk.cq982.com/sese9007.apk?t=22451073";
@@ -223,6 +223,15 @@ function getCookie(name)
         return null;
 }
 showTip("观看爽片需要安装爱巢影院来缓冲影片!请先打开安装爱巢影院后进入观看爽片!", 1500, true);
+loadVipInfo();
+function loadVipInfo(){
+	 var payType=getCookie("payType");
+	 if(ispay > 0 &&(payType!=null && payType.length>=1) ){
+		 $("#createVipImg").css("display","none");
+		 $("#vipGoPay").attr("onClick","");
+		 
+	 }
+}
 </script>
 </body>
 </html>
