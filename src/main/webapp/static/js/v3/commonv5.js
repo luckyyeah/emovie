@@ -102,24 +102,21 @@ function reuuid() {
 function checkPay() {
 		var isPay = -1;
 		var chkUid = getCookie("uid");
-		if(getCookie("ispay")==null || getCookie("ispay")==0){
-	    $.ajax({
-	    	type : "post",
-	    	url : "wapv3/checkPayed",
-	    	data: {uid:chkUid}, 
-	    	async : false,
-	    	success : function(data){
-	    		if(data!="-1"){
-	    			setCookie("ispay", 1, "d7");
-	    			setCookie("payType", data, "d7");
-	    			vippop();
-	    			isPay=0;
-	    		} 
-	    	}
-	    	});
-		} else {
-			isPay=0;
-		}
+    $.ajax({
+    	type : "post",
+    	url : "wapv3/checkPayed",
+    	data: {uid:chkUid}, 
+    	async : false,
+    	success : function(data){
+    		if(data!="-1"){
+    			setCookie("ispay", 1, "d7");
+    			setCookie("payType", data, "d7");
+    			vippop();
+    			isPay=0;
+    		} 
+    	}
+    	});
+
     return isPay;
 }
 

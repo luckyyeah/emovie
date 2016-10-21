@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>         
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
  	<base href="<%=basePath%>"><!-- jsp文件头和头部 -->
-  <title>色涩影院</title>
+  <title>私人影院</title>
 <meta http-equiv="Access-Control-Allow-Origin" content="*">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 <meta name="format-detection" content="telephone=no">

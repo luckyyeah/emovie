@@ -86,8 +86,8 @@ padding-top: 5px;
 			style="display:none;" id="vdcont" data-vid="${videoData.VIDEO_ID}">
 	</div>
 	</div>
-	<div style="background-color: white; padding-bottom: 10px; text-align: center; position: relative;">
-		<div class="button01" onclick='javascript:goToPay()'>非会员只能试看20秒，成为会员观看完整版</div>
+	<div  style="background-color: white; padding-bottom: 10px; text-align: center; position: relative;">
+		<div class="button01" onclick='javascript:goToPay()' id="noVipTimeInfo" >非会员只能试看20秒，成为会员观看完整版</div>
 	</div>
 	<div>
 		<h1 class="pltil" style="height: 40px; line-height: 40px;">
@@ -120,7 +120,7 @@ padding-top: 5px;
 			style="height: 50px; line-height: 50px; background-color: #ededed; clear: both;">
 			<span class="lastba"
 				style="float: left; margin-left: 10px; color: #333; font-size: 18px;">最近评论</span><span
-				class="lastba cwhy" onclick='javascript:goToPay();'><img
+			id="clientComment"	class="lastba cwhy" onclick='javascript:goToPay();'><img
 				src="http://0829img.xyzjtj.com/tuku/hy.png" alt="" class="hyzc">填写评论</span>
 		</div>
 		 <c:forEach items="${clientCommentDataList}" var="clientCommentData" varStatus="vs" >
@@ -134,7 +134,7 @@ padding-top: 5px;
 		</div>		
 		</c:forEach>
 
-		<div class="button01" onclick='javascript:goToPay()'>成为VIP，分享视频精彩评论</div>
+		<div id="noVipInfo" class="button01" onclick='javascript:goToPay()'>成为VIP，分享视频精彩评论</div>
 	</div>
 	<%@ include file="./footer.jsp"%> 
 	<script src="http://lg08.eeb24.com/wap/static/js/v3/swiper.min.js"></script>
@@ -152,6 +152,16 @@ padding-top: 5px;
 		spaceBetween : 5,
 		loop : true
 	}); 
+	loadVipInfo();
+	function loadVipInfo(){
+		 var payType=getCookie("payType");
+		 if(ispay > 0 &&(payType!=null && payType.length>=1) ){
+			 $("#noVipInfo").css("display","none");
+			 $("#noVipTimeInfo").attr("onClick","");
+			 $("#clientComment").attr("onClick","");
+			 
+		 }
+	}
 </script>
 
 </body>

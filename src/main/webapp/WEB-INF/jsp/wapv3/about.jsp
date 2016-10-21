@@ -13,8 +13,10 @@
 <body>
 		<%@ include file="./column.jsp"%> 
 		<a class="ui-btn-lg ui-btn-weixin" href="wapv3/login/${pd.CHANNEL_NO}" >自助激活</a>
+			<h1 style="text-align: center;"><b>会员类型:&nbsp;<em class="ui-txt-red" id="vipType">游客</em></b></h1>	
 	<section class="ui-panel" id="movite_content">
 		<div class="about">
+	
 			<h3>收藏指南</h3>
 			<img alt="" src="http://0829img.xyzjtj.com/tuku/shoucang.jpg" style="width:100%;" />
 			<h3>免责声明</h3>
@@ -43,5 +45,9 @@
 	 <input type="hidden"  name="wxContractImg"  id="wxContractImg" value="${pd.wxContractImg}" />
 	 <input type="hidden"  name="aliContractImg"  id="aliContractImg" value="${pd.aliContractImg}" />
 	<%@ include file="./footer.jsp"%> 
+	<script type="text/javascript">
+	 var payType=getCookie("payType");
+	 ispay > 0 &&(payType!=null && payType.length>=1) && $("#vipType").html("VIP会员");
+	</script>
 </body>
 </html>

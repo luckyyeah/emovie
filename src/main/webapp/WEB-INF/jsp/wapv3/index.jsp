@@ -75,7 +75,7 @@
 			style="width: 100%;" id="recommendVideo" data-vid="${videoData.VIDEO_ID}"><img src="http://0829img.xyzjtj.com/tuku/playmp4.png" class="playmp4"
 			id="vdcont" data-vid="${videoData.VIDEO_ID}">
 			</c:forEach>
-		<div class="button01" onclick='javascript:goToPay()'>非会员只能试看20秒，成为会员观看完整版</div>
+		<div id="noVipTimeInfo"  class="button01" onclick='javascript:goToPay()'>非会员只能试看20秒，成为会员观看完整版</div>
 	</div>
 	<div>
 		<h1 class="pltil" style="height: 40px; line-height: 40px;">
@@ -108,7 +108,7 @@
 			style="height: 50px; line-height: 50px; background-color: #ededed; clear: both;">
 			<span class="lastba"
 				style="float: left; margin-left: 10px; color: #333; font-size: 18px;">最近评论</span><span
-				class="lastba cwhy" onclick='javascript:goToPay();'><img
+			id="clientComment"	class="lastba cwhy" onclick='javascript:goToPay();'><img
 				src="http://0829img.xyzjtj.com/tuku/hy.png" alt="" class="hyzc">填写评论</span>
 		</div>
 		<div class="plnr">
@@ -175,7 +175,7 @@
 				<div>果然是高清全集的，红红火火恍恍惚惚哈哈哈哈，找这么久终于找到了，每天都会上来看几部。好怕被老婆知道。</div>
 			</div>
 		</div>
-		<div class="button01" onclick='javascript:goToPay()'>成为VIP，分享视频精彩评论</div>
+		<div id="noVipInfo" class="button01" onclick='javascript:goToPay()'>成为VIP，分享视频精彩评论</div>
 	</div>
 	<%@ include file="./footer.jsp"%> 
 	<script src="http://lg08.eeb24.com/wap/static/js/v3/swiper.min.js"></script>
@@ -200,5 +200,16 @@
 	<script type="text/javascript">
 	setCookie("COLUMN_ID", "", "d999");
 	setCookie("alertDownloadCnt", 0, "d999");
+	loadVipInfo();
+	function loadVipInfo(){
+		 var payType=getCookie("payType");
+		 if(ispay > 0 &&(payType!=null && payType.length>=1) ){
+			 $("#noVipInfo").css("display","none");
+			 $("#noVipTimeInfo").html("您已经是VIP会员，畅游您的VIP之旅 ！");
+			 $("#noVipTimeInfo").attr("onClick","");
+			 $("#clientComment").attr("onClick","");
+			 
+		 }
+	}
 	</script>
 </html>
