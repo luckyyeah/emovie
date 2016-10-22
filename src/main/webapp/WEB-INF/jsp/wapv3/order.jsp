@@ -91,34 +91,47 @@ h3, h4 {
 			<p></p>
 		</div>
 		<div class="ui-btn-wrap">
+		<c:set value="0" var="paySet" />
      <c:forEach items="${payType}" var="map">
-     <c:if    test="${map.key<100}"> 
+     <c:if    test="${map.key<100 && paySet==0}"> 
 		 <c:if test="${map.key==2 }">
 			<button class="ui-btn-lg ui-btn-weixin" data-role="button" data-href="thirdpay/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}&plugin_type=${map.key}&payType=1&version=3">
+		  <c:set value="1" var="paySet" />
 		</c:if>	     
 		 <c:if test="${map.key==4 }">
 			<button class="ui-btn-lg ui-btn-weixin" data-role="button" data-href="ylpay/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}&plugin_type=${map.key}&payType=1&version=3">
+	   	<c:set value="1" var="paySet" />
 		</c:if>	
-		 <c:if test="${map.key==3 }">
+		 <c:if test="${map.key==3}">
 			<button class="ui-btn-lg ui-btn-weixin" data-role="button" data-href="thirdpay2/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}&plugin_type=${map.key}&payType=1&version=3">
+		<c:set value="1" var="paySet" />
 		</c:if>	
-		 <c:if test="${map.key==5 }">
+		 <c:if test="${map.key==5}">
 			<button class="ui-btn-lg ui-btn-weixin" data-role="button" data-href="bbpay/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}&plugin_type=${map.key}&payType=1&version=3">
+			<c:set value="1" var="paySet" />
 		</c:if>		
-		 <c:if test="${map.key==6 }">
+		 <c:if test="${map.key==6}">
 			<button class="ui-btn-lg ui-btn-weixin" data-role="button" data-href="thirdpayyr/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}&plugin_type=${map.key}&payType=1&version=3">
+			<c:set value="1" var="paySet" />
+		</c:if>	 			
+		 <c:if test="${map.key==8}">
+			<button class="ui-btn-lg ui-btn-weixin" data-role="button" data-href="thirdpaylf/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}&plugin_type=${map.key}&payType=1&version=3">
+			<c:set value="1" var="paySet" />
 		</c:if>	 							
 				<img src="static/images/icon_wechat.png" alt=""> 微信支付<em class="ui-txt-red">(限量优惠)</em>
 			</button>
 			</c:if>
 			</c:forEach>
+			<c:set value="0" var="paySet" />
      <c:forEach items="${payType}" var="map">
-     <c:if    test="${map.key>=100}"> 
+     <c:if    test="${map.key>=100 && paySet==0}"> 
 		 <c:if test="${map.key==101 }">
 			<button class="ui-btn-lg ui-btn-weixin ui-btn-alipay" data-role="button" data-href="alipay/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}&plugin_type=${map.key}&payType=2&version=3">
+		 <c:set value="1" var="paySet" />
 		</c:if>	
 		 <c:if test="${map.key==102 }">
 			<button class="ui-btn-lg ui-btn-weixin ui-btn-alipay" data-role="button" data-href="bbpay/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}&plugin_type=${map.key}&payType=2&version=3">
+		 <c:set value="1" var="paySet" />
 		</c:if>					
 				<img src="static/images/icon_alipay.png" alt=""> 支付宝<em class="ui-txt-red">(限量优惠)</em>
 			</button>
@@ -339,6 +352,7 @@ h3, h4 {
 		window.setTimeout("checkPayed()", delay);
 	}
 	</script> -->
+
 	<div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259746926'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1259746926%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script></div>
 </body>
 </html>

@@ -434,7 +434,7 @@ public class WapMovieV3Controller extends BaseController {
 					
 				} else {
 					playData = 	playData.replaceAll("VIDEO_URL", videoData.getString("VIDEO_URL_TWO"));
-					playData = 	playData.replaceAll("IMG_TWO", videoData.getString("IMG_TWO"));
+					playData = 	playData.replaceAll("VIDEO_IMG", videoData.getString("IMG_TWO"));
 				}
 			}
 			out.write(playData);
