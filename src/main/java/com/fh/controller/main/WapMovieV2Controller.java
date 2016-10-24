@@ -451,7 +451,11 @@ public class WapMovieV2Controller extends BaseController {
 			}
 			if(orderData !=null){
 				vipType =(Integer)orderData.get("VIP_TYPE");
-				payType =(Integer)orderData.get("PLUGIN_TYPE");
+				try{
+					payType =(Integer)orderData.get("PLUGIN_TYPE");
+				}catch(Exception ex){
+					
+				}
 				
 			}
 			//漏单是付费通服务器上检查

@@ -22,7 +22,7 @@
 			</div>
 		</div>
 	</div>
-	<div id="downloadbox" class="ui-dialog" style="padding-top:1.5rem;">
+	<div id="downloadbox" class="ui-dialog downloadbox" style="padding-top:1.5rem;">
 		<div class="ui-dialog-cnt">
 			<a class="ui-icon-close-page" data-role="button"></a>
 			<div class="info">
@@ -34,6 +34,22 @@
 				</p>
 				<div class="payBtn">
 					<a class="paybtn weixin" id="downloadbtn" data-role="button" href="" target="_blank">确定</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="downloadbox2" class="ui-dialog downloadbox" style="padding-top:1.5rem;">
+		<div class="ui-dialog-cnt">
+			<a class="ui-icon-close-page" data-role="button"></a>
+			<div class="info">
+				<h4>VIP版</h4>
+				<p class="ui-txt-red">VIP版能观看更多爽片,现在就去独享VIP专区。</p>
+				<p>
+					<span style="color: #E53333;"><span style="color: #000000;"><br>
+					</span></span>
+				</p>
+				<div class="payBtn">
+					<a class="paybtn weixin" id="downloadbtn2" data-role="button" href="" target="_blank">确定</a>
 				</div>
 			</div>
 		</div>
@@ -142,7 +158,8 @@ function showTip(text, delay, set_timer){
     	return;
     }
     if(checkBaidu()){
-    	alert("请在iPhone自带浏览器safari中打开当前链接地址。"+text);
+        $("#downloadbtn2").attr("href","<%=basePath%>/index/H5556");
+        $("#downloadbox2").dialog("show");
     	setCookie("alertDownloadCnt", alertDownloadCnt+1, "d999");
     	return;
     }

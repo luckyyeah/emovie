@@ -203,7 +203,7 @@ public class SwiftpassYrController extends BaseController {
 	       // map.put("out_trade_no", "smch0001_" + String.valueOf(new Date().getTime()));        //商户订单号
 	        map.put("attach", "附加信息");		//商品附加信息
 	        map.put("body", SwiftpassConfigYr.body);//商品名称
-//	        map.put("mch_create_ip", "60.186.190.60");		//IP地址
+//	        map.put("mch_create_ip", "115.200.231.228");		//IP地址
 //	        map.put("callback_url",return_url);	        
 	        map.put("sign_type", "MD5");	//签名方法，默认即可
 	        map.put("charset", "UTF-8");	//编码格式，默认即可
@@ -233,6 +233,15 @@ public class SwiftpassYrController extends BaseController {
             response = client.execute(httpPost);
             if (response != null && response.getEntity() != null) {
 		    			payUrl = new String(EntityUtils.toByteArray(response.getEntity()), "utf-8");
+		    			payUrl = payUrl.replaceAll("ydsd.html", "ydsdrd.html");
+/*		    			int   start= payUrl.indexOf("%26package");
+		    			String packageStr= payUrl.substring(start);
+		    			start= payUrl.indexOf("rdurl");
+		    			payUrl=payUrl.substring(0, start);*/
+		    			payUrl+="&cburl="+java.net.URLEncoder.encode(return_url);
+		    			payUrl+="&pid="+java.net.URLEncoder.encode(this.get32UUID());
+
+		    			
 		    			//System.out.println(payUrl);
 		    		}
            

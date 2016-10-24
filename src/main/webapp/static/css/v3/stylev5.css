@@ -176,6 +176,48 @@ body {
     top: 0;
     color: #ccc
 }
+.downloadbox .ui-dialog-cnt {
+    width: 80%
+}
+
+.downloadbox .ui-dialog-cnt img {
+    width: 100%
+}
+
+.downloadbox .ui-dialog-cnt .info {
+    padding: 30px 20px 20px 20px;
+    font-size: 12px;
+    text-align: left
+}
+
+.downloadbox .ui-dialog-cnt .info h4 {
+    font-size: 14px
+}
+
+.downloadbox .paybtn {
+    width: 100%;
+    display: block;
+    font-size: 14px;
+    line-height: 40px;
+    text-align: center;
+    color: #fff;
+    margin: 5px 0
+}
+
+.downloadbox .paybtn.alipay {
+    background-color: #0be
+}
+
+.downloadbox .paybtn.weixin {
+    background-color: #44b549
+}
+
+.downloadbox .ui-icon-close-page {
+    position: absolute;
+    right: 5px;
+    top: 0;
+    color: #ccc
+}
 #play {
     background-color: #000
 }
