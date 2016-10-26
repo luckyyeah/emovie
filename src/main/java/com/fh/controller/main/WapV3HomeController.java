@@ -161,9 +161,11 @@ public class WapV3HomeController extends BaseController {
 		}
 		
 
-		return  new ModelAndView("redirect:http://1024.enbozm.com/emovie/wapv3/listRecommendVideo/" +CHANNEL_NO +"/"+columnId );
-		//return  new ModelAndView("redirect:/wapv3/listRecommendVideo/" +CHANNEL_NO +"/"+columnId );
+		//return  new ModelAndView("redirect:http://1024.enbozm.com/emovie/wapv3/listRecommendVideo/" +CHANNEL_NO +"/"+columnId );
+		return  new ModelAndView("redirect:/wapv3/listRecommendVideo/" +CHANNEL_NO +"/"+columnId );
 		//return  new ModelAndView("redirect:/wapv2/listColumnVideo/" +CHANNEL_NO +"/"+columnId );
+		//素包切换
+		//return  new ModelAndView("redirect:/wapvv/index/" +CHANNEL_NO);
 	}
 
 	

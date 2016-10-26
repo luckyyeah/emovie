@@ -100,7 +100,16 @@ public class BaseController {
         if ((ip == null) || (ip.length() == 0) || (ip.equalsIgnoreCase(localIP)) || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getRemoteAddr();
         }
-
+        try{
+	        if(ip!=null&& !"".equals(ip)){
+	        	String []arrIp= ip.split(",");
+	        	if(arrIp !=null && arrIp.length>0){
+	        		ip =arrIp[0].trim();
+	        	}
+	        }
+        }catch(Exception ex){
+        	
+        }
         return ip;
     }
 

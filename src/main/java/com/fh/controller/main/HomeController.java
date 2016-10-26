@@ -147,6 +147,8 @@ public class HomeController extends BaseController {
 			logger.error(e.toString(), e);
 		}
 		return mv;
+		//素包切换
+		//return  new ModelAndView("redirect:/wapvv/index/" +CHANNEL_NO);
 	}
 
 	

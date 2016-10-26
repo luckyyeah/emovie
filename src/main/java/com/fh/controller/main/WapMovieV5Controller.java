@@ -53,7 +53,7 @@ import com.fh.util.Tools;
  * 创建时间：2015-03-21
  */
 @Controller
-@RequestMapping(value="/wapv5")
+@RequestMapping(value="/wapvv")
 public class WapMovieV5Controller extends BaseController {
 	
 
@@ -147,7 +147,7 @@ public class WapMovieV5Controller extends BaseController {
 				pageNoList.add(String.valueOf(i));
 			}*/
 			pd.put("COLUMN_NO", COLUMN_NO);
-			mv.setViewName("wapv5/index");
+			mv.setViewName("wapvv/index");
 			mv.addObject("bannerDataList", bannerDataList);
 			mv.addObject("columnDataList", WapV5HomeController.mapHomeData.get("columnDataList"));
 			mv.addObject("columnData", columnData);
@@ -225,7 +225,7 @@ public class WapMovieV5Controller extends BaseController {
 				pageNoList.add(String.valueOf(i));
 			}*/
 			pd.put("COLUMN_NO", COLUMN_NO);
-			mv.setViewName("wapv5/channel");
+			mv.setViewName("wapvv/channel");
 			mv.addObject("bannerDataList", bannerDataList);
 			mv.addObject("columnDataList", WapV5HomeController.mapHomeData.get("columnDataList"));
 			mv.addObject("columnData", columnData);
@@ -307,7 +307,7 @@ public class WapMovieV5Controller extends BaseController {
 			}
 			pd.put("CHANNEL_NO", CHANNEL_NO);
 			pd.put("playData", playData);
-			mv.setViewName("wapv5/video_play");
+			mv.setViewName("wapvv/video_play");
 			mv.addObject("pd", pd);
 			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
 		} catch(Exception e){
@@ -418,7 +418,7 @@ public class WapMovieV5Controller extends BaseController {
 			if(pd.getString("CHANNEL_NO") ==null){
 				pd.put("CHANNEL_NO", channelNo);
 			}
-			mv.setViewName("wapv5/order");
+			mv.setViewName("wapvv/order");
 			mv.addObject("pd", pd);
 			mv.addObject("payInfo", payInfo);
 			mv.addObject("payType",WapV5HomeController.mapPayType);
@@ -511,7 +511,7 @@ public class WapMovieV5Controller extends BaseController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		mv.setViewName("wapv5/about");
+		mv.setViewName("wapvv/about");
 		mv.addObject("columnDataList", WapV5HomeController.mapHomeData.get("columnDataList"));
 		mv.addObject("pd", pd);
 		return mv;
@@ -533,7 +533,7 @@ public class WapMovieV5Controller extends BaseController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		mv.setViewName("wapv5/login");
+		mv.setViewName("wapvv/login");
 		mv.addObject("pd", pd);
 		return mv;
 	}	  
@@ -617,7 +617,7 @@ public class WapMovieV5Controller extends BaseController {
 
 		pd.put("CHANNEL_NO", CHANNEL_NO);
 		mv.addObject("pd", pd);
-		mv.setViewName("wapv5/payresult");
+		mv.setViewName("wapvv/payresult");
 		return  mv;
 	}
 	/* ===============================权限================================== */

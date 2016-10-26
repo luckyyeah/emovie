@@ -39,11 +39,11 @@
                 activeBtn.html("请填写订单号");
                 return false;
             } else {
-								var url = "<%=basePath%>wapv5/checkOrderPayed?CHANNEL_NO=${pd.CHANNEL_NO}&orderNo=" + orderNo +"&uid="+getCookie("uid")+ "&tm="+new Date().getTime();
+								var url = "<%=basePath%>wapvv/checkOrderPayed?CHANNEL_NO=${pd.CHANNEL_NO}&orderNo=" + orderNo +"&uid="+getCookie("uid")+ "&tm="+new Date().getTime();
 								$.get(url,function(data){
 									if(data=="1"){
 										 activeBtn.html("登录成功，页面正在跳转");
-										 location.href ="<%=basePath%>wapv5/loadResult/${pd.CHANNEL_NO}";
+										 location.href ="<%=basePath%>wapvv/loadResult/${pd.CHANNEL_NO}";
 									} else {
 				              activeBtn.html("登录失败，请检查订单号");
 				            }

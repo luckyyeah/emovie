@@ -60,7 +60,7 @@
 			</button>
 			</c:if>			
 			</c:forEach>			
-			<a class="ui-btn-lg ui-btn-weixin" href="wapv5/index/${pd.CHANNEL_NO}" >支付完成</a>
+			<a class="ui-btn-lg ui-btn-weixin" href="wapvv/index/${pd.CHANNEL_NO}" >支付完成</a>
 		</div>
 		<div style="display: none">
 			<a href="thirdpay2/goPay?total_fee=${payInfo.price}" id="payUrl"></a>

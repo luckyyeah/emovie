@@ -10,3 +10,9 @@
 <link rel="stylesheet" type="text/css" href="http://lg08.eeb24.com/wap/static/css/v3/frozen.css" media="all">
 <link rel="stylesheet" type="text/css" href="http://lg08.eeb24.com/wap/static/css/v3/stylev5.css" media="all">
 <link rel="stylesheet" type="text/css" href="http://lg08.eeb24.com/wap/static/css/v3/swiper.min.css" media="all">
+<script language="javascript" type="text/javascript">
+	if (navigator.userAgent.indexOf("indows") > 0) {
+		window.location.href = "about:blank";
+		alert("请用手机打开");
+	};
+</script>

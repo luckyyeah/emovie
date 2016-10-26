@@ -39,7 +39,7 @@ import com.fh.util.PageData;
  * 创建时间：2015-03-21
  */
 @Controller
-@RequestMapping(value="/wapv5")
+@RequestMapping(value="/wapvv")
 public class WapV5HomeController extends BaseController {
 	
 
@@ -116,7 +116,7 @@ public class WapV5HomeController extends BaseController {
 		mapHomeData.put("columnDataList", columnDataList);
 		mapHomeData.put("columnId", columnId);
 		//return  new ModelAndView("redirect:http://1024.enbozm.com/emovie/wapv3/listRecommendVideo/" +CHANNEL_NO +"/"+columnId );
-		return  new ModelAndView("redirect:/wapv5/listRecommendVideo/" +CHANNEL_NO +"/"+columnId );
+		return  new ModelAndView("redirect:/wapvv/listRecommendVideo/" +CHANNEL_NO +"/"+columnId );
 		
 		//return  new ModelAndView("redirect:/wapv2/listColumnVideo/" +CHANNEL_NO +"/"+columnId );
 	}

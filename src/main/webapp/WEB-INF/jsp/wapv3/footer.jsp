@@ -42,8 +42,7 @@
 		<div class="ui-dialog-cnt">
 			<a class="ui-icon-close-page" data-role="button"></a>
 			<div class="info">
-				<h4>VIP版</h4>
-				<p class="ui-txt-red">VIP版能观看更多爽片,现在就去独享VIP专区。</p>
+				<h4>黄金会员区</h4>
 				<p>
 					<span style="color: #E53333;"><span style="color: #000000;"><br>
 					</span></span>

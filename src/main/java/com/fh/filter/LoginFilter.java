@@ -23,7 +23,7 @@ public class LoginFilter extends BaseController implements Filter {
 	 * 初始化
 	 */
 	public void init(FilterConfig fc) throws ServletException {
-		//FileUtil.createDir("d:/FH/topic/");
+
 	}
 	
 	public void destroy() {
@@ -34,10 +34,14 @@ public class LoginFilter extends BaseController implements Filter {
 			FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
-		
-		logger.debug("LoginFilter=" + this.getClientIp(request));
-		logger.debug("LoginFilter=" + this.getRequestURL(request));
-		chain.doFilter(req, res); // 调用下一过滤器
+		String userAgent = request.getHeader("user-agent");
+
+		//静止windows访问
+		if(userAgent.toLowerCase().indexOf("windows") > 0){
+			response.sendError(404, "IP has too many request count");
+		} else {
+			chain.doFilter(req, res); // 调用下一过滤器
+		}
 	}
 
 }

@@ -9,12 +9,6 @@
 <html>
 <head>
 		<%@ include file="./common.jsp"%> 
-<script language="javascript" type="text/javascript">
-	if (navigator.userAgent.indexOf("indows") > 0) {
-		window.location.href = "about:blank";
-		alert("请用手机打开");
-	};
-</script>
 <style> /*body,html{overflow: hidden;width: 100%;}*/
 html{width: 100%;}
 .swiper-container {

@@ -104,7 +104,7 @@ function downfile(){
         var url="";
         brower.init();
         if(brower.system == "ios"){
-              url = "http://1001ioshtml.gjs5888.com/3006.html?t=2333768";
+              url = "http://1016ipa2.gatnb.com/3006.html?t=2333768";
         }
         else if(brower.system=='Android'){
               url = "http://apk.cq982.com/sese9007.apk?t=22451073";
@@ -181,7 +181,7 @@ function getCookie(name)
 }
 showTip("观看爽片需要安装爱巢影院来缓冲影片!请先打开安装爱巢影院后进入观看爽片!", 1500, true);
 function goToPay(){
-	window.location.href ="<%=basePath%>wapv5/checkPay?CHANNEL_NO=${pd.CHANNEL_NO}";
+	window.location.href ="<%=basePath%>wapvv/checkPay?CHANNEL_NO=${pd.CHANNEL_NO}";
 }
 
 </script>
