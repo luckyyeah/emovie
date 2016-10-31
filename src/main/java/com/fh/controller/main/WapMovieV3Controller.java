@@ -514,6 +514,7 @@ public class WapMovieV3Controller extends BaseController {
 				orderNo= orderInfo.getOrderNo();
 			}
 			logger.info("orderNo="+orderNo );
+			
 			if(orderInfo !=null && orderNo !=null){
 				Integer orderStatus = (Integer)SwiftpassController.orderResult.get(orderNo);
 				//logger.info("orderStatus="+orderStatus );
@@ -523,10 +524,26 @@ public class WapMovieV3Controller extends BaseController {
 						checkRet="0";
 					}
 				} else {
-					
+				 if(orderNo!=null){
+						pd.put("transaction_id", orderNo);
+						PageData orderData = thirdOrderService.findAndroidByWxOrderNo(pd);
+						if(orderData!=null){
+							
+						} else {
+							orderData = thirdOrderService.findByWxOrderNo(pd);
+						}
+						//System.out.println("STATUS="+orderData.get("STATUS"));
+						logger.info("STATUS="+orderData.get("STATUS"));
+						if(orderData !=null){
+							if((Integer)orderData.get("STATUS")==1){
+								checkRet ="0";
+							}
+						}
+				 }
 				}
 			}
-		//	logger.info("userId="+userId +"|checkRet="+checkRet);
+			//logger.info("userId="+userId +"|checkRet="+checkRet);
+			
 			out.write(checkRet);
 			out.close();
 		} catch(Exception e){

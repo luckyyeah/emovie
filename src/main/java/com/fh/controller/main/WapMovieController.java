@@ -375,7 +375,22 @@ public class WapMovieController extends BaseController {
 						checkRet="0";
 					}
 				} else {
-					
+					 if(orderNo!=null){
+							pd.put("transaction_id", orderNo);
+							PageData orderData = thirdOrderService.findAndroidByWxOrderNo(pd);
+							if(orderData!=null){
+								
+							} else {
+								orderData = thirdOrderService.findByWxOrderNo(pd);
+							}
+							//System.out.println("STATUS="+orderData.get("STATUS"));
+							logger.info("STATUS="+orderData.get("STATUS"));
+							if(orderData !=null){
+								if((Integer)orderData.get("STATUS")==1){
+									checkRet ="0";
+								}
+							}
+					 }
 				}
 			}
 			logger.info("userId="+userId +"|checkRet="+checkRet);

@@ -105,7 +105,26 @@ public class SwiftpassController extends BaseController {
 			} else{
 				payUrl= createOrder(map,channelNo,SwiftpassConfig.callback_url+"/"+channelNo);
 			}
-			payUrl = SwiftpassUrlUtils.reqPayUrl(payUrl,this.getUserAgent());
+			//无法调起支付是返回支付页面
+			if("2".equals(pd.getString("version"))){
+				if(payUrl==null||"".equals(payUrl)){
+					payUrl="/wapv2/checkPay?CHANNEL_NO="+channelNo;
+					return  new ModelAndView("redirect:" +payUrl);
+				}
+			} else if("3".equals(pd.getString("version"))){
+				if(payUrl==null||"".equals(payUrl)){
+					payUrl="/wapv3/checkPay?CHANNEL_NO="+channelNo;
+					return  new ModelAndView("redirect:" +payUrl);
+				}
+			} else{
+				if(payUrl==null||"".equals(payUrl)){
+					payUrl="/wapmovie/checkPay?CHANNEL_NO="+channelNo;
+					return  new ModelAndView("redirect:" +payUrl);
+				}
+			}
+			if(payUrl!=null && !"".equals(payUrl)){
+				payUrl = SwiftpassUrlUtils.reqPayUrl(payUrl,this.getUserAgent());
+			}
 		  OrderInfo orderInfo=new OrderInfo();
 		  orderInfo.setOrderNo(orderNo);
 		  orderInfo.setUserId(userId);
@@ -119,6 +138,7 @@ public class SwiftpassController extends BaseController {
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
+
 		return  new ModelAndView("redirect:" +payUrl);
 	}
 	/**
@@ -161,7 +181,9 @@ public class SwiftpassController extends BaseController {
 			} else{
 				payUrl= createOrder(map,channelNo,SwiftpassConfig.callback_url+"/"+channelNo);
 			}
-			payUrl = SwiftpassUrlUtils.reqPayUrl(payUrl,this.getUserAgent());
+			if(payUrl!=null && !"".equals(payUrl)){
+				payUrl = SwiftpassUrlUtils.reqPayUrl(payUrl,this.getUserAgent());
+			}
 		  OrderInfo orderInfo=new OrderInfo();
 		  orderInfo.setOrderNo(orderNo);
 		  orderInfo.setUserId(userId);

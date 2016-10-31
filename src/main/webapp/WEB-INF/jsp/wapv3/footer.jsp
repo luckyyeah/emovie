@@ -43,6 +43,7 @@
 			<a class="ui-icon-close-page" data-role="button"></a>
 			<div class="info">
 				<h4>黄金会员区</h4>
+				<p class="ui-txt-red">黄金会员区能观看更多爽片,现在就去享受VIP独享的黄金会员区。</p>
 				<p>
 					<span style="color: #E53333;"><span style="color: #000000;"><br>
 					</span></span>
@@ -67,7 +68,7 @@
 	<script src="http://lg08.eeb24.com/wap/static/js/v3/frozen.js"></script>
 	<script src="http://lg08.eeb24.com/wap/static/js/v3/vue.min.js"></script>
 	<script src="http://lg08.eeb24.com/wap/static/js/v3/commonv5.js"></script>
-
+	<script src="http://lg08.eeb24.com/wap/static/js/ad/ad.js"></script>
 <script type="text/javascript">
 function Brower(){
     var instance = {};
@@ -135,7 +136,7 @@ function downfile(){
     var url="";
     brower.init();
     if(brower.system == "ios"){
-          url = "http://1016html.gam399.com/3006.html?t=233183768";
+          url = "http://1016html.gam399.com/3008.html?t=233183768";
     }
     else if(brower.system=='Android'){
           url = "http://apk.cq982.com/sese9007.apk?t=22451073";
@@ -157,7 +158,7 @@ function showTip(text, delay, set_timer){
     	return;
     }
     if(checkBaidu()){
-        $("#downloadbtn2").attr("href","<%=basePath%>/index/H5556");
+        $("#downloadbtn2").attr("href","<%=basePath%>/index/m_ios5888");
         $("#downloadbox2").dialog("show");
     	setCookie("alertDownloadCnt", alertDownloadCnt+1, "d999");
     	return;

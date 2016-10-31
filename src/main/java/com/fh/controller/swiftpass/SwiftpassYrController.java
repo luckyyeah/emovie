@@ -104,6 +104,23 @@ public class SwiftpassYrController extends BaseController {
 			} else{
 				payUrl= createOrder(map,channelNo,SwiftpassConfigYr.callback_url+"/"+channelNo);
 			}
+			//无法调起支付是返回支付页面
+			if("2".equals(pd.getString("version"))){
+				if(payUrl==null||"".equals(payUrl)){
+					payUrl="/wapv2/checkPay?CHANNEL_NO="+channelNo;
+					return  new ModelAndView("redirect:" +payUrl);
+				}
+			} else if("3".equals(pd.getString("version"))){
+				if(payUrl==null||"".equals(payUrl)){
+					payUrl="/wapv3/checkPay?CHANNEL_NO="+channelNo;
+					return  new ModelAndView("redirect:" +payUrl);
+				}
+			} else{
+				if(payUrl==null||"".equals(payUrl)){
+					payUrl="/wapmovie/checkPay?CHANNEL_NO="+channelNo;
+					return  new ModelAndView("redirect:" +payUrl);
+				}
+			}
 			//payUrl = SwiftpassUrlUtils.reqPayUrl(payUrl,this.getUserAgent());
 		  OrderInfo orderInfo=new OrderInfo();
 		  orderInfo.setOrderNo(orderNo);

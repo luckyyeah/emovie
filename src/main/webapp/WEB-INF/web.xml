@@ -64,8 +64,24 @@
   </filter-mapping>    
   <filter-mapping>
     <filter-name>loginFilter</filter-name>
-    <url-pattern>/*</url-pattern>
+    <url-pattern>/wapv3/*</url-pattern>
   </filter-mapping>    
+  <filter-mapping>
+    <filter-name>loginFilter</filter-name>
+    <url-pattern>/wap/*</url-pattern>
+  </filter-mapping>  
+  <filter-mapping>
+    <filter-name>loginFilter</filter-name>
+    <url-pattern>/wapv2/*</url-pattern>
+  </filter-mapping>  
+  <filter-mapping>
+    <filter-name>loginFilter</filter-name>
+    <url-pattern>/wapmovie/*</url-pattern>
+  </filter-mapping>  
+  <filter-mapping>
+    <filter-name>loginFilter</filter-name>
+    <url-pattern>/index/*</url-pattern>
+  </filter-mapping>  
   <error-page>
     <error-code>404</error-code>
     <location>/404.jsp</location>

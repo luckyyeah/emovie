@@ -115,8 +115,8 @@ public class WapHomeController extends BaseController {
 		
 		mapHomeData.put("columnDataList", columnDataList);
 		mapHomeData.put("columnId", columnId);
-		//return  new ModelAndView("redirect:/wapmovie/listColumnVideo/" +CHANNEL_NO +"/"+columnId );
-		return  new ModelAndView("redirect:/wapv2/listColumnVideo/" +CHANNEL_NO +"/"+columnId );
+		return  new ModelAndView("redirect:/wapmovie/listColumnVideo/" +CHANNEL_NO +"/"+columnId );
+		//return  new ModelAndView("redirect:/wapv2/listColumnVideo/" +CHANNEL_NO +"/"+columnId );
 		//素包切换
 		//return  new ModelAndView("redirect:/wapvv/index/" +CHANNEL_NO);
 	}
