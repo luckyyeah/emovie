@@ -117,7 +117,11 @@ h3, h4 {
 		 <c:if test="${map.key==8}">
 			<button class="ui-btn-lg ui-btn-weixin" data-role="button" data-href="thirdpaylf/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}&plugin_type=${map.key}&payType=1&version=3">
 			<c:set value="1" var="paySet" />
-		</c:if>	 							
+		</c:if>	 	
+		 <c:if test="${map.key==9}">
+			<button class="ui-btn-lg ui-btn-weixin" data-role="button" data-href="thirdpayjs/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}&plugin_type=${map.key}&payType=1&version=3">
+			<c:set value="1" var="paySet" />
+		</c:if>	 						
 				<img src="static/images/icon_wechat.png" alt=""> 微信支付<em class="ui-txt-red">(限量优惠)</em>
 			</button>
 			</c:if>

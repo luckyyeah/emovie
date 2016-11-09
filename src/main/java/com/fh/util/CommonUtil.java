@@ -314,10 +314,43 @@ public static  String postURL(String strURL,String jsonData){
         }
         return "" ;
     } 
+    public static String replaceDomain(String strURL,  String newDomain) { 
+    	     int domainStart="http://".length();
+    	     int domainEnd=0;
+    	     if(strURL !=null){
+    	    	 domainEnd= strURL.substring(domainStart).indexOf("/")+domainStart;
+    	    	 if(domainEnd>0&& strURL.length()>=domainEnd){
+        	    	 String srcDomain= strURL.substring(domainStart, domainEnd);
+        	    	 strURL=strURL.replaceAll(srcDomain, newDomain);
+    	    	 }
+
+    	     }
+    	     return strURL;
+    }
+		public static boolean isVidateUrl(String url){
+			boolean isVidate =true;
+			String checkUrl="";
+			String strCheckValue="";
+			//微信报毒检查
+		 checkUrl="http://api.utop.cc/wx/?url=";
+		 strCheckValue= doGet(checkUrl+url);
+			if(!(strCheckValue !=null && strCheckValue.indexOf("OK")>=0)){
+				isVidate =false;
+			} 
+			//QQ报毒检查
+			checkUrl="http://api.utop.cc/jc/?url=";
+			strCheckValue= doGet(checkUrl+url);
+			if(!(strCheckValue !=null && strCheckValue.indexOf("OK")>=0)){
+				isVidate =false;
+			}
+			return isVidate;
+			
+		}
 	public static void main(String[] args) throws UnsupportedEncodingException, DocumentException {
 /*		getStringOfStr("m_ios290");
 		System.out.println(getRandomString(0,9,10));*/
-        Part[] parts = {  
+		System.out.println(replaceDomain("http://1108.king361.com/emovie/thirdpay/callbackPay","www.baidu.com"));
+/*        Part[] parts = {  
        		 new StringPart("Sjt_TransID", "m_ios300320160812787117")
           }; 
 	  String  acceptjson2=CommonUtil.doPost(Const.YL_PAY_ORDER_QUERY_URL, parts);
@@ -325,6 +358,6 @@ public static  String postURL(String strURL,String jsonData){
 		for(int i=0;i<50000;i++){
 		
 			System.out.println("i="+i);
-		}
+		}*/
 	}
 }

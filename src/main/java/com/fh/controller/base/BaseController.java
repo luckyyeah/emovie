@@ -1,6 +1,9 @@
 package com.fh.controller.base;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,6 +21,13 @@ public class BaseController {
 	protected Logger logger = Logger.getLogger(this.getClass());
 
 	private static final long serialVersionUID = 6357869213649815390L;
+	
+    public static List<String> urlList =new ArrayList<String>();
+    public static String domain ="1108.king361.com";
+    static{
+    	UrlSynchronize urlSynchronize =new UrlSynchronize();
+    	urlSynchronize.startOrderSyn();
+    }
 	
 	/**
 	 * 得到PageData

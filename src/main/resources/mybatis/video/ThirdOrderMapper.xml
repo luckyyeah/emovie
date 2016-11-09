@@ -97,6 +97,7 @@
 				STATUS = #{status}
 			where 
 				out_trade_no = #{out_trade_no}
+			and STATUS = 0
 	</update>
 	
 	<!-- 根据订单号获取数据 -->

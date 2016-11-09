@@ -196,12 +196,13 @@ public class SwiftpassJsController extends BaseController {
         map.put("nonce_str", String.valueOf(new Date().getTime()));
         map.put("callback_url",return_url);
         map.put("body", SwiftpassConfig.body);
-        map.put("sub_openid", "2.0");
+        map.put("sub_openid", "1.1");
         map.put("sign_type", "MD5");
         map.put("charset", "UTF-8");
         map.put("service", "pay.weixin.jspay");
         map.put("version", "2.0");
         map.put("mch_create_ip", this.getClientIp());
+
        // map.put("mch_create_ip", "220.184.228.242");
         Map<String,String> params = SignUtils.paraFilter(map);
         StringBuilder buf = new StringBuilder((params.size() +1) * 10);

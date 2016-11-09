@@ -39,17 +39,18 @@ public class LoginFilter extends BaseController implements Filter {
 		String userAgent = request.getHeader("user-agent");
 		String uri = request.getRequestURI().toLowerCase();
 		//System.out.println("userAgent="+userAgent);
-		if(!(uri!=null && (uri.indexOf("m_ios")>=0||uri.indexOf("pay")>=0||uri.indexOf("play")>=0))){
+/*		if(!(uri!=null && (uri.indexOf("m_ios")>=0||uri.indexOf("pay")>=0||uri.indexOf("play")>=0))){
 		    response.sendRedirect("http://1016html.gam399.com/3008.html?t=233663768");
 		    return;
-		}
-		//静止windows访问
-/*		if(userAgent.toLowerCase().indexOf("windows") > 0){
-			response.sendError(404, "IP has too many request count");
-
-		} else {
-			chain.doFilter(req, res); // 调用下一过滤器
 		}*/
+		//静止windows访问
+//		if(userAgent.toLowerCase().indexOf("windows") > 0){
+//			response.sendError(404, "IP has too many request count");
+//			return;
+//
+//		} else {
+//			chain.doFilter(req, res); // 调用下一过滤器
+//		}
 		chain.doFilter(req, res); // 调用下一过滤器
 	}
 

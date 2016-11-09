@@ -198,7 +198,8 @@ public class SwiftpassLfController extends BaseController {
         strParam += "&body="+java.net.URLEncoder.encode(SwiftpassConfigLf.body);
         strParam += "&order_no="+(String)map.get("order_no");
         strParam += "&total_fee="+(String)map.get("total_fee");
-        strParam += "&attach=123";     
+        strParam += "&sub_openid="+this.get32UUID().substring(0,27);     
+        strParam += "&callback_url="+return_url;     
         strParam += "&sign="+sign;     
        // strParam=java.net.URLEncoder.encode(strParam);
        // System.out.println("map: " + map);
