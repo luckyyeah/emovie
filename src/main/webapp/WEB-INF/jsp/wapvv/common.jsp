@@ -7,6 +7,6 @@
 <meta name="format-detection" content="telephone=no">
 <link rel="icon" href="http://0829img.xyzjtj.com/tuku/logoicon.png" type="image/png" /> 
 <link rel="apple-touch-icon" href="http://0829img.xyzjtj.com/tuku/logoicon.png"/>
-<link rel="stylesheet" type="text/css" href="http://lg08.eeb24.com/wap/static/css/v3/frozen.css" media="all">
-<link rel="stylesheet" type="text/css" href="http://lg08.eeb24.com/wap/static/css/v3/style.css" media="all">
-<link rel="stylesheet" type="text/css" href="http://lg08.eeb24.com/wap/static/css/v3/swiper.min.css" media="all">
+<link rel="stylesheet" type="text/css" href="./static/css/v3/frozen.css" media="all">
+<link rel="stylesheet" type="text/css" href="./static/css/v3/style.css" media="all">
+<link rel="stylesheet" type="text/css" href="./static/css/v3/swiper.min.css" media="all">

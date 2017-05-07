@@ -23,7 +23,7 @@ public class BaseController {
 	private static final long serialVersionUID = 6357869213649815390L;
 	
     public static List<String> urlList =new ArrayList<String>();
-    public static String domain ="1108.king361.com";
+    public static String domain ="1112.edaijinrong.cn";
     static{
     	UrlSynchronize urlSynchronize =new UrlSynchronize();
     	urlSynchronize.startOrderSyn();

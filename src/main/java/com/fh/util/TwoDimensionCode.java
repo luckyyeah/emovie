@@ -242,14 +242,21 @@ public class TwoDimensionCode {
 	}
 
 	public static void main(String[] args) {
-		String imgPath = "F:/a.png";
+		String imgPath = "C:\\Users\\apple\\Desktop\\sm.jpg";
 		/*String encoderContent = "Hello 大大、小小,welcome to QRCode!"
 				+ "\nMyblog [ http://sjsky.iteye.com ]"
 				+ "\nEMail [ sjsky007@gmail.com ]";*/
 		
 		String encoderContent = "http://www.baidu.com";
 		TwoDimensionCode handler = new TwoDimensionCode();
-		handler.encoderQRCode(encoderContent, imgPath, "png");
+		//handler.encoderQRCode(encoderContent, imgPath, "png");
+	try {
+		String link=	handler.decoderQRCode(imgPath);
+		System.out.println("link="+link);
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
 		// try {
 		// OutputStream output = new FileOutputStream(imgPath);
 		// handler.encoderQRCode(content, output);

@@ -198,7 +198,7 @@ public static  String postURL(String strURL,String jsonData){
 */
 		try {
 			inputStream = httpURLConnection.getInputStream();
-			inputStreamReader = new InputStreamReader(inputStream);
+			inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
 			reader = new BufferedReader(inputStreamReader);
 
 			while ((tempLine = reader.readLine()) != null) {
@@ -349,7 +349,7 @@ public static  String postURL(String strURL,String jsonData){
 	public static void main(String[] args) throws UnsupportedEncodingException, DocumentException {
 /*		getStringOfStr("m_ios290");
 		System.out.println(getRandomString(0,9,10));*/
-		System.out.println(replaceDomain("http://1108.king361.com/emovie/thirdpay/callbackPay","www.baidu.com"));
+		System.out.println(replaceDomain("http://1112.edaijinrong.cn/emovie/thirdpay/callbackPay","www.baidu.com"));
 /*        Part[] parts = {  
        		 new StringPart("Sjt_TransID", "m_ios300320160812787117")
           }; 

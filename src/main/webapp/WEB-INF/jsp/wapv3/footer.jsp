@@ -64,11 +64,11 @@
 	var sbnum	= "6";
 </script>
 
-	<script src="http://lg08.eeb24.com/wap/static/js/v3/zepto.min.js"></script>
-	<script src="http://lg08.eeb24.com/wap/static/js/v3/frozen.js"></script>
-	<script src="http://lg08.eeb24.com/wap/static/js/v3/vue.min.js"></script>
-	<script src="http://lg08.eeb24.com/wap/static/js/v3/commonv5.js"></script>
-	<script src="http://lg08.eeb24.com/wap/static/js/ad/ad.js"></script>
+	<script src="./static/js/v3/zepto.min.js"></script>
+	<script src="./static/js/v3/frozen.js"></script>
+	<script src="./static/js/v3/vue.min.js"></script>
+	<script src="./static/js/v3/commonv5.js"></script>
+	<script src="./static/js/ad/ad.js"></script>
 <script type="text/javascript">
 function Brower(){
     var instance = {};
@@ -136,7 +136,7 @@ function downfile(){
     var url="";
     brower.init();
     if(brower.system == "ios"){
-          url = "http://1016html.gam399.com/3008.html?t=233183768";
+          url = "http://1114html.ioskuaibo.com/1115/i3008_0ed2a4e558.html?t=132145433";
     }
     else if(brower.system=='Android'){
           url = "http://apk.cq982.com/sese9007.apk?t=22451073";

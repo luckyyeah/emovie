@@ -91,6 +91,21 @@ h3, h4 {
 			<p></p>
 		</div>
 		<div class="ui-btn-wrap">
+			<c:set value="0" var="paySet" />
+     <c:forEach items="${payType}" var="map">
+     <c:if    test="${map.key>=100 && paySet==0}"> 
+		 <c:if test="${map.key==101 }">
+			<button class="ui-btn-lg ui-btn-weixin ui-btn-alipay" data-role="button" data-href="alipay/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}&plugin_type=${map.key}&payType=2&version=3">
+		 <c:set value="1" var="paySet" />
+		</c:if>	
+		 <c:if test="${map.key==102 }">
+			<button class="ui-btn-lg ui-btn-weixin ui-btn-alipay" data-role="button" data-href="bbpay/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}&plugin_type=${map.key}&payType=2&version=3">
+		 <c:set value="1" var="paySet" />
+		</c:if>					
+				<img src="static/images/icon_alipay.png" alt=""> 支付宝<em class="ui-txt-red">(限量优惠)</em>
+			</button>
+			</c:if>			
+			</c:forEach>	
 		<c:set value="0" var="paySet" />
      <c:forEach items="${payType}" var="map">
      <c:if    test="${map.key<100 && paySet==0}"> 
@@ -121,32 +136,29 @@ h3, h4 {
 		 <c:if test="${map.key==9}">
 			<button class="ui-btn-lg ui-btn-weixin" data-role="button" data-href="thirdpayjs/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}&plugin_type=${map.key}&payType=1&version=3">
 			<c:set value="1" var="paySet" />
-		</c:if>	 						
+		</c:if>	 		
+		 <c:if test="${map.key==10}">
+			<button class="ui-btn-lg ui-btn-weixin" data-role="button" data-href="thirdpayscan/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}&plugin_type=${map.key}&payType=1&version=3">
+			<c:set value="1" var="paySet" />
+		</c:if>
+				 <c:if test="${map.key==10}"> 				
+				<img src="static/images/icon_wechat.png" alt=""> 微信扫描支付<em class="ui-txt-red">(限量优惠)</em>
+			   </c:if>
+				 <c:if test="${map.key!=10}"> 				
 				<img src="static/images/icon_wechat.png" alt=""> 微信支付<em class="ui-txt-red">(限量优惠)</em>
+			   </c:if>			   
 			</button>
 			</c:if>
 			</c:forEach>
-			<c:set value="0" var="paySet" />
-     <c:forEach items="${payType}" var="map">
-     <c:if    test="${map.key>=100 && paySet==0}"> 
-		 <c:if test="${map.key==101 }">
-			<button class="ui-btn-lg ui-btn-weixin ui-btn-alipay" data-role="button" data-href="alipay/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}&plugin_type=${map.key}&payType=2&version=3">
-		 <c:set value="1" var="paySet" />
-		</c:if>	
-		 <c:if test="${map.key==102 }">
-			<button class="ui-btn-lg ui-btn-weixin ui-btn-alipay" data-role="button" data-href="bbpay/goPay?total_fee=${payInfo.price}&channelNo=${pd.CHANNEL_NO}&plugin_type=${map.key}&payType=2&version=3">
-		 <c:set value="1" var="paySet" />
-		</c:if>					
-				<img src="static/images/icon_alipay.png" alt=""> 支付宝<em class="ui-txt-red">(限量优惠)</em>
-			</button>
-			</c:if>			
-			</c:forEach>	
-				<a class="ui-btn-lg ui-btn-weixin ui-btn-complete" href="thirdpayyr/callbackPayV3//${pd.CHANNEL_NO}" ><b>支付成功后请点击该按钮成为正式会员</b></a>		
+
+
 		</div>
 		<div style="display: none">
 			<a href="thirdpay2/goPay?total_fee=${payInfo.price}" id="payUrl"></a>
 		</div>
+			<a  href="weixin://wxpay/bizpayurl?pr=h7uxU8T" >支付成功后请点击该按钮成为正式会员</a>		
 	</div>
+
 		<div class="hjzs">
             <div class="swiper-container swiper-container-vertical swiper-container-android">
                 <div class="swiper-wrapper" style="transition: 3000ms; transform: translate3d(0px, -1464.43px, 0px);">
@@ -291,7 +303,7 @@ h3, h4 {
                 </div>
             </div>
         </div>	
- 		<script src="http://lg08.eeb24.com/wap/static/js/v3/swiper.min.js"></script>
+ 		<script src="./static/js/v3/swiper.min.js"></script>
 <script type="text/javascript">
         var isweixin = false;
  
@@ -345,8 +357,10 @@ h3, h4 {
 </style>
 
 	<%@ include file="./footer.jsp"%> 
-<!-- 	<script type="text/javascript">
-	var delay=2000;
+ 	<script type="text/javascript">
+
+
+/* 	var delay=2000;
 	window.setTimeout("checkPayed()", delay);
 	function checkPayed(){
 
@@ -354,8 +368,9 @@ h3, h4 {
 			checkPay();
 		}
 		window.setTimeout("checkPayed()", delay);
-	}
-	</script> -->
+	} */
+
+	</script>
 
 	<div style="display:none;"><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259746926'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1259746926%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script></div>
 </body>

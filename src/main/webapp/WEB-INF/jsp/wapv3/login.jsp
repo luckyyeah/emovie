@@ -13,10 +13,10 @@
         <meta content="yes" name="apple-mobile-web-app-capable">
         <meta content="yes" name="apple-touch-fullscreen"> 
         <title>会员中心</title>
-                <link rel="stylesheet" href="http://lg08.eeb24.com/wap/static/css/activity/swiper-3.3.1.min.css">
-        <link rel="stylesheet" href="http://lg08.eeb24.com/wap/static/css/activity/style.css">
-        <link rel="stylesheet" href="http://lg08.eeb24.com/wap/static/css/activity/grid.css">
-        <script src="http://lg08.eeb24.com/wap/static/js/activity/flexible_0.3.4.js" type="text/javascript" charset="utf-8"></script>
+                <link rel="stylesheet" href="./static/css/activity/swiper-3.3.1.min.css">
+        <link rel="stylesheet" href="./static/css/activity/style.css">
+        <link rel="stylesheet" href="./static/css/activity/grid.css">
+        <script src="./static/js/activity/flexible_0.3.4.js" type="text/javascript" charset="utf-8"></script>
         <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 
         <style>

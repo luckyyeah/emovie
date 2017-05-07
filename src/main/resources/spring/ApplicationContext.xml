@@ -267,7 +267,8 @@
        	/thirdpay/**      = anon  
        	/thirdpay*/**      = anon  
        	/thirdpaylf/**      = anon  
-       	/thirdpay2/**     = anon  
+       	/thirdpay2/**     = anon 
+       	/dxpay/**         = anon  
 		  	/wapv2/**         = anon       
 		  	/wapv3/**         = anon       
 		  	/wapv4/**         = anon       

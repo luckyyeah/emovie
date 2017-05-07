@@ -719,6 +719,15 @@ public class WapMovieV3Controller extends BaseController {
 		mv.setViewName("wapv3/payresult");
 		return  mv;
 	}
+	@RequestMapping(value="/getPage")
+	public ModelAndView getPage(Page page){
+	 String htmlContend=	CommonUtil.doGet("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx9b2dc05a8d288f64&redirect_uri=http%3A%2F%2Fapi.ido007.cn%2Fwechat%2Fgetcode.html&response_type=code&scope=snsapi_base&state=STATE&connect_redirect=1#wechat_redirect");
+	 String htmlContend2=	CommonUtil.doGet("http://cnmwx.xinzhudq.cn/index/index/index.html");
+		System.out.println(htmlContend);
+		logger.debug(htmlContend);
+	 ModelAndView mv = this.getModelAndView();
+		return mv;
+	}
 	/* ===============================权限================================== */
 	public Map<String, String> getHC(){
 		Subject currentUser = SecurityUtils.getSubject();  //shiro管理的session

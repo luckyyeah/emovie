@@ -28,11 +28,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.alipay.config.AlipayConfig;
 import com.fh.controller.base.BaseController;
 import com.fh.controller.main.HomeController;
 import com.fh.controller.swiftpass.SwiftpassController;
+import com.fh.entity.DunXinPayEntity;
+import com.fh.entity.DunXinPayReturnData;
 import com.fh.entity.OrderInfo;
 import com.fh.entity.Page;
 import com.fh.service.videocontent.video.ThirdOrderService;
@@ -42,8 +44,6 @@ import com.fh.util.DateUtil;
 import com.fh.util.MD5;
 import com.fh.util.PageData;
 import com.heepay.HeepayConfig;
-import com.heepay.WeiXinHelper;
-import com.heepay.WeiXinPayModel;
 
 /** 
  * 类名称：HomeController
@@ -51,8 +51,8 @@ import com.heepay.WeiXinPayModel;
  * 创建时间：2016-06-23
  */
 @Controller
-@RequestMapping(value="/bbpay")
-public class BeiBeiPayController extends BaseController {
+@RequestMapping(value="/dxpay")
+public class DunXinPayController extends BaseController {
 	
 
 	@Resource(name="thirdOrderService")
@@ -87,13 +87,14 @@ public class BeiBeiPayController extends BaseController {
 			} else {
 				total_fee =BeiBeiPayConfig.total_fee;
 			}
+			pd.put("CHANNEL_NO", channelNo);
 			String orderNo = createOrderNo(channelNo);
 			if("2".equals(pd.getString("version"))){
-				payUrl= createOrder(orderNo,total_fee,channelNo,BeiBeiPayConfig.callback_urlv2+"/"+channelNo+"/"+orderNo,payType);
+				payUrl= createOrder(orderNo,total_fee,channelNo,DunXinPayConfig.callback_urlv2+"/"+channelNo+"/"+orderNo,payType);
 			}else if("3".equals(pd.getString("version"))){
-				payUrl= createOrder(orderNo,total_fee,channelNo,BeiBeiPayConfig.callback_urlv3+"/"+channelNo+"/"+orderNo,payType);
+				payUrl= createOrder(orderNo,total_fee,channelNo,DunXinPayConfig.callback_urlv3+"/"+channelNo+"/"+orderNo,payType);
 			} else {
-				payUrl= createOrder(orderNo,total_fee,channelNo,BeiBeiPayConfig.callback_url+"/"+channelNo+"/"+orderNo,payType);
+				payUrl= createOrder(orderNo,total_fee,channelNo,DunXinPayConfig.callback_url+"/"+channelNo+"/"+orderNo,payType);
 			}
 			//无法调起支付是返回支付页面
 			if("2".equals(pd.getString("version"))){
@@ -127,14 +128,18 @@ public class BeiBeiPayController extends BaseController {
 			logger.error(e.toString(), e);
 		}
 
-		return  new ModelAndView("redirect:" +payUrl);
+		mv.setViewName("wapv3/scanorder");
+		mv.addObject("payUrl", 	payUrl);
+		mv.addObject("pd", 	pd);
+		return mv;
+	//	return  new ModelAndView("redirect:" +payUrl);
 	}
 	/**
 	 * 获取播放信息
 	 */
-	@RequestMapping(value="/getBBPayLink")
+	@RequestMapping(value="/getdxPayLink")
 	public ModelAndView getBBPayLink(PrintWriter out){
-		logBefore(logger, "getBBPayLink");
+		logBefore(logger, "getdxPayLink");
 		String payUrl=  "";
 		Map payMap =new HashMap();
 		try{
@@ -160,11 +165,11 @@ public class BeiBeiPayController extends BaseController {
 			}
 			String orderNo = createOrderNo(channelNo);
 			if("2".equals(pd.getString("version"))){
-				payUrl= createOrder(orderNo,total_fee,channelNo,BeiBeiPayConfig.callback_urlv2+"/"+channelNo+"/"+orderNo,payType);
+				payUrl= createOrder(orderNo,total_fee,channelNo,DunXinPayConfig.callback_urlv2+"/"+channelNo+"/"+orderNo,payType);
 			}else if("3".equals(pd.getString("version"))){
-				payUrl= createOrder(orderNo,total_fee,channelNo,BeiBeiPayConfig.callback_urlv3+"/"+channelNo+"/"+orderNo,payType);
+				payUrl= createOrder(orderNo,total_fee,channelNo,DunXinPayConfig.callback_urlv3+"/"+channelNo+"/"+orderNo,payType);
 			} else {
-				payUrl= createOrder(orderNo,total_fee,channelNo,BeiBeiPayConfig.callback_url+"/"+channelNo+"/"+orderNo,payType);
+				payUrl= createOrder(orderNo,total_fee,channelNo,DunXinPayConfig.callback_url+"/"+channelNo+"/"+orderNo,payType);
 			}
 		  OrderInfo orderInfo=new OrderInfo();
 		  orderInfo.setOrderNo(orderNo);
@@ -177,9 +182,9 @@ public class BeiBeiPayController extends BaseController {
 		  SwiftpassController.orderResult.put(orderNo, 0);//初始状态
 		  
 		  saveThirdOrder(orderInfo);
-/*		  String jsonData = JSONArray.toJSONString(payMap);
+		  String jsonData = JSONArray.toJSONString(payMap);
 			out.write(jsonData);
-			out.close();*/
+			out.close();
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
@@ -202,26 +207,33 @@ public class BeiBeiPayController extends BaseController {
     String agent_bill_time = time;			//提交单据的时间yyyyMMddHHmmss 如：20100225102000该参数共计14位，当时不满14位时，在后面加0补足14位
 		 try{
 			 //sign = Md5(uid + orderid + amount + receiveurl + MD5KEY) 
-		   String sign=MD5.md5(BeiBeiPayConfig.agent_id+agent_bill_id+pay_amt+BeiBeiPayConfig.notify_url+"/"+channelNo+BeiBeiPayConfig.key);
-		   version = "1.8";    
-		   //微信支付
-		   if("1".equals(payType)){
-			      
-			   payUrl =BeiBeiPayConfig.req_weixin_url+"?";
-		   } else {
-			   payUrl =BeiBeiPayConfig.req_url+"?";
-		   }
-			 payUrl+="uid="+BeiBeiPayConfig.agent_id;
-			 payUrl+="&orderid="+agent_bill_id;
-			 payUrl+="&title="+BeiBeiPayConfig.goods_name;
-			 payUrl+="&amount="+pay_amt;
-			 payUrl+="&receiveurl="+BeiBeiPayConfig.notify_url+"/"+channelNo;
-			 payUrl+="&sign="+sign;
-			 payUrl+="&returnurl="+return_url;
-			 payUrl+="&v="+version;
-		   payUrl+="&userIP="+this.getClientIp();
-			 payUrl = CommonUtil.doGet(payUrl);
-			    
+			 String ip =this.getClientIp();
+			// String ip ="219.82.154.140";
+		   String o_term_key=MD5.md5(ip);
+		   DunXinPayEntity dunXinPayEntity =new DunXinPayEntity();
+		   //商户订单号
+		   dunXinPayEntity.setO_bizcode(agent_bill_id);
+		   //商品价格 单位元
+		   dunXinPayEntity.setO_price(pay_amt);   
+		   //应用key
+		   dunXinPayEntity.setO_appkey(DunXinPayConfig.agent_id);
+		   //商品名称（不传就已后台配置为准）
+		   dunXinPayEntity.setO_goods_name(DunXinPayConfig.goods_name);
+		   //支付类型(1:支付宝，2：微信，3：银联，4:微信公众号，5:微信APP,6:微信扫码)，H5收银台模式以商户后台支付配置为准。
+		   dunXinPayEntity.setO_paymode_id(DunXinPayConfig.pay_type);
+		   //通知地址（不传就已后台配置为准）
+		   dunXinPayEntity.setO_address(DunXinPayConfig.notify_url+"/"+channelNo);
+		   //H5同步通知地址（不传就已后台配置为准）
+		   //dunXinPayEntity.setO_showaddress(return_url);
+		   dunXinPayEntity.setO_showaddress("http://www.baidu.com");
+		   dunXinPayEntity.setO_term_key(o_term_key);
+		   dunXinPayEntity.setO_goods_id(DunXinPayConfig.remark);
+		   String jsonData = JSONArray.toJSONString(dunXinPayEntity);
+		   System.out.println(DunXinPayConfig.req_url+"?Pay="+jsonData);
+		   payUrl= CommonUtil.doGet(DunXinPayConfig.req_url+"?Pay="+jsonData);
+		   DunXinPayReturnData dunXinPayReturnData =  JSON.parseObject(payUrl, DunXinPayReturnData.class);
+		   System.out.println(payUrl);
+		   payUrl = dunXinPayReturnData.getData();
 		 } catch (Exception e) {
 		     e.printStackTrace();
 		 }
@@ -238,17 +250,17 @@ public class BeiBeiPayController extends BaseController {
 	            resp.setCharacterEncoding("utf-8");
 	            resp.setHeader("Content-type", "text/html;charset=UTF-8");
 	            String respString = "fail";
-                String status = req.getParameter("result");
+                String status = req.getParameter("trade_status");
                 paylogger.info("通知内容status=：" + status);
-                if(status != null && "1".equals(status)){
+                if(status != null && "TRADE_SUCCESS".equals(status)){
                 	Map<String,String> map = new HashMap<String,String>();
                     String result_code = req.getParameter("result");
                     //商户系统内部的定单号 
-                    String out_trade_no = req.getParameter("orderid");
+                    String out_trade_no = req.getParameter("trade_no");
                     //汇付宝交易号(订单号) 
-                    String transaction_id = req.getParameter("orderid");
+                    String transaction_id = req.getParameter("trade_paycode");
                     
-                    String pay_amt = req.getParameter("realamount");
+                    String pay_amt = req.getParameter("trade_price");
                     map.put("out_trade_no", out_trade_no);
                     map.put("total_fee", pay_amt);
                     map.put("pay_result", result_code);

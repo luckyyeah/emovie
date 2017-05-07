@@ -173,7 +173,7 @@
 		<div id="noVipInfo" class="button01" onclick='javascript:goToPay()'>成为VIP，分享视频精彩评论</div>
 	</div>
 	<%@ include file="./footer.jsp"%> 
-	<script src="http://lg08.eeb24.com/wap/static/js/v3/swiper.min.js"></script>
+	<script src="./static/js/v3/swiper.min.js"></script>
 <script>
  	var myDate = new Date();
 	var data1 = myDate.getDate();
